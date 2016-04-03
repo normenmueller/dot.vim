@@ -6,7 +6,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'Shougo/vimproc.vim' "Note: cd ~/.vim/bundle/vimproc.vim; make
+Plugin 'Shougo/vimproc.vim' "NOTE: cd ~/.vim/bundle/vimproc.vim; make
 Plugin 'Shougo/unite.vim'   "was Plugin 'kien/ctrlp.vim'
 Plugin 'qpkorr/vim-bufkill' "was Plugin 'bufkill.vim'
 Plugin 'bling/vim-airline'  "alternative: powerline/powerline
@@ -37,24 +37,121 @@ filetype plugin on
 " Syntax highlighting
 syntax on
 
-"
-colorscheme atom
-"colorscheme mustang
+" -----------------------------------------------------------------------------
+"  Window
+
+"set guioptions=egmrL
+set guioptions=gmrL
 
 " Always show the tab bar
 set showtabline=2
 
-"
-"set guioptions=egmrL
-set guioptions=gmrL
+" Set the command window height to 2 lines
+set cmdheight=2 
+
+" Always show a status line for window
+set laststatus=2
+
+" -----------------------------------------------------------------------------
+"  Visualization
+
+" Color schema
+colorscheme atom
+"colorscheme mustang
+
+" Fonts used for the GUI version of Vim
+set guifont=Source\ Code\ Pro\ ExtraLight:h12
 
 "
+set visualbell
+
+" Wrap long lines at a character in 'breakat'
+set linebreak
+
+" Show matching bracets when text indicator is over them
+set showmatch
+
+" Show (partial) command in the last line of the screen.
+set showcmd
+
+" Display line number on the left
+set number
+
+" -----------------------------------------------------------------------------
+"  Buffer
+
+" Hide abandoned buffer rather than unloading 
 set hidden
 
 "
-set modeline
+"set modeline
+
+" Automatically change the current directory to edited file path 
+set autochdir 
+
+" -----------------------------------------------------------------------------
+"  Edit
 
 "
+set encoding=utf-8
+
+"
+set clipboard=unnamed
+
+" Convert tabs to spaces
+set expandtab
+
+"
+set shiftwidth=2
+
+"
+set softtabstop=2
+
+"
+set autoindent 
+
+" Fold on syntax automagically, always
+set foldmethod=syntax
+
+" 2 lines of column for fold showing, always
+set foldcolumn=2
+
+" Cut text to clipboard 
+vmap <C-x> :!pbcopy<CR>
+
+" Copy text to clipboard
+vmap <C-c> :w !pbcopy<CR><CR>
+
+" Paste without moving the cursor
+" http://stackoverflow.com/questions/1587178/paste-in-vim-without-moving-the-cursor
+noremap p p`[
+
+" -----------------------------------------------------------------------------
+"  Search
+
+"
+set hlsearch
+
+" Show the next match while entering a search
+set incsearch
+
+" Ignoring case in a pattern
+set ignorecase
+
+" Ignore case when the pattern contains lowercase letters only.
+set smartcase
+
+" Search word under cursor w/o moving to the next match
+nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
+
+" -----------------------------------------------------------------------------
+"  Misc
+
+" (http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file)
+if has('gui_running')                  " M ~ ALT | D ~ Cmd
+  set macmeta
+endif
+
 set wildmode=longest,list,full
 
 "
@@ -64,115 +161,31 @@ set wildmenu
 set wildignore+=*/target/*
 
 "
-set showcmd
+set spelllang=en
 
 "
-set hlsearch
+set spellfile=$HOME/.vim/spell/en.utf-8.add
 
+"
+:command! FullPath echo expand('%:p')
+"==============================================================================
 "
 set backup
 
-"
-set encoding=utf-8
-
-"
-set guifont=Source\ Code\ Pro\ ExtraLight:h12
-
-"
-set ignorecase
-
-" Show the next match while entering a search
-set incsearch
-
-"
-set smartcase
-
-" allow backspacing over everything in insert mode
+" Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-" show the cursor position all the time
+" Show the cursor position all the time
 set ruler
-
-" always show a status line for window
-set laststatus=2
 
 "
 set confirm
-
-"
-set visualbell
-
-" set the command window height to 2 lines
-set cmdheight=2 
-
-" display line number on the left
-set number
 
 " Quickly time out on keycodes, but never time out on mappings
 set notimeout ttimeout ttimeoutlen=200
 
 " Keep 50 lines of command line history
 set history=50
-
-" show matching bracets when text indicator is over them
-set showmatch
-
-"
-set linebreak
-
-" fold on syntax automagically, always
-set foldmethod=syntax
-
-" 2 lines of column for fold showing, always
-set foldcolumn=2
-
-"
-set clipboard=unnamed
-
-" automatically change the current directory to edited file path 
-set autochdir 
-
-"
-set autoindent 
-
-"
-set expandtab
-
-"
-"set smarttab
-
-"
-set shiftwidth=2
-
-"
-set softtabstop=2
-
-"
-set spelllang=en
-
-"
-set spellfile=$HOME/.vim/spell/en.utf-8.add
-
-" (http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file)
-if has('gui_running')                  " M ~ ALT | D ~ Cmd
-  set macmeta
-endif
-
-vmap <C-x> :!pbcopy<CR>                " cut text to clipboard 
-vmap <C-c> :w !pbcopy<CR><CR>          " copy text to clipboard
-
-" http://stackoverflow.com/questions/4298910/vim-close-buffer-but-not-split-window
-"nmap ,d :b#<bar>bd#<CR>
-
-" Paste without moving the cursor
-" http://stackoverflow.com/questions/1587178/paste-in-vim-without-moving-the-cursor
-noremap p p`[
-
-" Search word under cursor w/o moving to the next match
-nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
-
-"
-:command! FullPath echo expand('%:p')
 
 onoremap <silent> <expr> j ScreenMovement("j")
 onoremap <silent> <expr> k ScreenMovement("k")
