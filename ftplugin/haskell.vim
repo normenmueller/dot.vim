@@ -1,12 +1,23 @@
-" c	Auto-wrap comments using textwidth, inserting the current comment leader automatically.
-" r	Automatically insert the current comment leader after hitting <Enter> in Insert mode.
-" q	Allow formatting of comments with "gq".
-setlocal formatoptions=crq
+"setlocal formatoptions=crq
 
-" Maximum width of text that is being inserted
 setlocal textwidth=100
 
-setlocal foldmethod=marker
-setlocal foldmarker=//{,//}
+"setlocal shiftwidth=2
+"setlocal softtabstop=2
+"setlocal expandtab
+"setlocal autoindent 
 
-setlocal foldlevel=0
+"setlocal foldmethod=marker
+"setlocal foldmarker=//{,//}
+"setlocal foldlevel=0
+
+" https://github.com/raichoo/haskell-vim
+let g:haskell_indent_if = 3
+let g:haskell_indent_case = 2
+let g:haskell_indent_let = 4
+let g:haskell_indent_where = 6
+let g:haskell_indent_do = 3
+let g:haskell_indent_in = 1
+let g:haskell_indent_guard = 2
+
+let g:cabal_indent_section = 2

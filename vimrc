@@ -1,191 +1,130 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" =============================================================================
+"
+" Vundle
+"
+" =============================================================================
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'Shougo/vimproc.vim' "NOTE: cd ~/.vim/bundle/vimproc.vim; make
-Plugin 'Shougo/unite.vim'   "was Plugin 'kien/ctrlp.vim'
-Plugin 'qpkorr/vim-bufkill' "was Plugin 'bufkill.vim'
-Plugin 'bling/vim-airline'  "alternative: powerline/powerline
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-commentary'
+
+" A lightweight implementation of the Emacs 'kill ring'
+Plugin 'maxbrunsfeld/vim-yankstack'
+
+" Interactive command execution in Vim.
+" cd ~/.vim/bundle/vimproc.vim; make
+"Plugin 'Shougo/vimproc.vim' 
+
+" An alternative to 'kien/ctrlp.vim'
+"Plugin 'Shougo/unite.vim'   
+" 
+"Plugin 'vim-ctrlspace/vim-ctrlspace'
+
+" Unload, delete or wipe a buffer without closing the window or split 
+" Was Plugin 'bufkill.vim'
+"Plugin 'qpkorr/vim-bufkill'
+
+" An alternative to `powerline/powerline`
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+" Git wrapper  
+"Plugin 'tpope/vim-fugitive'
+
+" Comment stuff out 
+"Plugin 'tpope/vim-commentary'
+
+" Defaults everyone can agree on 
 Plugin 'tpope/vim-sensible'
+
+" Quoting/parenthesizing made simple
 Plugin 'tpope/vim-surround'
+
 "Plugin 'tpope/vim-unimpaired'
-Plugin 'elzr/vim-json'
+
+"Plugin 'elzr/vim-json'
+
+" Haskell mode
+"Plugin 'dag/vim2hs'
+"Plugin 'lukerandall/haskellmode-vim'
+Plugin 'raichoo/haskell-vim'
+Plugin 'Twinside/vim-haskellFold'
+
+" Pandoc
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'will133/vim-dirdiff'
+
+"Plugin 'altercation/vim-colors-solarized'
+
+"Plugin 'will133/vim-dirdiff'
+
 Plugin 'normenmueller/nerdtree'
 Plugin 'normenmueller/vim-scala'
 call vundle#end()
 filetype plugin indent on 
 
-" Filetype detection
+" Set filetype stuff
 filetype on
-
-" Filetype-specific indenting
 filetype indent on
-
-" Filetype-specific plugins
 filetype plugin on
 
-" Syntax highlighting
 syntax on
 
-" -----------------------------------------------------------------------------
-"  Window
+if has('gui_running')
+  colorscheme atom
+"else
+"  colorscheme onedark
+endif
 
-"set guioptions=egmrL
-set guioptions=gmrL
-
-" Always show the tab bar
-set showtabline=2
-
-" Set the command window height to 2 lines
-set cmdheight=2 
-
-" Always show a status line for window
-set laststatus=2
-
-" -----------------------------------------------------------------------------
-"  Visualization
-
-" Color schema
-colorscheme atom
-"colorscheme mustang
-
-" Fonts used for the GUI version of Vim
-set guifont=Source\ Code\ Pro\ ExtraLight:h12
-
-"
-set visualbell
-
-" Wrap long lines at a character in 'breakat'
-set linebreak
-
-" Show matching bracets when text indicator is over them
-set showmatch
-
-" Show (partial) command in the last line of the screen.
-set showcmd
-
-" Display line number on the left
-set number
-
-" -----------------------------------------------------------------------------
-"  Buffer
-
-" Hide abandoned buffer rather than unloading 
+set backup
 set hidden
-
-"
-"set modeline
-
-" Automatically change the current directory to edited file path 
+set confirm
 set autochdir 
-
-" -----------------------------------------------------------------------------
-"  Edit
-
-"
-set encoding=utf-8
-
-"
 set clipboard=unnamed
+set wildmode=longest,list,full
+set wildignore+=*/target/*
+set notimeout ttimeout ttimeoutlen=200
 
-" Convert tabs to spaces
+set guifont=Source\ Code\ Pro\ ExtraLight:h14
+set guioptions=gmrL "egmrL
+set showtabline=2
+set number
+set showcmd
+set showmode
+set showmatch
+set linebreak
+set cmdheight=2 
+set visualbell
+set cursorline
+
+"set foldcolumn=2
+set cpoptions=ces$
+set mousehide
 set expandtab
-
-"
 set shiftwidth=2
-
-"
 set softtabstop=2
-
-"
-set autoindent 
-
-" Fold on syntax automagically, always
-set foldmethod=syntax
-
-" 2 lines of column for fold showing, always
-set foldcolumn=2
-
-" Cut text to clipboard 
-vmap <C-x> :!pbcopy<CR>
-
-" Copy text to clipboard
-vmap <C-c> :w !pbcopy<CR><CR>
-
-" Paste without moving the cursor
-" http://stackoverflow.com/questions/1587178/paste-in-vim-without-moving-the-cursor
-noremap p p`[
-
-" -----------------------------------------------------------------------------
-"  Search
-
-"
 set hlsearch
-
-" Show the next match while entering a search
-set incsearch
-
-" Ignoring case in a pattern
 set ignorecase
-
-" Ignore case when the pattern contains lowercase letters only.
 set smartcase
-
 " Search word under cursor w/o moving to the next match
 nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 
-" -----------------------------------------------------------------------------
-"  Misc
-
+" M ~ ALT | D ~ Cmd
 " (http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file)
-if has('gui_running')                  " M ~ ALT | D ~ Cmd
+if has('gui_running')
   set macmeta
 endif
 
-set wildmode=longest,list,full
-
-"
-set wildmenu
-
-"
-set wildignore+=*/target/*
-
-"
 set spelllang=en
-
-"
 set spellfile=$HOME/.vim/spell/en.utf-8.add
 
-"
-:command! FullPath echo expand('%:p')
-"==============================================================================
-"
-set backup
-
-" Allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-
-" Show the cursor position all the time
-set ruler
-
-"
-set confirm
-
-" Quickly time out on keycodes, but never time out on mappings
-set notimeout ttimeout ttimeoutlen=200
-
-" Keep 50 lines of command line history
-set history=50
+" Paste without moving the cursor
+" http://stackoverflow.com/questions/1587178/paste-in-vim-without-moving-the-cursor
+"noremap p p`[
 
 onoremap <silent> <expr> j ScreenMovement("j")
 onoremap <silent> <expr> k ScreenMovement("k")
@@ -198,21 +137,13 @@ nnoremap <silent> <expr> 0 ScreenMovement("0")
 nnoremap <silent> <expr> ^ ScreenMovement("^")
 nnoremap <silent> <expr> $ ScreenMovement("$")
 
-
 " XXX Refactor to `plugin` directory
-"------------------------------------------------------------
-" Select buffer {{{1
-" 
-let g:selBufDefaultSortOrder = "path"
-
 "------------------------------------------------------------
 " Tab bar layout {{{1
 " http://vim.wikia.com/wiki/Show_tab_number_in_your_tab_line 
-"
 :hi TabLineFill ctermfg=Black ctermbg=Black
 :hi TabLine ctermfg=Gray ctermbg=Black
 :hi TabLineSel ctermfg=Red ctermbg=Black
-
 :hi TabLineFill guifg=Black guibg=Black
 :hi TabLine guifg=Gray guibg=Black
 :hi TabLineSel guifg=Red guibg=Black
@@ -259,63 +190,64 @@ if exists("+showtabline")
   "map    <C-S-Tab>  :tabprev<CR>
   "imap   <C-S-Tab>  <C-O>:tabprev<CR>
 endif
+
+"------------------------------------------------------------
+" Select buffer {{{1
+let g:selBufDefaultSortOrder = "path"
+so $HOME/.vim/plugin/cmdalias.vim 
+:call CmdAlias('ls', 'SelectBuf') 
+
+"------------------------------------------------------------
+" YankStack
+"nmap <leader>p <Plug>yankstack_substitute_older_paste
+"nmap <leader>P <Plug>yankstack_substitute_newer_paste
+
 "------------------------------------------------------------
 " Airline options {{{1
-" https://github.com/vim-airline/vim-airline 
-"
-"let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 0
+"let g:airline#extensions#tabline#show_tab_nr = 1
+"let g:airline#extensions#tabline#tab_nr_type = 2
+"let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 "------------------------------------------------------------
 " NERDTree options {{{1
-" https://github.com/scrooloose/nerdtree 
-"
 nmap <leader>d :NERDTreeToggle<CR>
-
-"
 nmap <leader>f :NERDTreeFind<CR>
-
-" Change CWD whenever the tree root is changed 
 let g:NERDTreeChDirMode = 2
 
 "------------------------------------------------------------
-" CtrlP options {{{1
-" http://pyjamacoder.com/2013/04/25/getting-fuzzy-with-ctrlp/ 
-" 
+" CtrlSpace options {{{1
+"nnoremap <silent><C-p> :CtrlSpace O<CR>
 
+"------------------------------------------------------------
+" CtrlP options {{{1
 " Eliminate clash with yankring
 "let g:ctrlp_map = '<c-p>'
-
 " Set no max file limit
 "let g:ctrlp_max_files = 0
-
 " Search from CWD
 "let g:ctrlp_working_path_mode = 'rw'
 
 "------------------------------------------------------------
 " Unit options {{{1
-" https://github.com/Shougo/unite.vim 
-" http://bling.github.io/blog/2013/06/02/unite-dot-vim-the-plugin-you-didnt-know-you-need/
-" http://usevim.com/2013/06/19/unite/
-
 " File searching like CtrlP 
-nnoremap <C-p> :Unite file_rec/async<CR>
-
+"nnoremap <C-p> :Unite file_rec/async<CR>
 " Content searching like ack.vim (or ag.vim)
-nnoremap <space>/ :Unite grep:.<CR>
-
+"nnoremap <space>/ :Unite grep:.<CR>
 " Yank history like yankring/yankstack
 "let g:unite_source_history_yank_enable = 1
 "nnoremap <space>y :Unite history/yank<CR>
-
 " Buffer switching like LustyJuggler
 "nmap <leader>b :Unite -quick-match buffer<CR>
+"so $HOME/.vim/plugin/cmdalias.vim 
+":call CmdAlias('ls', 'Unite buffer') 
+":call CmdAlias('ls', 'Unite buffer_tab') 
 
 "------------------------------------------------------------
 " Git {{{1
-" git clone git://github.com/tpope/vim-fugitive.git
-
 "autocmd Filetype gitcommit setlocal spell textwidth=72
 
+"------------------------------------------------------------
 " mapping to make movements operate on 1 screen line in wrap mode
 function! ScreenMovement(movement)
   if &wrap

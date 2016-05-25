@@ -1,4 +1,6 @@
-setlocal formatoptions=crq
+"setlocal formatoptions=crq
+"setlocal formatoptions=aw2tq
+setlocal formatoptions=tcqj
 
 setlocal textwidth=80
 
