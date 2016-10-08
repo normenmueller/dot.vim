@@ -119,18 +119,18 @@ set cpo&vim
 "
 " Define a default mapping if the user hasn't defined a map.
 "
-if (! exists("no_plugin_maps") || ! no_plugin_maps) &&
-      \ (! exists("no_selectbuf_maps") || ! no_selectbuf_maps)
-  if !hasmapto('<Plug>SelectBuf', 'n')
-    nmap <unique> <silent> <F3> <Plug>SelectBuf
-  endif
-  if !hasmapto('<ESC><Plug>SelectBuf', 'i')
-    imap <unique> <silent> <F3> <ESC><Plug>SelectBuf
-  endif
-  if !hasmapto('<Plug>SelBufLaunchCmd', 'n')
-    nmap <unique> <Leader>sbl <Plug>SelBufLaunchCmd
-  endif
-endif
+"if (! exists("no_plugin_maps") || ! no_plugin_maps) &&
+"      \ (! exists("no_selectbuf_maps") || ! no_selectbuf_maps)
+"  if !hasmapto('<Plug>SelectBuf', 'n')
+"    nmap <unique> <silent> <F3> <Plug>SelectBuf
+"  endif
+"  if !hasmapto('<ESC><Plug>SelectBuf', 'i')
+"    imap <unique> <silent> <F3> <ESC><Plug>SelectBuf
+"  endif
+"  if !hasmapto('<Plug>SelBufLaunchCmd', 'n')
+"    nmap <unique> <Leader>sbl <Plug>SelBufLaunchCmd
+"  endif
+"endif
 
 " User option initialization {{{
 function! s:CondDefSetting(settingName, def)
