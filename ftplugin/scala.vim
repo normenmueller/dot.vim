@@ -1,6 +1,6 @@
-setlocal formatoptions=crq
-
-setlocal textwidth=80
+"setlocal formatoptions=crq
+setlocal formatoptions=jcroql
+setlocal textwidth=100
 
 "setlocal foldmethod=marker
 "setlocal foldmarker=//{,//}

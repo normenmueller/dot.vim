@@ -1,71 +1,42 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" =============================================================================
+" ========================================================================
 "
 " Vundle
 "
-" =============================================================================
-" set the runtime path to include Vundle and initialize
+" ========================================================================
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" Set runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
-" A lightweight implementation of the Emacs 'kill ring'
-Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'dylon/vim-antlr'
 
-" Interactive command execution in Vim.
-" cd ~/.vim/bundle/vimproc.vim; make
-"Plugin 'Shougo/vimproc.vim' 
+"Plugin 'dag/vim2hs'
+"Plugin 'bitc/vim-hdevtools'
+Plugin 'raichoo/haskell-vim'
+"Plugin 'Twinside/vim-haskellFold'
+"Plugin 'itchyny/vim-haskell-indent'
 
-" An alternative to 'kien/ctrlp.vim'
-"Plugin 'Shougo/unite.vim'   
-" 
-"Plugin 'vim-ctrlspace/vim-ctrlspace'
+Plugin 'normenmueller/vim-scala'
 
-" Unload, delete or wipe a buffer without closing the window or split 
-" Was Plugin 'bufkill.vim'
-"Plugin 'qpkorr/vim-bufkill'
+"Plugin 'scrooloose/syntastic'
 
-" An alternative to `powerline/powerline`
+"Plugin 'vim-pandoc/vim-pandoc'
+"Plugin 'vim-pandoc/vim-pandoc-syntax'
+
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
-" Git wrapper  
-"Plugin 'tpope/vim-fugitive'
-
-" Comment stuff out 
-"Plugin 'tpope/vim-commentary'
-
-" Defaults everyone can agree on 
-Plugin 'tpope/vim-sensible'
-
-" Quoting/parenthesizing made simple
-Plugin 'tpope/vim-surround'
-
-"Plugin 'tpope/vim-unimpaired'
-
-"Plugin 'elzr/vim-json'
-
-" Haskell mode
-"Plugin 'dag/vim2hs'
-"Plugin 'lukerandall/haskellmode-vim'
-Plugin 'raichoo/haskell-vim'
-Plugin 'Twinside/vim-haskellFold'
-
-" Pandoc
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
-
-"Plugin 'altercation/vim-colors-solarized'
-
-"Plugin 'will133/vim-dirdiff'
-
+Plugin 'wincent/command-t'
 Plugin 'normenmueller/nerdtree'
-Plugin 'normenmueller/vim-scala'
+Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-sensible'
 call vundle#end()
-filetype plugin indent on 
+"filetype plugin indent on 
 
 " Set filetype stuff
 filetype on
@@ -76,6 +47,7 @@ syntax on
 
 if has('gui_running')
   colorscheme atom
+  set cursorline
 "else
 "  colorscheme onedark
 endif
@@ -89,9 +61,10 @@ set wildmode=longest,list,full
 set wildignore+=*/target/*
 set notimeout ttimeout ttimeoutlen=200
 
-set guifont=Source\ Code\ Pro\ ExtraLight:h14
+set guifont=Source\ Code\ Pro\ ExtraLight:h15
 set guioptions=gmrL "egmrL
 set showtabline=2
+
 set number
 set showcmd
 set showmode
@@ -99,10 +72,8 @@ set showmatch
 set linebreak
 set cmdheight=2 
 set visualbell
-set cursorline
 
 "set foldcolumn=2
-set cpoptions=ces$
 set mousehide
 set expandtab
 set shiftwidth=2
@@ -110,8 +81,11 @@ set softtabstop=2
 set hlsearch
 set ignorecase
 set smartcase
+
 " Search word under cursor w/o moving to the next match
 nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
+
+set cpoptions=ces$
 
 " M ~ ALT | D ~ Cmd
 " (http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file)
@@ -121,10 +95,6 @@ endif
 
 set spelllang=en
 set spellfile=$HOME/.vim/spell/en.utf-8.add
-
-" Paste without moving the cursor
-" http://stackoverflow.com/questions/1587178/paste-in-vim-without-moving-the-cursor
-"noremap p p`[
 
 onoremap <silent> <expr> j ScreenMovement("j")
 onoremap <silent> <expr> k ScreenMovement("k")
@@ -149,7 +119,7 @@ nnoremap <silent> <expr> $ ScreenMovement("$")
 :hi TabLineSel guifg=Red guibg=Black
 
 if exists("+showtabline")
-  function MyTabLine()
+  function! MyTabLine()
     let s = ''
     let t = tabpagenr()
     let i = 1
@@ -198,11 +168,6 @@ so $HOME/.vim/plugin/cmdalias.vim
 :call CmdAlias('ls', 'SelectBuf') 
 
 "------------------------------------------------------------
-" YankStack
-"nmap <leader>p <Plug>yankstack_substitute_older_paste
-"nmap <leader>P <Plug>yankstack_substitute_newer_paste
-
-"------------------------------------------------------------
 " Airline options {{{1
 let g:airline#extensions#tabline#enabled = 0
 "let g:airline#extensions#tabline#show_tab_nr = 1
@@ -216,36 +181,9 @@ nmap <leader>f :NERDTreeFind<CR>
 let g:NERDTreeChDirMode = 2
 
 "------------------------------------------------------------
-" CtrlSpace options {{{1
-"nnoremap <silent><C-p> :CtrlSpace O<CR>
-
-"------------------------------------------------------------
-" CtrlP options {{{1
-" Eliminate clash with yankring
-"let g:ctrlp_map = '<c-p>'
-" Set no max file limit
-"let g:ctrlp_max_files = 0
-" Search from CWD
-"let g:ctrlp_working_path_mode = 'rw'
-
-"------------------------------------------------------------
-" Unit options {{{1
-" File searching like CtrlP 
-"nnoremap <C-p> :Unite file_rec/async<CR>
-" Content searching like ack.vim (or ag.vim)
-"nnoremap <space>/ :Unite grep:.<CR>
-" Yank history like yankring/yankstack
-"let g:unite_source_history_yank_enable = 1
-"nnoremap <space>y :Unite history/yank<CR>
-" Buffer switching like LustyJuggler
-"nmap <leader>b :Unite -quick-match buffer<CR>
-"so $HOME/.vim/plugin/cmdalias.vim 
-":call CmdAlias('ls', 'Unite buffer') 
-":call CmdAlias('ls', 'Unite buffer_tab') 
-
-"------------------------------------------------------------
-" Git {{{1
-"autocmd Filetype gitcommit setlocal spell textwidth=72
+" Antlr {{{1
+au BufRead,BufNewFile *.g set filetype=antlr3
+au BufRead,BufNewFile *.g4 set filetype=antlr4
 
 "------------------------------------------------------------
 " mapping to make movements operate on 1 screen line in wrap mode
