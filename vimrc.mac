@@ -11,12 +11,6 @@ Plugin 'eagletmt/ghcmod-vim'
 Plugin 'tpope/vim-sensible'
 call vundle#end()
 
-filetype on
-filetype indent on
-filetype plugin on
-
-syntax on
-
 if has('gui_running')
   " M ~ ALT | D ~ Cmd
   set macmeta
@@ -28,13 +22,7 @@ endif
 
 set cursorline
 set clipboard=unnamed
-
-" Fuzzy find w/o plug-ins
-"   Search down into subfolders
-"   Provides tab-completion for all file-related tasks
 set path+=**
-"   Display all matching files when we tab complete
-set wildmenu
 
 " Spelling
 set spelllang=en
