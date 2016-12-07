@@ -104,6 +104,7 @@ endif
 set cursorline
 set clipboard=unnamed
 set path+=**
+set runtimepath^=$USERPROFILE/vimfiles/bundle/ctrlp.vim
 
 " Spelling
 set spelllang=en
@@ -133,5 +134,11 @@ let g:netrw_altv=1          " open splits to the right
 let g:netrw_liststyle=3     " tree view
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
+" CtrlP
+let g:ctrlp_custom_ignore = {
+\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+\ 'file': '\v\.(exe|so|dll|class)$'
+\ }
 
 " vim:set ft=vim et sw=2:
