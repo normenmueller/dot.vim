@@ -7,17 +7,11 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'tpope/vim-sensible'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
-"Plugin 'maxbrunsfeld/vim-yankstack'
-"Plugin 'vim-airline/vim-airline'
-"Plugin 'vim-airline/vim-airline-themes'
+Plugin 'tpope/vim-sensible'
 call vundle#end()
 " }}}
-
-filetype plugin indent on
-syntax enable
 
 if has('gui_running')
   set guioptions=egmrL
