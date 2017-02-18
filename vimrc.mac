@@ -7,58 +7,100 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'Shougo/vimproc.vim'
+Plugin 'altercation/vim-colors-solarized'
+
+Plugin 'tpope/vim-surround'
+
+Plugin 'Shougo/vimproc.vim'  
 Plugin 'eagletmt/ghcmod-vim'
+Plugin 'normenmueller/vim-hindent'
+Plugin 'lukerandall/haskellmode-vim'
+
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
+
 Plugin 'tpope/vim-sensible'
 call vundle#end()
 " }}}
 
-if has('gui_running')
-  " M ~ ALT | D ~ Cmd
-  set macmeta
-  set guioptions=egmrL
-  set guifont=Menlo\ Regular:h12
-  set lines=40
-  set columns=90
-endif
+" Base
+syntax on
+filetype plugin indent on
+set background=dark
+colorscheme solarized
 
-set cursorline
+set hidden
+set ttyfast
+set showcmd
+set showmode
+set visualbell
+set cmdheight=2
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+
+" Edit
 set clipboard=unnamed
+set showmatch
+set expandtab
+set tabstop=8
+set shiftwidth=2
+set softtabstop=2
+
+" Color schema inherited from iTerm2
+"hi Visual term=reverse cterm=reverse guibg=Grey
+
+" Search
 set path+=**
+set hlsearch
+set completeopt+=longest
+"set wildmode=list:longest,full
+set wildmode=longest,list,full
+set wildmenu
+set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox
 
 " Spelling
-set spelllang=en
+set spelllang=en_us
+"set spell spelllang=en_us
 set spellfile=$HOME/.vim/spell/en.utf-8.add
 
-" <Tab> settings
-set tabstop=8
-set expandtab
-set softtabstop=2
-set shiftwidth=2
+if has('gui_running')
+  set guioptions=egmrL
+
+  if has("gui_mac") || has("gui_macvim")
+    " Use option (alt) as meta key.
+    set macmeta
+    set lines=40
+    set columns=80
+    set guifont=Source\ Code\ Pro\ Light:h14
+  endif
+endif
+
+" ctags
+command! MakeCTags !ctags -R .
+
+" ctags for Haskell
+command! MakeHTags !hasktags --ignore-close-implementation --ctags .
 
 " Select buffer
 let g:selBufDefaultSortOrder = "path"
 so $HOME/.vim/plugin/cmdalias.vim 
 :call CmdAlias('ls', 'SelectBuf') 
 
-" ctags
-command! MakeTags !ctags -R .
-
 " netrw
 " - :edit a folder to open a file browser
 " - <CR>/v/t to open in an h-split/v-split/tab
 " - check |netrw-browse-maps| for more mappings
-let g:netrw_banner=0        " disable annoying banner
-let g:netrw_browse_split=4  " open in prior window
-let g:netrw_altv=1          " open splits to the right
-let g:netrw_liststyle=3     " tree view
-let g:netrw_list_hide=netrw_gitignore#Hide()
-let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+"let g:netrw_banner=0        " disable annoying banner
+"let g:netrw_browse_split=4  " open in prior window
+"let g:netrw_altv=1          " open splits to the right
+"let g:netrw_liststyle=3     " tree view
+"let g:netrw_list_hide=netrw_gitignore#Hide()
+"let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " CtrlP
 "set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_working_path_mode = 0
 let g:ctrlp_custom_ignore = {
 \ 'dir':  '\v[\/]\.(git|hg|svn)$',
 \ 'file': '\v\.(exe|so|dll|class)$'
@@ -68,5 +110,17 @@ let g:ctrlp_custom_ignore = {
 nmap <leader>d :NERDTreeToggle<CR>
 nmap <leader>f :NERDTreeFind<CR>
 let g:NERDTreeChDirMode = 2
+
+" haskellmode-vim
+" stack path --compiler-exe
+au BufEnter *.hs compiler ghc
+let g:ghc="/Users/nrm/.stack/programs/x86_64-osx/ghc-8.0.2/bin/ghc"
+let g:haddock_browser="open"
+let g:haddock_browser_callformat="%s %s"
+
+"" vim-hindent
+"setlocal formatprg=hindent
+"let g:hindent_on_save=0
+"let g:hindent_line_length=80
 
 " vim:set ft=vim et sw=2:
