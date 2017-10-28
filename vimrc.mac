@@ -1,6 +1,6 @@
 set nocompatible
 
-" Vundle {{{
+" Vundle {{{1
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -9,60 +9,151 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'altercation/vim-colors-solarized'
 
-Plugin 'tpope/vim-surround'
-
-Plugin 'Shougo/vimproc.vim'  
-Plugin 'eagletmt/ghcmod-vim'
-Plugin 'normenmueller/vim-hindent'
-Plugin 'lukerandall/haskellmode-vim'
-
 Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdtree'
 
-Plugin 'tpope/vim-sensible'
-call vundle#end()
-" }}}
+Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'vim-pandoc/vim-pandoc-syntax'
 
-" Base
+Plugin 'tpope/vim-sensible'
+
+Plugin 'Shougo/vimproc.vim'
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'alx741/vim-hindent'
+Plugin 'Twinside/vim-hoogle'
+Plugin 'Twinside/vim-haskellFold'
+Plugin 'lukerandall/haskellmode-vim'
+
+Plugin 'normenmueller/vim-scala'
+call vundle#end()
+
+" Base {{{1
 syntax on
 filetype plugin indent on
-set background=dark
-colorscheme solarized
 
-set hidden
-set ttyfast
-set showcmd
-set showmode
-set visualbell
+" General {{{1
+set autoindent
+set autoread
+set autowrite
+set breakindent
 set cmdheight=2
+set clipboard=unnamed
+"set completeopt+=longest
+set completeopt-=longest
+set completeopt-=preview
+set completeopt-=noinsert
+set complete=.,w,b,u,t,i,kspell
 set encoding=utf-8
+set expandtab
+set exrc
 set fileencoding=utf-8
 set fileencodings=utf-8
-
-" Edit
-set clipboard=unnamed
-set showmatch
-set expandtab
-set tabstop=8
-set shiftwidth=2
-set softtabstop=2
-
-" Color schema inherited from iTerm2
-"hi Visual term=reverse cterm=reverse guibg=Grey
-
-" Search
-set path+=**
+set foldenable
+set foldlevel=3
+set foldlevelstart=99
+set foldmethod=syntax
+set foldnestmax=1
+set formatoptions=tcrql
+set gdefault
+set hidden
 set hlsearch
-set completeopt+=longest
+set ignorecase
+set incsearch
+"set iskeyword+=-
+set laststatus=2
+set lazyredraw
+set linebreak
+set noesckeys
+set nojoinspaces
+set number
+set path+=**
+set relativenumber
+set ruler
+set secure
+set shiftround
+set shiftwidth=2
+set shortmess+=I
+set showcmd
+set showmatch
+set showmode
+set smartcase
+set smarttab
+set softtabstop=2
+set spelllang=en_us
+set spellfile=$HOME/.vim/spell/en.utf-8.add
+set tabstop=4
+set textwidth=80
+set timeout
+set timeoutlen=300
+set ttimeout
+set ttimeoutlen=-1
+set ttyfast
+"set tags=tags;/
+set tags=./tags,tags,../tags
+set undofile
+set undolevels=5000
+set visualbell
+set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox,*.class
+set wildmenu
 "set wildmode=list:longest,full
 set wildmode=longest,list,full
-set wildmenu
-set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox
+set wrapscan
 
-" Spelling
-set spelllang=en_us
-"set spell spelllang=en_us
-set spellfile=$HOME/.vim/spell/en.utf-8.add
+" Backup system {{{1
+set backup
+set undofile
+set noswapfile
+set undodir=~/.vim/tmp/undo/
+set backupdir=~/.vim/tmp/backup/
+set backupskip=/tmp/*,/private/tmp/*
+set writebackup
+
+" Status line and color {{{1
+set statusline=[%n]\ [%{strlen(&fenc)?&fenc:'none'},\ %{&ff}]
+set statusline+=\ [ft=%Y]\ %f\ %r\ %m
+
+set statusline+=\ \ \ \ %#error#
+set statusline+=%{StatuslineTabWarning()}
+set statusline+=%*
+
+set statusline+=\ \ \ \ %#error#
+set statusline+=%{StatuslineTrailingSpaceWarning()}
+set statusline+=%*
+
+set statusline+=%=%c:%l/%L\ %P
+
+augroup statusline
+    au!
+    au cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
+    au cursorhold,bufwritepost * unlet! b:statusline_tab_warning
+augroup END
+
+function! StatuslineTrailingSpaceWarning()
+    if !exists("b:statusline_trailing_space_warning")
+        if search('\s\+$', 'nw') != 0
+            let b:statusline_trailing_space_warning='[Trailing Whitespaces]'
+        else
+            let b:statusline_trailing_space_warning=''
+        endif
+    endif
+    return b:statusline_trailing_space_warning
+endfunction
+
+function! StatuslineTabWarning()
+    if !exists("b:statusline_tab_warning")
+        let tabs = search('^\t', 'nw') != 0
+        if tabs
+            let b:statusline_tab_warning =  '[Mixed Indenting]'
+        else
+            let b:statusline_tab_warning = ''
+        endif
+    endif
+    return b:statusline_tab_warning
+endfunction
+
+set background=dark
+colorscheme solarized
 
 if has('gui_running')
   set guioptions=egmrL
@@ -76,18 +167,51 @@ if has('gui_running')
   endif
 endif
 
-" ctags
-command! MakeCTags !ctags -R .
+" Mappings {{{1
 
+" Inclusive movements {{{2
+    onoremap h vh
+    onoremap l vl
+    onoremap b vb
+    onoremap B vB
+    onoremap F vF
+    onoremap T vT
+    onoremap ^ v^
+    onoremap g^ vg^
+    onoremap + v+
+    onoremap g+ vg+
+    onoremap ( v(
+    onoremap ` v`
+
+" Move with visual lines {{{2
+    nnoremap j gj
+    nnoremap k gk
+    nnoremap 0 g0
+    nnoremap ^ g^
+    nnoremap $ g$
+"}}}
+
+" Functions {{{1
+
+function! RemoveTrailingSpaces() "{{{
+    silent! execute '%s/\s\+$//ge'
+    silent! execute 'g/\v^$\n*%$/norm! dd'
+endfunction
+
+" Plugin settings {{{1
+
+" ctags {{{2
+command! MakeCTags !ctags -R .
+"command! MakeCTags !ctags -R -f ./.git/tags .
 " ctags for Haskell
 command! MakeHTags !hasktags --ignore-close-implementation --ctags .
 
-" Select buffer
+" Select buffer {{{2
 let g:selBufDefaultSortOrder = "path"
-so $HOME/.vim/plugin/cmdalias.vim 
-:call CmdAlias('ls', 'SelectBuf') 
+so $HOME/.vim/plugin/cmdalias.vim
+:call CmdAlias('ls', 'SelectBuf')
 
-" netrw
+" netrw {{{2
 " - :edit a folder to open a file browser
 " - <CR>/v/t to open in an h-split/v-split/tab
 " - check |netrw-browse-maps| for more mappings
@@ -98,29 +222,22 @@ so $HOME/.vim/plugin/cmdalias.vim
 "let g:netrw_list_hide=netrw_gitignore#Hide()
 "let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
-" CtrlP
+" CtrlP {{{2
 "set runtimepath^=~/.vim/bundle/ctrlp.vim
+"let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_working_path_mode = 0
+let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
 \ 'dir':  '\v[\/]\.(git|hg|svn)$',
 \ 'file': '\v\.(exe|so|dll|class)$'
 \ }
 
-" NERDTree options
+" NERDTree options {{{2
 nmap <leader>d :NERDTreeToggle<CR>
 nmap <leader>f :NERDTreeFind<CR>
 let g:NERDTreeChDirMode = 2
 
-" haskellmode-vim
-" stack path --compiler-exe
-au BufEnter *.hs compiler ghc
-let g:ghc="/Users/nrm/.stack/programs/x86_64-osx/ghc-8.0.2/bin/ghc"
-let g:haddock_browser="open"
-let g:haddock_browser_callformat="%s %s"
+" XML {{{2
+au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
-"" vim-hindent
-"setlocal formatprg=hindent
-"let g:hindent_on_save=0
-"let g:hindent_line_length=80
-
-" vim:set ft=vim et sw=2:
+" vim:fdm=marker

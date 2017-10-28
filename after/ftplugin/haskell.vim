@@ -13,25 +13,17 @@ map <silent> te :GhcModTypeClear<CR>
 map <silent> tc :GhcModCheck<CR>
 map <silent> tl :GhcModLint<CR>
 
-"nnoremap <leader>gq mzgggqG`z
-""function! s:Hindent()
-""    exec "norm mz"
-""    if !executable("hindent")
-""        echom "Hindent not found in $PATH, did you installed it? (stack install hindent)"
-""        return
-""    endif
-""
-""    "silent! silent exec "!cat % | hindent --indent-size " &softtabstop
-""    silent! silent exec "!cat % | hindent"
-""    exec ':redraw!'
-""
-""    if v:shell_error
-""        echom "Hindent: Parsing error"
-""    else
-""        "silent! exec "%!hindent --indent-size " &softtabstop
-""        silent! exec "%!hindent"
-""    endif
-""    exec "norm `z"
-""endfunction
-""
-""command! Hindent call s:Hindent()
+" haskellmode-vim
+" stack path --compiler-exe
+au BufEnter *.hs compiler ghc
+let g:ghc="/Users/nrm/.stack/programs/x86_64-osx/ghc-8.0.2/bin/ghc"
+let g:haddock_browser="open"
+let g:haddock_browser_callformat="%s %s"
+
+" vim-hindent
+"setlocal formatprg=hindent
+let g:hindent_on_save=0
+let g:hindent_indent_size=2
+let g:hindent_line_length=80
+setlocal formatprg=
+nmap g= :Hindent<CR>
