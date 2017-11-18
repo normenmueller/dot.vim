@@ -11,7 +11,6 @@ function! selectbuf#Initialize() " {{{ [-2s]
 " For WinManager integration.
 let g:SelectBuf_title = s:windowName
 
-
 " This default mappings are just for the reverse lookup (maparg()) to work
 " always.
 function! s:DefDefMap(mapType, mapKeyName, defaultKey)
@@ -36,7 +35,7 @@ call s:DefDefMap('n', 'RefreshKey', "R")
 call s:DefDefMap('n', 'SortSelectFKey', "s")
 call s:DefDefMap('n', 'SortSelectBKey', "S")
 call s:DefDefMap('n', 'SortRevKey', "r")
-call s:DefDefMap('n', 'QuitKey', "q")
+"call s:DefDefMap('n', 'QuitKey', "q")
 call s:DefDefMap('n', 'THelpKey', "?")
 call s:DefDefMap('n', 'ShowSummaryKey', "<C-G>")
 call s:DefDefMap('n', 'LaunchKey', "A")
@@ -213,7 +212,7 @@ function! s:AddHeader()
       \ . "\" " . s:MapArg("THidePathsKey") . " : toggle show paths\t\t\t" .
       \	    s:MapArg("THiddenKey") . " : toggle hidden buffers\n"
       \ . "\" " . s:MapArg("RefreshKey") . " : refresh browser\t\t\t" .
-      \	    s:MapArg("QuitKey") . " : close browser\n"
+      "\	    s:MapArg("QuitKey") . " : close browser\n"
       \ . "\" " . s:MapArg("SortSelectFKey") . "/" . s:MapArg("SortSelectBKey")
       \	    . " : select sort field for/backward\t" . s:MapArg("SortRevKey") .
       \	    " : reverse sort\n"
@@ -1010,7 +1009,7 @@ function! s:SetupBuf() " {{{
     call s:DefMap("n", "SortSelectFKey", "s", ":SBFSort<cr>")
     call s:DefMap("n", "SortSelectBKey", "S", ":SBBSort<cr>")
     call s:DefMap("n", "SortRevKey", "r", ":SBRSort<cr>")
-    call s:DefMap("n", "QuitKey", "q", ":SBQuit<CR>")
+    "call s:DefMap("n", "QuitKey", "q", ":SBQuit<CR>")
     call s:DefMap("n", "ShowSummaryKey", "<C-G>", ":SBSummary<CR>")
     call s:DefMap("n", "LaunchKey", "A", ":SBLaunch<CR>")
     call s:DefMap("n", "TDetailsKey", "i", ":SBTDetails<CR>")
