@@ -7,6 +7,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'vim-airline/vim-airline'
 Plugin 'altercation/vim-colors-solarized'
 
 "Plugin 'kien/ctrlp.vim'
@@ -119,8 +120,8 @@ set backupskip=/tmp/*,/private/tmp/*
 set writebackup
 
 " Status line {{{1
-set statusline=[%n]\ [%{strlen(&fenc)?&fenc:'none'},\ %{&ff}]
-set statusline+=\ [ft=%Y]\ %f\ %r\ %m
+"set statusline=[%n]\ [%{strlen(&fenc)?&fenc:'none'},\ %{&ff}]
+"set statusline+=\ [ft=%Y]\ %f\ %r\ %m
 
 "set statusline+=\ \ \ \ %#error#
 "set statusline+=%{StatuslineTabWarning()}
@@ -286,7 +287,7 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 command! MakeCTags !ctags -R .
 "command! MakeCTags !ctags -R -f ./.git/tags .
 
-command! MakeHTags !hasktags --ignore-close-implementation --ctags .
+command! MakeHTags !hasktags -L --ignore-close-implementation --ctags .
 
 " ghc-mod {{{2
 map <silent> tq :GhcModType<CR>

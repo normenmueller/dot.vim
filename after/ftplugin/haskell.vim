@@ -1,5 +1,5 @@
-setlocal textwidth=75
-setlocal colorcolumn=75
+setlocal textwidth=80
+setlocal colorcolumn=80
 
 setlocal tabstop=4         "A <Tab> character is 8 spaces
 setlocal expandtab         "Always uses spaces instead of tabs
