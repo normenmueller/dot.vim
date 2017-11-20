@@ -12,22 +12,27 @@ Plugin 'altercation/vim-colors-solarized'
 
 "Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-surround'
-Plugin 'scrooloose/nerdtree'
 Plugin 'qpkorr/vim-bufkill'
+Plugin 'scrooloose/nerdtree'
 Plugin 'normenmueller/YankRing.vim'
 
+Plugin 'elzr/vim-json'
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 
-Plugin 'elzr/vim-json'
-
 Plugin 'Shougo/vimproc.vim'
+"Plugin 'Shougo/neocomplete.vim'
+
+Plugin 'ervandew/supertab'
+Plugin 'eagletmt/neco-ghc'
+
+"Plugin 'alx741/vim-hindent'
 Plugin 'eagletmt/ghcmod-vim'
 Plugin 'Twinside/vim-hoogle'
-"Plugin 'alx741/vim-hindent'
-Plugin 'nbouscal/vim-stylish-haskell'
+"Plugin 'scrooloose/syntastic.git'
 "Plugin 'Twinside/vim-haskellFold'
 "Plugin 'lukerandall/haskellmode-vim'
+Plugin 'nbouscal/vim-stylish-haskell'
 
 Plugin 'normenmueller/vim-scala'
 
@@ -39,75 +44,48 @@ syntax on
 filetype plugin indent on
 
 " General {{{1
-set autoindent
-set autoread
-set autowrite
+"set autoindent
+"set autoread
+"set autowrite
 set breakindent
 let &showbreak = '↳ '
 set clipboard=unnamed
-set cmdheight=2
+set cmdheight=1
 set colorcolumn=80
 set cpo+=n
-"""set completeopt+=longest
-""set completeopt-=longest
-""set completeopt-=preview
-""set completeopt-=noinsert
-""set complete=.,w,b,u,t,i,kspell
+set completeopt=menuone,menu,longest
 set encoding=utf-8
 set expandtab
-"""set exrc
 set fileencoding=utf-8
 set fileencodings=utf-8
-""set foldenable
-""set foldlevel=3
-""set foldlevelstart=99
-""set foldmethod=syntax
-""set foldnestmax=1
-""set formatoptions=tcrql
-""set gdefault
+"set formatoptions=tcrql
 set hidden
 set hlsearch
-"set ignorecase
 set incsearch
-"""set iskeyword+=-
-""set laststatus=2
 set lazyredraw
 set linebreak
-"""set noesckeys
-""set nojoinspaces
-"set number
-" Search down into subfolders;  Provides tab-completion for all file-related tasks
 set path+=**
-"""set relativenumber
-""set ruler
-""set secure
-"set shiftround
 set shiftwidth=2
-"""set shortmess+=I
 set showcmd
-"set showmatch
-"set showmode
-""set smartcase
-"set smarttab
+set smartindent
+set smarttab
 set softtabstop=2
 set spelllang=en_us
 set spellfile=$HOME/.vim/spell/en.utf-8.add
 set tabstop=4
 set textwidth=80
-"""set timeout
-"""set timeoutlen=300
-"""set ttimeout
-"""set ttimeoutlen=-1
+"set timeout
+"set timeoutlen=300
+"set ttimeout
+"set ttimeoutlen=-1
 set ttyfast
 set tags=./tags,tags,../tags
-""set undofile
-""set undolevels=5000
-""set visualbell
+set undofile
+set undolevels=5000
 set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox,*.class,*.o
-" Display all matching files when we tab complete
+set wildmode=longest,list,full
 set wildmenu
-"""set wildmode=list:longest,full
-""set wildmode=longest,list,full
+"set completeopt+=longest
 ""set wrapscan
 
 " Backup system {{{1
@@ -138,29 +116,6 @@ set writebackup
 "    au cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
 "    au cursorhold,bufwritepost * unlet! b:statusline_tab_warning
 "augroup END
-
-"function! StatuslineTrailingSpaceWarning()
-"    if !exists("b:statusline_trailing_space_warning")
-"        if search('\s\+$', 'nw') != 0
-"            let b:statusline_trailing_space_warning='[Trailing Whitespaces]'
-"        else
-"            let b:statusline_trailing_space_warning=''
-"        endif
-"    endif
-"    return b:statusline_trailing_space_warning
-"endfunction
-
-"function! StatuslineTabWarning()
-"    if !exists("b:statusline_tab_warning")
-"        let tabs = search('^\t', 'nw') != 0
-"        if tabs
-"            let b:statusline_tab_warning =  '[Mixed Indenting]'
-"        else
-"            let b:statusline_tab_warning = ''
-"        endif
-"    endif
-"    return b:statusline_tab_warning
-"endfunction
 
 " Color and Font {{{1
 set background=dark
@@ -211,13 +166,6 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "nnoremap 0 g0
 "nnoremap ^ g^
 "nnoremap $ g$
-
-" Functions {{{1
-
-function! RemoveTrailingSpaces() "{{{
-  silent! execute '%s/\s\+$//ge'
-  silent! execute 'g/\v^$\n*%$/norm! dd'
-endfunction
 
 " Plugin settings {{{1
 so $HOME/.vim/plugin/cmdalias.vim
@@ -272,10 +220,13 @@ nnoremap <C-p> :<C-u>FZF<CR>
 "\ 'file': '\v\.(exe|so|dll|class)$'
 "\ }
 
-" NERDTree options {{{2
+" NERD Tree options {{{2
 nmap <leader>d :NERDTreeToggle<CR>
 nmap <leader>f :NERDTreeFind<CR>
 let g:NERDTreeChDirMode = 2
+
+" NERD Commenter
+"let g:NERDSpaceDelims = 1
 
 " Pandoc {{{2
 let g:pandoc#folding#fdc=0
@@ -285,16 +236,12 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
 " ctags {{{2
 command! MakeCTags !ctags -R .
-"command! MakeCTags !ctags -R -f ./.git/tags .
-
 command! MakeHTags !hasktags -L --ignore-close-implementation --ctags .
 
 " ghc-mod {{{2
 map <silent> tq :GhcModType<CR>
 map <silent> te :GhcModTypeClear<CR>
-
 map <silent> tc :GhcModCheck<CR>
-
 map <silent> ti :GhcModInfo<CR>
 map <silent> tl :GhcModLint<CR>
 
@@ -316,5 +263,61 @@ map <silent> tl :GhcModLint<CR>
 
 " vim-stylish-haskell {{{2
 
+" syntastic {{{2
+"map <Leader>s :SyntasticToggleMode<CR>
+"
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 0
+"let g:syntastic_check_on_open = 0
+"let g:syntastic_check_on_wq = 0
+
+" supertab {{{2
+let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
+
+if has("gui_running")
+  imap <c-space> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
+else " no gui
+  if has("unix")
+    inoremap <Nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
+  endif
+endif
+
+" necoghc {{{2
+let g:haskellmode_completion_ghc = 1
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+
+" Functions {{{1
+
+"function! RemoveTrailingSpaces() "{{{
+"  silent! execute '%s/\s\+$//ge'
+"  silent! execute 'g/\v^$\n*%$/norm! dd'
+"endfunction
+
+"function! StatuslineTrailingSpaceWarning()
+"    if !exists("b:statusline_trailing_space_warning")
+"        if search('\s\+$', 'nw') != 0
+"            let b:statusline_trailing_space_warning='[Trailing Whitespaces]'
+"        else
+"            let b:statusline_trailing_space_warning=''
+"        endif
+"    endif
+"    return b:statusline_trailing_space_warning
+"endfunction
+
+"function! StatuslineTabWarning()
+"    if !exists("b:statusline_tab_warning")
+"        let tabs = search('^\t', 'nw') != 0
+"        if tabs
+"            let b:statusline_tab_warning =  '[Mixed Indenting]'
+"        else
+"            let b:statusline_tab_warning = ''
+"        endif
+"    endif
+"    return b:statusline_tab_warning
+"endfunction
 
 " vim:fdm=marker
