@@ -60,7 +60,7 @@ set encoding=utf-8
 set expandtab
 set fileencoding=utf-8
 set fileencodings=utf-8
-"set formatoptions=tcrql
+set formatoptions=croqnlj
 set hidden
 set hlsearch
 set incsearch
@@ -307,10 +307,10 @@ autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
 " Functions {{{1
 
-"function! RemoveTrailingSpaces() "{{{
-"  silent! execute '%s/\s\+$//ge'
-"  silent! execute 'g/\v^$\n*%$/norm! dd'
-"endfunction
+function! RemoveTrailingSpaces() "{{{
+  silent! execute '%s/\s\+$//ge'
+  silent! execute 'g/\v^$\n*%$/norm! dd'
+endfunction
 
 "function! StatuslineTrailingSpaceWarning()
 "    if !exists("b:statusline_trailing_space_warning")
