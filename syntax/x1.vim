@@ -20,6 +20,7 @@ syn keyword x1Keyword calculate
 syn keyword x1Keyword export
 syn keyword x1Keyword match
 syn keyword x1Keyword case
+syn keyword x1Keyword val
 hi link x1Keyword Keyword
 
 syn keyword x1External import
@@ -64,5 +65,5 @@ hi link x1Todo Todo
 syn match x1Unimplemented /???/
 hi link x1Unimplemented Todo
 
-syn match x1TrailingComment "//.*$" contains=x1Todo
+syn match x1TrailingComment "--.*$" contains=x1Todo
 hi link x1TrailingComment Comment
