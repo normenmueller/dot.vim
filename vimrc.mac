@@ -7,6 +7,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
+
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'altercation/vim-colors-solarized'
@@ -18,24 +19,17 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'normenmueller/YankRing.vim'
 
 Plugin 'elzr/vim-json'
+
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
+"Plugin 'godlygeek/tabular'
+Plugin 'dhruvasagar/vim-table-mode'
 
 Plugin 'Shougo/vimproc.vim'
-"Plugin 'Shougo/neocomplete.vim'
-
-Plugin 'ervandew/supertab'
 Plugin 'eagletmt/neco-ghc'
-
-"Plugin 'alx741/vim-hindent'
 Plugin 'eagletmt/ghcmod-vim'
 Plugin 'Twinside/vim-hoogle'
-"Plugin 'scrooloose/syntastic.git'
-"Plugin 'Twinside/vim-haskellFold'
-"Plugin 'lukerandall/haskellmode-vim'
-"Plugin 'nbouscal/vim-stylish-haskell'
 Plugin 'alx741/vim-stylishask'
-
 Plugin 'normenmueller/vim-scala'
 
 Plugin 'tpope/vim-sensible'
@@ -46,49 +40,12 @@ syntax on
 filetype plugin indent on
 
 " General {{{1
-"set autoindent
-"set autoread
-"set autowrite
 set breakindent
 let &showbreak = '↳ '
-set clipboard=unnamed
-set cmdheight=2
-set colorcolumn=80
-set cpo+=n
-set completeopt=menuone,menu,longest
-set encoding=utf-8
-set expandtab
-set fileencoding=utf-8
-set fileencodings=utf-8
-set formatoptions=croqnlj
-set hidden
-set hlsearch
-set incsearch
-set lazyredraw
-set linebreak
-set path+=**
-set shiftwidth=2
-set showcmd
-set smartindent
-set smarttab
-set softtabstop=2
+
+" Spelling {{{1
 set spelllang=en_us
 set spellfile=$HOME/.vim/spell/en.utf-8.add
-set tabstop=4
-set textwidth=80
-"set timeout
-"set timeoutlen=300
-"set ttimeout
-"set ttimeoutlen=-1
-set ttyfast
-set tags=./tags,tags,../tags
-set undofile
-set undolevels=5000
-set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox,*.class,*.o
-set wildmode=longest,list,full
-set wildmenu
-"set completeopt+=longest
-""set wrapscan
 
 " Backup system {{{1
 set backup
@@ -100,30 +57,7 @@ set backupskip=/tmp/*,/private/tmp/*
 set writebackup
 
 " Status line {{{1
-"let g:airline_theme='deus'
-"let g:airline_theme='light'
 let g:airline_theme='luna'
-"let g:airline_theme='solarized'
-"let g:airline_solarized_bg='dark'
-
-"set statusline=[%n]\ [%{strlen(&fenc)?&fenc:'none'},\ %{&ff}]
-"set statusline+=\ [ft=%Y]\ %f\ %r\ %m
-
-"set statusline+=\ \ \ \ %#error#
-"set statusline+=%{StatuslineTabWarning()}
-"set statusline+=%*
-
-"set statusline+=\ \ \ \ %#error#
-"set statusline+=%{StatuslineTrailingSpaceWarning()}
-"set statusline+=%*
-
-"set statusline+=%=%c:%l/%L\ %P
-
-"augroup statusline
-"    au!
-"    au cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
-"    au cursorhold,bufwritepost * unlet! b:statusline_tab_warning
-"augroup END
 
 " Color and Font {{{1
 set background=dark
@@ -131,20 +65,17 @@ colorscheme solarized
 
 if has('gui_running')
   set guioptions=egmrL
-
   if has("gui_mac") || has("gui_macvim")
     " Use option (alt) as meta key.
     set macmeta
     set lines=40
-    set columns=82
-    "set guifont=Source\ Code\ Pro:h14
-    set guifont=Source\ Code\ Pro\ Light:h12
-    "set guifont=Consolas:h14
-    "set guifont=Inconsolata:h14
-    "set guifont=Menlo:h14
-    "set guifont=Monaco:h14
+    set columns=80
+    set guifont=Source\ Code\ Pro\ Light:h14
   endif
 endif
+hi clear SpellBad
+hi SpellBad cterm=underline ctermfg=red
+hi Comment cterm=italic
 
 " Cursor {{{1
 " http://vim.wikia.com/wiki/Change_cursor_shape_in_different_modes
@@ -152,7 +83,7 @@ let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-"" Views {{{1
+" Views {{{1
 "" Cf. http://vim.wikia.com/wiki/Make_views_automatic
 "set viewoptions-=options
 "autocmd BufWinLeave *.hs mkview
@@ -161,7 +92,6 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "" autocmd BufWinEnter ?* silent loadview
 
 " Mappings {{{1
-
 " Inclusive movements {{{2
 "onoremap h vh
 "onoremap l vl
@@ -213,6 +143,11 @@ let g:yankring_paste_v_akey = ''
 "let g:fzf_layout = { 'up': '~20%' }
 "let g:fzf_buffers_jump = 1
 "nnoremap <C-p> :<C-u>FZF<CR>
+
+" vim-table-mode {{{2
+let g:table_mode_corner='+'
+let g:table_mode_corner_corner='+'
+let g:table_mode_header_fillchar='='
 
 " netrw {{{2
 " - :edit a folder to open a file browser
@@ -291,15 +226,15 @@ map <silent> tl :GhcModLint<CR>
 "let g:syntastic_check_on_wq = 0
 
 " supertab {{{2
-let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
+"let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
 
-if has("gui_running")
-  imap <c-space> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
-else " no gui
-  if has("unix")
-    inoremap <Nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
-  endif
-endif
+"if has("gui_running")
+"  imap <c-space> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
+"else
+"  if has("unix")
+"    inoremap <Nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
+"  endif
+"endif
 
 " necoghc {{{2
 let g:haskellmode_completion_ghc = 1
@@ -312,27 +247,45 @@ function! RemoveTrailingSpaces() "{{{
   silent! execute 'g/\v^$\n*%$/norm! dd'
 endfunction
 
-"function! StatuslineTrailingSpaceWarning()
-"    if !exists("b:statusline_trailing_space_warning")
-"        if search('\s\+$', 'nw') != 0
-"            let b:statusline_trailing_space_warning='[Trailing Whitespaces]'
-"        else
-"            let b:statusline_trailing_space_warning=''
-"        endif
-"    endif
-"    return b:statusline_trailing_space_warning
-"endfunction
-
-"function! StatuslineTabWarning()
-"    if !exists("b:statusline_tab_warning")
-"        let tabs = search('^\t', 'nw') != 0
-"        if tabs
-"            let b:statusline_tab_warning =  '[Mixed Indenting]'
-"        else
-"            let b:statusline_tab_warning = ''
-"        endif
-"    endif
-"    return b:statusline_tab_warning
-"endfunction
+" OLD {{{1
+" General {{{2
+"set autoindent
+"set autoread
+"set autowrite
+set clipboard=unnamed
+set cmdheight=2
+set cpo+=n
+set completeopt=menuone,menu,longest
+set encoding=utf-8
+set expandtab
+set fileencoding=utf-8
+set fileencodings=utf-8
+"set formatoptions=tcrql
+set hidden
+set hlsearch
+set incsearch
+set lazyredraw
+set linebreak
+set path+=**
+set shiftwidth=2
+set showcmd
+set smartindent
+set smarttab
+set softtabstop=2
+set tabstop=4
+set textwidth=80
+"set timeout
+"set timeoutlen=300
+"set ttimeout
+"set ttimeoutlen=-1
+set ttyfast
+set tags=./tags,tags,../tags
+set undofile
+set undolevels=5000
+set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox,*.class,*.o
+set wildmode=longest,list,full
+set wildmenu
+"set completeopt+=longest
+""set wrapscan
 
 " vim:fdm=marker
