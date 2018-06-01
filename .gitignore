@@ -2,6 +2,6 @@
 .netrwhist
 passwords.vim
 tags
-bundle/
+bundle/*
 tmp/
 view/

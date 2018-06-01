@@ -10,8 +10,9 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'altercation/vim-colors-solarized'
+"Plugin 'altercation/vim-colors-solarized'
 
+"Plugin 'gcmt/taboo.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'qpkorr/vim-bufkill'
@@ -23,7 +24,7 @@ Plugin 'elzr/vim-json'
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 "Plugin 'godlygeek/tabular'
-Plugin 'dhruvasagar/vim-table-mode'
+"Plugin 'dhruvasagar/vim-table-mode'
 
 Plugin 'Shougo/vimproc.vim'
 Plugin 'eagletmt/neco-ghc'
@@ -34,20 +35,34 @@ Plugin 'normenmueller/vim-scala'
 
 Plugin 'tpope/vim-sensible'
 call vundle#end()
-
 " Base {{{1
 syntax on
 filetype plugin indent on
-
 " General {{{1
+set showcmd
+set cmdheight=2
+
+set hidden
+set encoding=utf-8
+set clipboard=unnamed
+
 set breakindent
 let &showbreak = '↳ '
+set cpo+=n
 
-" Spelling {{{1
-set spelllang=en_us
-set spellfile=$HOME/.vim/spell/en.utf-8.add
+set expandtab
+set tabstop=4
+set shiftwidth=2
+set softtabstop=2
 
-" Backup system {{{1
+set hlsearch
+set incsearch
+
+set wildmenu
+set wildmode=list:longest,full
+"set wildmode=longest:full,full
+"set wildmode=longest,list,full
+" Backup {{{1
 set backup
 set undofile
 set noswapfile
@@ -55,34 +70,36 @@ set undodir=~/.vim/tmp/undo/
 set backupdir=~/.vim/tmp/backup/
 set backupskip=/tmp/*,/private/tmp/*
 set writebackup
-
+" Diff {{{1
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+set nolist
+" Spelling {{{1
+set spelllang=en_us
+set spellfile=$HOME/.vim/spell/en.utf-8.add
 " Status line {{{1
 let g:airline_theme='luna'
-
 " Color and Font {{{1
-set background=dark
-colorscheme solarized
+"set background=dark
+"colorscheme solarized
 
-if has('gui_running')
-  set guioptions=egmrL
-  if has("gui_mac") || has("gui_macvim")
-    " Use option (alt) as meta key.
-    set macmeta
-    set lines=40
-    set columns=80
-    set guifont=Source\ Code\ Pro\ Light:h14
-  endif
-endif
-hi clear SpellBad
-hi SpellBad cterm=underline ctermfg=red
-hi Comment cterm=italic
-
+"if has('gui_running')
+"  set guioptions=egmrL
+"  if has("gui_mac") || has("gui_macvim")
+"    " Use option (alt) as meta key.
+"    set macmeta
+"    set lines=40
+"    set columns=80
+"    set guifont=Source\ Code\ Pro\ Light:h14
+"  endif
+"endif
+"hi clear SpellBad
+"hi SpellBad cterm=underline ctermfg=red
+"hi Comment cterm=italic
 " Cursor {{{1
 " http://vim.wikia.com/wiki/Change_cursor_shape_in_different_modes
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-
 " Views {{{1
 "" Cf. http://vim.wikia.com/wiki/Make_views_automatic
 "set viewoptions-=options
@@ -90,7 +107,6 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "autocmd BufWinEnter *.hs silent loadview
 "" autocmd BufWinLeave ?* mkview
 "" autocmd BufWinEnter ?* silent loadview
-
 " Mappings {{{1
 " Inclusive movements {{{2
 "onoremap h vh
@@ -105,24 +121,19 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "onoremap g+ vg+
 "onoremap ( v(
 "onoremap ` v`
-
 " Move with visual lines {{{2
 "nnoremap j gj
 "nnoremap k gk
 "nnoremap 0 g0
 "nnoremap ^ g^
 "nnoremap $ g$
-
 " Plugin settings {{{1
 so $HOME/.vim/plugin/cmdalias.vim
-
 " Select buffer {{{2
 let g:selBufDefaultSortOrder = "path"
 :call CmdAlias('ls', 'SelectBuf')
-
 " Buffer kill {{{2
 :call CmdAlias('bd', 'BD')
-
 " Yank ring {{{2
 :command! Yanks YRShow
 let g:yankring_window_use_bottom=0
@@ -137,18 +148,15 @@ let g:yankring_replace_n_pkey = ''
 let g:yankring_replace_n_nkey = ''
 let g:yankring_paste_v_bkey = ''
 let g:yankring_paste_v_akey = ''
-
 " fzf {{{2
 "set rtp+=/usr/local/opt/fzf
 "let g:fzf_layout = { 'up': '~20%' }
 "let g:fzf_buffers_jump = 1
 "nnoremap <C-p> :<C-u>FZF<CR>
-
 " vim-table-mode {{{2
 let g:table_mode_corner='+'
 let g:table_mode_corner_corner='+'
 let g:table_mode_header_fillchar='='
-
 " netrw {{{2
 " - :edit a folder to open a file browser
 " - <CR>/v/t to open in an h-split/v-split/tab
@@ -159,7 +167,6 @@ let g:table_mode_header_fillchar='='
 "let g:netrw_liststyle=3     " tree view
 "let g:netrw_list_hide=netrw_gitignore#Hide()
 "let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
-
 " CtrlP {{{2
 ""set runtimepath^=~/.vim/bundle/ctrlp.vim
 ""let g:ctrlp_working_path_mode = 'ra'
@@ -169,22 +176,19 @@ let g:ctrlp_custom_ignore = {
 \ 'dir':  '\v[\/]\.(git|hg|svn)$',
 \ 'file': '\v\.(exe|so|dll|class)$'
 \ }
-
 " NERD Tree options {{{2
 nmap <leader>d :NERDTreeToggle<CR>
 nmap <leader>f :NERDTreeFind<CR>
 let g:NERDTreeChDirMode = 2
-
 " NERD Commenter
 "let g:NERDSpaceDelims = 1
-
 " Pandoc {{{2
-let g:pandoc#folding#fdc=0
-
+"let g:pandoc#folding#fdc=0
 " XML {{{2
 au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
-
 " ctags {{{2
+set tags=./tags,tags,../tags
+
 command! MakeCTags !ctags -R .
 command! MakeHTags !hasktags -L --ignore-close-implementation --ctags .
 
@@ -194,14 +198,12 @@ map <silent> te :GhcModTypeClear<CR>
 map <silent> tc :GhcModCheck<CR>
 map <silent> ti :GhcModInfo<CR>
 map <silent> tl :GhcModLint<CR>
-
 " haskellmode-vim {{{2
 "" stack path --compiler-exe
 "au BufEnter *.hs compiler ghc
 "let g:ghc="/Users/nrm/.stack/programs/x86_64-osx/ghc-8.0.2/bin/ghc"
 "let g:haddock_browser="open"
 "let g:haddock_browser_callformat="%s %s"
-
 " vim-hindent {{{2
 ""setlocal formatprg=hindent
 "let g:hindent_on_save=0
@@ -210,9 +212,7 @@ map <silent> tl :GhcModLint<CR>
 "
 "setlocal formatprg=
 "nmap g= :Hindent<CR>
-
 " vim-stylish-haskell {{{2
-
 " syntastic {{{2
 "map <Leader>s :SyntasticToggleMode<CR>
 "
@@ -224,7 +224,6 @@ map <silent> tl :GhcModLint<CR>
 "let g:syntastic_auto_loc_list = 0
 "let g:syntastic_check_on_open = 0
 "let g:syntastic_check_on_wq = 0
-
 " supertab {{{2
 "let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
 
@@ -235,57 +234,38 @@ map <silent> tl :GhcModLint<CR>
 "    inoremap <Nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
 "  endif
 "endif
-
 " necoghc {{{2
 let g:haskellmode_completion_ghc = 1
 autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-
 " Functions {{{1
-
 function! RemoveTrailingSpaces() "{{{
   silent! execute '%s/\s\+$//ge'
   silent! execute 'g/\v^$\n*%$/norm! dd'
 endfunction
-
 " OLD {{{1
 " General {{{2
-"set autoindent
-"set autoread
-"set autowrite
-set clipboard=unnamed
-set cmdheight=2
-set cpo+=n
-set completeopt=menuone,menu,longest
-set encoding=utf-8
-set expandtab
-set fileencoding=utf-8
-set fileencodings=utf-8
-"set formatoptions=tcrql
-set hidden
-set hlsearch
-set incsearch
-set lazyredraw
-set linebreak
-set path+=**
-set shiftwidth=2
-set showcmd
-set smartindent
-set smarttab
-set softtabstop=2
-set tabstop=4
-set textwidth=80
-"set timeout
-"set timeoutlen=300
-"set ttimeout
-"set ttimeoutlen=-1
-set ttyfast
-set tags=./tags,tags,../tags
-set undofile
-set undolevels=5000
-set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox,*.class,*.o
-set wildmode=longest,list,full
-set wildmenu
-"set completeopt+=longest
-""set wrapscan
+""set autoindent
+""set autoread
+""set autowrite
+"set completeopt=menuone,menu,longest
+"set fileencoding=utf-8
+"set fileencodings=utf-8
+""set formatoptions=tcrql
+"set lazyredraw
+"set linebreak
+"set path+=**
+"set smartindent
+"set smarttab
+"set textwidth=80
+""set timeout
+""set timeoutlen=300
+""set ttimeout
+""set ttimeoutlen=-1
+"set ttyfast
+"set undofile
+"set undolevels=5000
+"set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox,*.class,*.o
+""set completeopt+=longest
+"""set wrapscan
 
 " vim:fdm=marker
