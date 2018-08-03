@@ -17,27 +17,31 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'qpkorr/vim-bufkill'
 Plugin 'scrooloose/nerdtree'
-Plugin 'normenmueller/YankRing.vim'
+"Plugin 'normenmueller/YankRing.vim'
 
 Plugin 'elzr/vim-json'
 
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plugin 'tpope/vim-markdown'
+Plugin 'nelstrom/vim-markdown-folding'
+"Plugin 'vim-pandoc/vim-pandoc'
+"Plugin 'vim-pandoc/vim-pandoc-syntax'
 "Plugin 'godlygeek/tabular'
 "Plugin 'dhruvasagar/vim-table-mode'
 
 Plugin 'Shougo/vimproc.vim'
-Plugin 'eagletmt/neco-ghc'
-Plugin 'eagletmt/ghcmod-vim'
+
+"Plugin 'eagletmt/neco-ghc'
+"Plugin 'eagletmt/ghcmod-vim'
 Plugin 'Twinside/vim-hoogle'
 Plugin 'alx741/vim-stylishask'
+
 Plugin 'normenmueller/vim-scala'
 
 Plugin 'tpope/vim-sensible'
 call vundle#end()
 " Base {{{1
-syntax on
 filetype plugin indent on
+syntax enable
 " General {{{1
 set showcmd
 set cmdheight=2
@@ -84,13 +88,13 @@ let g:airline_theme='luna'
 
 "if has('gui_running')
 "  set guioptions=egmrL
-"  if has("gui_mac") || has("gui_macvim")
-"    " Use option (alt) as meta key.
-"    set macmeta
-"    set lines=40
-"    set columns=80
-"    set guifont=Source\ Code\ Pro\ Light:h14
-"  endif
+  if has("gui_mac") || has("gui_macvim")
+    " Use option (alt) as meta key.
+    set macmeta
+    set lines=40
+    set columns=80
+    set guifont=Source\ Code\ Pro\ Light:h14
+  endif
 "endif
 "hi clear SpellBad
 "hi SpellBad cterm=underline ctermfg=red
@@ -244,23 +248,17 @@ function! RemoveTrailingSpaces() "{{{
 endfunction
 " OLD {{{1
 " General {{{2
-""set autoindent
-""set autoread
 ""set autowrite
 "set completeopt=menuone,menu,longest
 "set fileencoding=utf-8
 "set fileencodings=utf-8
-""set formatoptions=tcrql
 "set lazyredraw
 "set linebreak
 "set path+=**
 "set smartindent
-"set smarttab
 "set textwidth=80
 ""set timeout
 ""set timeoutlen=300
-""set ttimeout
-""set ttimeoutlen=-1
 "set ttyfast
 "set undofile
 "set undolevels=5000
