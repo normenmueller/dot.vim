@@ -35,6 +35,7 @@ Plugin 'Shougo/vimproc.vim'
 "Plugin 'eagletmt/ghcmod-vim'
 Plugin 'Twinside/vim-hoogle'
 Plugin 'alx741/vim-stylishask'
+"Plugin 'alx741/vim-hindent'
 
 Plugin 'normenmueller/vim-scala'
 
@@ -65,8 +66,9 @@ set incsearch
 
 set wildmenu
 set wildmode=list:longest,full
-"set wildmode=longest:full,full
-"set wildmode=longest,list,full
+" http://bit.ly/2DpGoBD
+let &wildcharm = &wildchar
+cnoremap <C-j> <DOWN>
 " Backup {{{1
 set backup
 set undofile
