@@ -34,7 +34,7 @@ Plugin 'Shougo/vimproc.vim'
 "Plugin 'eagletmt/neco-ghc'
 "Plugin 'eagletmt/ghcmod-vim'
 Plugin 'Twinside/vim-hoogle'
-Plugin 'alx741/vim-stylishask'
+"Plugin 'alx741/vim-stylishask'
 "Plugin 'alx741/vim-hindent'
 
 Plugin 'normenmueller/vim-scala'
@@ -224,6 +224,8 @@ map <silent> tl :GhcModLint<CR>
 "setlocal formatprg=
 "nmap g= :Hindent<CR>
 " vim-stylish-haskell {{{2
+" haskell-vim {{{2
+"let g:haskell_classic_highlighting = 1
 " syntastic {{{2
 "map <Leader>s :SyntasticToggleMode<CR>
 "

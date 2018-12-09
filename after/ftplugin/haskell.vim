@@ -1,15 +1,18 @@
-setlocal textwidth=100
-setlocal colorcolumn=100
+" Cf. https://wiki.haskell.org/Programming_guidelines
+" Cf. https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
+setlocal textwidth=75
+setlocal colorcolumn=75
+" setlocal textwidth=100
+" setlocal colorcolumn=100
 
-setlocal tabstop=4         "A <Tab> character is 8 spaces
+setlocal tabstop=4         "A <Tab> character is 4 spaces
 setlocal expandtab         "Always uses spaces instead of tabs
-setlocal softtabstop=2     "Insert 2 or 4 spaces when tab is pressed
-setlocal shiftwidth=2      "An indent is 2 or 4 spaces
+setlocal softtabstop=4     "Insert 2 or 4 spaces when tab is pressed
+setlocal shiftwidth=4      "An indent is 2 or 4 spaces
 setlocal shiftround        "Round indent to nearest shiftwidth multiple
 
-setlocal fdm=manual
-
-"setlocal formatprg=stylish-haskell
+"setlocal fdm=manual
+setlocal formatprg=stylish-haskell
 "setlocal formatprg=hindent
 
 " ghc-mod
@@ -21,13 +24,6 @@ setlocal fdm=manual
 
 " Hindet
 "
-" https://github.com/alx741/vim-hindent/blob/master/ftplugin/haskell/hindent.vim
-" http://stackoverflow.com/questions/2001190/adding-a-command-to-vim
-" https://goo.gl/5f9Zcw
-"
-"let g:hindent_indent_size=2
-"let g:hindent_line_length=75
-
 "function! s:Hindent()
 "    exec "norm mz"
 "    if !executable("hindent")
