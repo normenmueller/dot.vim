@@ -91,16 +91,17 @@ let g:airline_theme='luna'
 "colorscheme github
 "let g:airline_theme = "github"
 
-"if has('gui_running')
-"  set guioptions=egmrL
+if has('gui_running')
+  set background=light
+  set guioptions=egmrL
   if has("gui_mac") || has("gui_macvim")
     " Use option (alt) as meta key.
     set macmeta
-    set lines=40
+    set lines=30
     set columns=80
     set guifont=Source\ Code\ Pro\ Light:h14
   endif
-"endif
+endif
 "hi clear SpellBad
 "hi SpellBad cterm=underline ctermfg=red
 "hi Comment cterm=italic
@@ -146,28 +147,28 @@ so $HOME/.vim/plugin/cmdalias.vim
 " Buffer kill {{{2
 :call CmdAlias('bd', 'BD')
 " Yank ring {{{2
-:command! Yanks YRShow
-let g:yankring_window_use_bottom=0
-let g:yankring_manage_numbered_reg = 0
-let g:yankring_clipboard_monitor = 0
-let g:yankring_paste_check_default_buffer = 0
-let g:yankring_zap_keys = ''
-let g:yankring_paste_n_bkey = ''
-let g:yankring_paste_n_akey = ''
-let g:yankring_paste_v_key = ''
-let g:yankring_replace_n_pkey = ''
-let g:yankring_replace_n_nkey = ''
-let g:yankring_paste_v_bkey = ''
-let g:yankring_paste_v_akey = ''
+":command! Yanks YRShow
+"let g:yankring_window_use_bottom=0
+"let g:yankring_manage_numbered_reg = 0
+"let g:yankring_clipboard_monitor = 0
+"let g:yankring_paste_check_default_buffer = 0
+"let g:yankring_zap_keys = ''
+"let g:yankring_paste_n_bkey = ''
+"let g:yankring_paste_n_akey = ''
+"let g:yankring_paste_v_key = ''
+"let g:yankring_replace_n_pkey = ''
+"let g:yankring_replace_n_nkey = ''
+"let g:yankring_paste_v_bkey = ''
+"let g:yankring_paste_v_akey = ''
 " fzf {{{2
 "set rtp+=/usr/local/opt/fzf
 "let g:fzf_layout = { 'up': '~20%' }
 "let g:fzf_buffers_jump = 1
 "nnoremap <C-p> :<C-u>FZF<CR>
 " vim-table-mode {{{2
-let g:table_mode_corner='+'
-let g:table_mode_corner_corner='+'
-let g:table_mode_header_fillchar='='
+"let g:table_mode_corner='+'
+"let g:table_mode_corner_corner='+'
+"let g:table_mode_header_fillchar='='
 " netrw {{{2
 " - :edit a folder to open a file browser
 " - <CR>/v/t to open in an h-split/v-split/tab
@@ -199,16 +200,14 @@ let g:NERDTreeChDirMode = 2
 au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 " ctags {{{2
 set tags=./tags,tags,../tags
-
 command! MakeCTags !ctags -R .
 command! MakeHTags !hasktags -L --ignore-close-implementation --ctags .
-
 " ghc-mod {{{2
-map <silent> tq :GhcModType<CR>
-map <silent> te :GhcModTypeClear<CR>
-map <silent> tc :GhcModCheck<CR>
-map <silent> ti :GhcModInfo<CR>
-map <silent> tl :GhcModLint<CR>
+"map <silent> tq :GhcModType<CR>
+"map <silent> te :GhcModTypeClear<CR>
+"map <silent> tc :GhcModCheck<CR>
+"map <silent> ti :GhcModInfo<CR>
+"map <silent> tl :GhcModLint<CR>
 " haskellmode-vim {{{2
 "" stack path --compiler-exe
 "au BufEnter *.hs compiler ghc
