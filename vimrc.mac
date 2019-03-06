@@ -1,5 +1,4 @@
 set nocompatible
-
 " Vundle {{{1
 filetype off
 
@@ -18,10 +17,8 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'qpkorr/vim-bufkill'
 Plugin 'scrooloose/nerdtree'
-"Plugin 'normenmueller/YankRing.vim'
 
 Plugin 'elzr/vim-json'
-
 Plugin 'tpope/vim-markdown'
 Plugin 'nelstrom/vim-markdown-folding'
 "Plugin 'vim-pandoc/vim-pandoc'
@@ -29,15 +26,14 @@ Plugin 'nelstrom/vim-markdown-folding'
 "Plugin 'godlygeek/tabular'
 "Plugin 'dhruvasagar/vim-table-mode'
 
-Plugin 'Shougo/vimproc.vim'
-
-"Plugin 'eagletmt/neco-ghc'
+"Plugin 'w0rp/ale'
+"Plugin 'Shougo/vimproc.vim'
 "Plugin 'eagletmt/ghcmod-vim'
 Plugin 'Twinside/vim-hoogle'
+Plugin 'derekwyatt/vim-scala'
+"Plugin 'eagletmt/neco-ghc'
 "Plugin 'alx741/vim-stylishask'
 "Plugin 'alx741/vim-hindent'
-
-Plugin 'normenmueller/vim-scala'
 
 Plugin 'tpope/vim-sensible'
 call vundle#end()
@@ -47,23 +43,18 @@ syntax enable
 " General {{{1
 set showcmd
 set cmdheight=2
-
 set hidden
 set encoding=utf-8
 set clipboard=unnamed
-
 set breakindent
 let &showbreak = '↳ '
 set cpo+=n
-
 set expandtab
 set tabstop=4
 set shiftwidth=2
 set softtabstop=2
-
 set hlsearch
 set incsearch
-
 set wildmenu
 set wildmode=list:longest,full
 " http://bit.ly/2DpGoBD
@@ -85,12 +76,12 @@ set spelllang=en_us,de
 set spellfile=$HOME/.vim/spell/nrm.utf-8.add
 " Status line {{{1
 let g:airline_theme='luna'
+let g:airline#extensions#ale#enabled = 1
 " Color and Font {{{1
 "set background=dark
 "colorscheme solarized
 "colorscheme github
 "let g:airline_theme = "github"
-
 if has('gui_running')
   set background=light
   set guioptions=egmrL
@@ -99,6 +90,7 @@ if has('gui_running')
     set macmeta
     set lines=30
     set columns=80
+    "set guifont=Liberation\ Mono\ 10
     set guifont=Source\ Code\ Pro\ Light:h14
   endif
 endif
@@ -247,8 +239,8 @@ command! MakeHTags !hasktags -L --ignore-close-implementation --ctags .
 "  endif
 "endif
 " necoghc {{{2
-let g:haskellmode_completion_ghc = 1
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+"let g:haskellmode_completion_ghc = 1
+"autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 " Functions {{{1
 function! RemoveTrailingSpaces() "{{{
   silent! execute '%s/\s\+$//ge'
