@@ -1,9 +1,7 @@
 " Cf. https://wiki.haskell.org/Programming_guidelines
 " Cf. https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
-setlocal textwidth=75
-setlocal colorcolumn=75
-" setlocal textwidth=100
-" setlocal colorcolumn=100
+setlocal textwidth=80
+setlocal colorcolumn=80
 
 setlocal tabstop=4         "A <Tab> character is 4 spaces
 setlocal expandtab         "Always uses spaces instead of tabs
@@ -14,16 +12,21 @@ setlocal shiftround        "Round indent to nearest shiftwidth multiple
 "setlocal fdm=manual
 setlocal formatprg=stylish-haskell
 "setlocal formatprg=hindent
+"setlocal formatprg=floskell
+
+" ale
+let b:ale_fixers = ['stylish-haskell', 'hlint']
+"let b:ale_fixers = ['stylish-haskell', 'brittany', 'hlint']
+let b:ale_set_ballons = 1
+"autocmd FileType haskell nnoremap <buffer> <leader>? :call ale#cursor#ShowCursorDetail()<cr>
 
 " ghc-mod
-"
 "map <silent> ti :GhcModTypeInsert<CR>
 "map <silent> ts :GhcModSplitFunCase<CR>
 "map <silent> tq :GhcModType<CR>
 "map <silent> te :GhcModTypeClear<CR>
 
 " Hindet
-"
 "function! s:Hindent()
 "    exec "norm mz"
 "    if !executable("hindent")
