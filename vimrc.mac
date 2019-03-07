@@ -23,17 +23,21 @@ Plugin 'tpope/vim-markdown'
 Plugin 'nelstrom/vim-markdown-folding'
 "Plugin 'vim-pandoc/vim-pandoc'
 "Plugin 'vim-pandoc/vim-pandoc-syntax'
+
 "Plugin 'godlygeek/tabular'
 "Plugin 'dhruvasagar/vim-table-mode'
 
 "Plugin 'w0rp/ale'
 "Plugin 'Shougo/vimproc.vim'
+"Plugin 'eagletmt/neco-ghc'
 "Plugin 'eagletmt/ghcmod-vim'
+Plugin 'alx741/vim-hindent'
+Plugin 'alx741/vim-stylishask'
+Plugin 'bitc/vim-hdevtools'
+"Plugin 'hdevtools/hdevtools'
+Plugin 'vim-syntastic/syntastic'
 Plugin 'Twinside/vim-hoogle'
 Plugin 'derekwyatt/vim-scala'
-"Plugin 'eagletmt/neco-ghc'
-"Plugin 'alx741/vim-stylishask'
-"Plugin 'alx741/vim-hindent'
 
 Plugin 'tpope/vim-sensible'
 call vundle#end()
@@ -193,41 +197,66 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 " ctags {{{2
 set tags=./tags,tags,../tags
 command! MakeCTags !ctags -R .
-command! MakeHTags !hasktags -L --ignore-close-implementation --ctags .
+command! MakeHTags !hasktags -L --ctags ./.lib/ ./src/
+"command! MakeHTags !hasktags -L --ctags .
+"command! MakeHTags !hasktags -L --ignore-close-implementation --ctags .
+" ale {{{2
+"let b:ale_fixers = ['stylish-haskell', 'hlint']
+"let b:ale_fixers = ['stylish-haskell', 'brittany', 'hlint']
+"let b:ale_set_ballons = 1
+"autocmd FileType haskell nnoremap <buffer> <leader>? :call ale#cursor#ShowCursorDetail()<cr>
+
 " ghc-mod {{{2
+""map <silent> ti :GhcModTypeInsert<CR>
+""map <silent> ts :GhcModSplitFunCase<CR>
+""map <silent> tq :GhcModType<CR>
+""map <silent> te :GhcModTypeClear<CR>
 "map <silent> tq :GhcModType<CR>
 "map <silent> te :GhcModTypeClear<CR>
 "map <silent> tc :GhcModCheck<CR>
 "map <silent> ti :GhcModInfo<CR>
 "map <silent> tl :GhcModLint<CR>
+
+" vim-hdevtools {{{2
+let g:hdevtools_stack = 1
+au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
+au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
+
+" syntastic {{{2
+map <Leader>s :SyntasticToggleMode<CR>
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
 " haskellmode-vim {{{2
 "" stack path --compiler-exe
 "au BufEnter *.hs compiler ghc
 "let g:ghc="/Users/nrm/.stack/programs/x86_64-osx/ghc-8.0.2/bin/ghc"
 "let g:haddock_browser="open"
 "let g:haddock_browser_callformat="%s %s"
-" vim-hindent {{{2
-""setlocal formatprg=hindent
+
+" haskell code formatter {{{2
+" vim-hindent {{{3
 "let g:hindent_on_save=0
-"let g:hindent_indent_size=3
+"let g:hindent_indent_size=4
 "let g:hindent_line_length=80
 "
+""setlocal formatprg=hindent
 "setlocal formatprg=
 "nmap g= :Hindent<CR>
-" vim-stylish-haskell {{{2
+
+" vim-stylish-haskell {{{3
+
 " haskell-vim {{{2
 "let g:haskell_classic_highlighting = 1
-" syntastic {{{2
-"map <Leader>s :SyntasticToggleMode<CR>
-"
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-"
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 0
-"let g:syntastic_check_on_open = 0
-"let g:syntastic_check_on_wq = 0
+
 " supertab {{{2
 "let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
 
