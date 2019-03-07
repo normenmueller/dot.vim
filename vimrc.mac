@@ -33,8 +33,7 @@ Plugin 'nelstrom/vim-markdown-folding'
 "Plugin 'eagletmt/ghcmod-vim'
 Plugin 'alx741/vim-hindent'
 Plugin 'alx741/vim-stylishask'
-Plugin 'bitc/vim-hdevtools'
-"Plugin 'hdevtools/hdevtools'
+"Plugin 'bitc/vim-hdevtools'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'Twinside/vim-hoogle'
 Plugin 'derekwyatt/vim-scala'
@@ -218,10 +217,10 @@ command! MakeHTags !hasktags -L --ctags ./.lib/ ./src/
 "map <silent> tl :GhcModLint<CR>
 
 " vim-hdevtools {{{2
-let g:hdevtools_stack = 1
-au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
-au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
-au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
+"let g:hdevtools_stack = 1
+"au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+"au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
+"au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
 
 " syntastic {{{2
 map <Leader>s :SyntasticToggleMode<CR>
@@ -232,7 +231,7 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
 " haskellmode-vim {{{2
