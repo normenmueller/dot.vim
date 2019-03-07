@@ -3,6 +3,8 @@
 setlocal textwidth=80
 setlocal colorcolumn=80
 
+" Note: 'tabstop' should be aligned w/ 'hdevtools' 'tabstop'.
+"   Cf.  `:help syntastic-checkers` | `syntastic-checkers-haskell` | `hdevtools`
 setlocal tabstop=4         "A <Tab> character is 4 spaces
 setlocal expandtab         "Always uses spaces instead of tabs
 setlocal softtabstop=4     "Insert 2 or 4 spaces when tab is pressed
@@ -14,19 +16,7 @@ setlocal formatprg=stylish-haskell
 "setlocal formatprg=hindent
 "setlocal formatprg=floskell
 
-" ale
-let b:ale_fixers = ['stylish-haskell', 'hlint']
-"let b:ale_fixers = ['stylish-haskell', 'brittany', 'hlint']
-let b:ale_set_ballons = 1
-"autocmd FileType haskell nnoremap <buffer> <leader>? :call ale#cursor#ShowCursorDetail()<cr>
-
-" ghc-mod
-"map <silent> ti :GhcModTypeInsert<CR>
-"map <silent> ts :GhcModSplitFunCase<CR>
-"map <silent> tq :GhcModType<CR>
-"map <silent> te :GhcModTypeClear<CR>
-
-" Hindet
+" hindet
 "function! s:Hindent()
 "    exec "norm mz"
 "    if !executable("hindent")
