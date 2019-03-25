@@ -11,10 +11,8 @@ setlocal softtabstop=4     "Insert 2 or 4 spaces when tab is pressed
 setlocal shiftwidth=4      "An indent is 2 or 4 spaces
 setlocal shiftround        "Round indent to nearest shiftwidth multiple
 
-"setlocal fdm=manual
-setlocal formatprg=stylish-haskell
+" Formatter: manual, stylish-haskell, floskell
 "setlocal formatprg=hindent
-"setlocal formatprg=floskell
 
 " hindet
 "function! s:Hindent()
