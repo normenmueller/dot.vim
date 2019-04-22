@@ -12,7 +12,9 @@ setlocal shiftwidth=4      "An indent is 2 or 4 spaces
 setlocal shiftround        "Round indent to nearest shiftwidth multiple
 
 " Formatter: manual, stylish-haskell, floskell
+"setlocal formatprg=
 "setlocal formatprg=hindent
+nmap g= :Hindent<CR>
 
 " hindet
 "function! s:Hindent()

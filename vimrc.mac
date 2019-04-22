@@ -1,13 +1,12 @@
 set nocompatible
 " Vundle {{{1
+"
 filetype off
-
 set rtp+=~/.vim/bundle/Vundle.vim
-
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 " Visual {{{2
-"Plugin 'mikewest/vimroom'
+"
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 "Plugin 'altercation/vim-colors-solarized'
@@ -22,32 +21,32 @@ Plugin 'tpope/vim-surround'
 Plugin 'qpkorr/vim-bufkill'
 " Markup {{{2
 "
-Plugin 'elzr/vim-json'
-Plugin 'pedrohdz/vim-yaml-folds'
-"Plugin 'tpope/vim-markdown'
-"Plugin 'nelstrom/vim-markdown-folding'
+"Plugin 'elzr/vim-json'
+"Plugin 'pedrohdz/vim-yaml-folds'
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
+"Plugin 'tpope/vim-markdown'
+"Plugin 'nelstrom/vim-markdown-folding'
 "Plugin 'godlygeek/tabular'
 "Plugin 'dhruvasagar/vim-table-mode'
 " Development {{{2
 "
 " General {{{3
+"
 "Plugin 'w0rp/ale'
 "Plugin 'Shougo/vimproc.vim'
 "Plugin 'eagletmt/neco-ghc'
+Plugin 'vim-syntastic/syntastic'
 " Haskell {{{3
 "
-"Plugin 'bitc/vim-hdevtools'
-Plugin 'alx741/vim-hindent'
-"Plugin 'alx741/vim-stylishask'
+Plugin 'bitc/vim-hdevtools'
 "Plugin 'Twinside/vim-hoogle'
+Plugin 'alx741/vim-hindent'
+"Plugin 'neovimhaskell/haskell-vim'
+"Plugin 'alx741/vim-stylishask'
 " Scala {{{3
 "
 Plugin 'derekwyatt/vim-scala'
-" General {{{3
-"
-Plugin 'vim-syntastic/syntastic'
 " General {{{2
 "
 Plugin 'tpope/vim-sensible'
@@ -58,34 +57,42 @@ filetype plugin indent on
 syntax enable
 " General {{{1
 "
+"set autoread "via vim-sensible
+set encoding=utf-8
+"set backspace=indent,eol,start "via vim-sensible
+"set ruler "via vim-sensible
 set showcmd
 set cmdheight=2
+"set laststatus=2 "via vim-sensible
 set hidden
-set encoding=utf-8
 set clipboard=unnamed
+set linebreak
 set breakindent
 let &showbreak = '↳ '
 set cpo+=n
+"set autoindent "via vim-sensible
 set expandtab
+"set smarttab "via vim-sensible
 set tabstop=4
 set shiftwidth=2
 set softtabstop=2
 set hlsearch
-set incsearch
-set wildmenu
+"set incsearch "via vim-sensible
+"set wildmenu "via vim-sensible
 set wildmode=list:longest,full
 " http://bit.ly/2DpGoBD
 let &wildcharm = &wildchar
 cnoremap <C-j> <DOWN>
 " Backup {{{1
 "
-set backup
-set undofile
 set noswapfile
-set undodir=~/.vim/tmp/undo/
-set backupdir=~/.vim/tmp/backup/
-set backupskip=/tmp/*,/private/tmp/*
-set writebackup
+"set directory=${HOME}/.vim/tmp/swp/
+set undofile
+set undodir=${HOME}/.vim/tmp/undo/
+set nobackup
+"set backupdir=${HOME}/.vim/tmp/backup/
+"set backupskip=/tmp/*,/private/tmp/*
+"set writebackup
 " Diff {{{1
 "
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
@@ -124,9 +131,9 @@ endif
 "hi Comment cterm=italic
 " Cursor {{{1
 " http://vim.wikia.com/wiki/Change_cursor_shape_in_different_modes
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+"let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+"let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+"let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 " Views {{{1
 "
 "" Cf. http://vim.wikia.com/wiki/Make_views_automatic
@@ -158,14 +165,15 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "nnoremap 0 g0
 "nnoremap ^ g^
 "nnoremap $ g$
+" Switching windows {{{2
+"
+"nnoremap <C-H> <C-W><C-H>
+"nnoremap <C-J> <C-W><C-J>
+"nnoremap <C-K> <C-W><C-K>
+"nnoremap <C-L> <C-W><C-L>
 " Plugin settings {{{1
 "
 so $HOME/.vim/plugin/cmdalias.vim
-" VimRoom {{{2
-"
-"let g:vimroom_guibackground = "dark"
-"let g:vimroom_ctermbackground = "none"
-"let g:vimroom_sidebar_height = 0
 " Select buffer {{{2
 "
 "let g:selBufDefaultSortOrder = "path"
@@ -198,6 +206,7 @@ so $HOME/.vim/plugin/cmdalias.vim
 "let g:fzf_buffers_jump = 1
 "nnoremap <C-p> :<C-u>FZF<CR>
 " vim-table-mode {{{2
+"
 "let g:table_mode_corner='+'
 "let g:table_mode_corner_corner='+'
 "let g:table_mode_header_fillchar='='
@@ -262,13 +271,13 @@ command! MakeHTags !hasktags -L --ctags .
 "map <silent> tl :GhcModLint<CR>
 " vim-hdevtools {{{2
 "
-"let g:hdevtools_stack = 1
-""au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
-"au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
-""au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
-"au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
-""au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
-"au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
+let g:hdevtools_stack = 1
+"au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
+"au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
+au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
+"au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
+au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
 " syntastic {{{2
 "
 map <Leader>s :SyntasticToggleMode<CR>
@@ -293,52 +302,15 @@ let g:syntastic_check_on_wq = 1
 let g:hindent_on_save = 0
 let g:hindent_indent_size = 4
 let g:hindent_line_length = 80
-setlocal formatprg=
-nmap g= :Hindent<CR>
+" formatprg is set in .vim/after/ftplugin/haskell.vim
 " vim-stylish-haskell {{{3
 "
-" haskell-vim {{{2
-"
-"let g:haskell_classic_highlighting = 1
-" supertab {{{2
-"
-"let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
-"if has("gui_running")
-"  imap <c-space> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
-"else
-"  if has("unix")
-"    inoremap <Nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
-"  endif
-"endif
-" necoghc {{{2
-"
-"let g:haskellmode_completion_ghc = 1
-"autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 " Functions {{{1
 "
 function! RemoveTrailingSpaces() "{{{
   silent! execute '%s/\s\+$//ge'
   silent! execute 'g/\v^$\n*%$/norm! dd'
 endfunction
-" OLD {{{1
-"
-" General {{{2
-""set autowrite
-"set completeopt=menuone,menu,longest
-"set fileencoding=utf-8
-"set fileencodings=utf-8
-"set lazyredraw
-"set linebreak
-"set path+=**
-"set smartindent
-"set textwidth=80
-""set timeout
-""set timeoutlen=300
-"set ttyfast
-"set undofile
-"set undolevels=5000
-"set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox,*.class,*.o
-""set completeopt+=longest
-"""set wrapscan
+autocmd BufWritePre * call RemoveTrailingSpaces()
 
 " vim:fdm=marker
