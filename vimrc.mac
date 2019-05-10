@@ -113,6 +113,10 @@ let g:airline#extensions#ale#enabled = 1
 
 "let g:airline_theme = "github"
 
+"set termguicolors
+"let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+"let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
 if has('gui_running')
   "set background=light
   "colorscheme solarized
@@ -252,6 +256,12 @@ command! MakeCTags !ctags -R .
 command! MakeHTags !hasktags -L --ctags .
 "command! MakeHTags !hasktags -L --ctags ./.lib/ ./src/
 "command! MakeHTags !hasktags -L --ignore-close-implementation --ctags .
+" open tag in vertical split
+" (to open a tag in horizontal split use <C-W>])
+" cf. http://bit.ly/305gPxX
+"nnoremap <C-]> :only<bar>:vsplit<CR>:exec("tag".expand("<cword>"))<CR>
+"nnoremap <C-]> :vsp <CR>:exec("tag ".expand("<cword>"))
+nnoremap <C-w>v <C-w>v <C-w>l
 " ale {{{2
 "
 "let b:ale_fixers = ['stylish-haskell', 'hlint']
