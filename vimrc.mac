@@ -57,32 +57,33 @@ filetype plugin indent on
 syntax enable
 " General {{{1
 "
-"set autoread "via vim-sensible
+"set autoread                   "via vim-sensible
 set encoding=utf-8
 "set backspace=indent,eol,start "via vim-sensible
-"set ruler "via vim-sensible
+"set ruler                      "via vim-sensible
 set showcmd
 set cmdheight=2
-"set laststatus=2 "via vim-sensible
+"set laststatus=2               "via vim-sensible
 set hidden
 set clipboard=unnamed
 set linebreak
 set breakindent
 let &showbreak = '↳ '
 set cpo+=n
-"set autoindent "via vim-sensible
+"set autoindent                 "via vim-sensible
 set expandtab
-"set smarttab "via vim-sensible
+"set smarttab                   "via vim-sensible
 set tabstop=4
 set shiftwidth=2
 set softtabstop=2
 set hlsearch
-"set incsearch "via vim-sensible
-"set wildmenu "via vim-sensible
+"set incsearch                  "via vim-sensible
+"set wildmenu                   "via vim-sensible
 set wildmode=list:longest,full
 " http://bit.ly/2DpGoBD
 let &wildcharm = &wildchar
 cnoremap <C-j> <DOWN>
+"set splitbelow
 " Backup {{{1
 "
 set noswapfile
@@ -101,53 +102,68 @@ set nolist
 "
 set spelllang=en_us,de
 set spellfile=$HOME/.vim/spell/nrm.utf-8.add
-" Status line {{{1
+" Color, Statusline and Font {{{1
 "
-let g:airline_theme='luna'
-let g:airline#extensions#ale#enabled = 1
-" Color and Font {{{1
-"
+if has('gui_running')
+  set guioptions=egmrL
+  let g:airline_theme='solarized dark'
+
+  if has("gui_mac") || has("gui_macvim")
+    " Use option (alt) as meta key.
+    set macmeta
+    set lines=30
+    set columns=82
+    "set guifont=Liberation\ Mono\ 10
+    set guifont=Source\ Code\ Pro\ Light:h14
+  endif
+else
+  let g:airline_theme='light'
+endif
+
 "set background=dark
 "colorscheme solarized
 "colorscheme github
 
-"let g:airline_theme = "github"
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_enable_fugitive=0
+
+" +-----------------------------------------------------------------------------+
+" | A | B |                     C                            X | Y | Z |  [...] |
+" +-----------------------------------------------------------------------------+
+"
+" A	displays the mode + additional flags like crypt/spell/paste (INSERT)
+" B	VCS information (branch, hunk summary) (master)
+" C	filename + read-only flag (~/.vim/vimrc RO)
+" X	filetype (vim)
+" Y	file encoding[fileformat] (utf-8[unix])
+" Z	current position in the file
+" [...]	additional sections (warning/errors/statistics) from external plugins (e.g. YCM, syntastic, ...)
+let g:airline_section_b="%t"
+let g:airline_section_c=""
+let g:airline_section_x=""
+let g:airline_section_y=""
 
 "set termguicolors
 "let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 "let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
-if has('gui_running')
-  "set background=light
-  "colorscheme solarized
-  set guioptions=egmrL
-  if has("gui_mac") || has("gui_macvim")
-    " Use option (alt) as meta key.
-    set macmeta
-    set lines=30
-    set columns=80
-    "set guifont=Liberation\ Mono\ 10
-    set guifont=Source\ Code\ Pro\ Light:h14
-  endif
-endif
 "hi clear SpellBad
 "hi SpellBad cterm=underline ctermfg=red
 "hi Comment cterm=italic
 " Cursor {{{1
+"
+set mouse=
+set ttymouse=
+
 " http://vim.wikia.com/wiki/Change_cursor_shape_in_different_modes
 "let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 "let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 "let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-" Views {{{1
-"
-"" Cf. http://vim.wikia.com/wiki/Make_views_automatic
-"set viewoptions-=options
-"autocmd BufWinLeave *.hs mkview
-"autocmd BufWinEnter *.hs silent loadview
-"" autocmd BufWinLeave ?* mkview
-"" autocmd BufWinEnter ?* silent loadview
-" Mappings {{{1
-"
 " Inclusive movements {{{2
 "
 "onoremap h vh
@@ -169,6 +185,23 @@ endif
 "nnoremap 0 g0
 "nnoremap ^ g^
 "nnoremap $ g$
+" Views {{{1
+"
+"" Cf. http://vim.wikia.com/wiki/Make_views_automatic
+"set viewoptions-=options
+"autocmd BufWinLeave *.hs mkview
+"autocmd BufWinEnter *.hs silent loadview
+"" autocmd BufWinLeave ?* mkview
+"" autocmd BufWinEnter ?* silent loadview
+" Folding {{{1
+" cf. https://vim.fandom.com/wiki/Folding
+"
+"augroup vimrc
+"  au BufReadPre * setlocal foldmethod=indent
+"  au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
+"augroup END
+" Windows {{{1
+"
 " Switching windows {{{2
 "
 "nnoremap <C-H> <C-W><C-H>
@@ -176,6 +209,8 @@ endif
 "nnoremap <C-K> <C-W><C-K>
 "nnoremap <C-L> <C-W><C-L>
 " Plugin settings {{{1
+"
+" Command alias {{{2
 "
 so $HOME/.vim/plugin/cmdalias.vim
 " Select buffer {{{2
@@ -256,12 +291,11 @@ command! MakeCTags !ctags -R .
 command! MakeHTags !hasktags -L --ctags .
 "command! MakeHTags !hasktags -L --ctags ./.lib/ ./src/
 "command! MakeHTags !hasktags -L --ignore-close-implementation --ctags .
-" open tag in vertical split
-" (to open a tag in horizontal split use <C-W>])
+" open tag in vertical split (to open a tag in horizontal split use <C-W>])
 " cf. http://bit.ly/305gPxX
+nnoremap <C-w>v <C-w>v <C-w>l
 "nnoremap <C-]> :only<bar>:vsplit<CR>:exec("tag".expand("<cword>"))<CR>
 "nnoremap <C-]> :vsp <CR>:exec("tag ".expand("<cword>"))
-nnoremap <C-w>v <C-w>v <C-w>l
 " ale {{{2
 "
 "let b:ale_fixers = ['stylish-haskell', 'hlint']
@@ -307,12 +341,12 @@ let g:syntastic_check_on_wq = 1
 "let g:haddock_browser_callformat="%s %s"
 " haskell code formatter {{{2
 "
+" 'formatprg' is set in .vim/after/ftplugin/haskell.vim
 " vim-hindent {{{3
 "
 let g:hindent_on_save = 0
 let g:hindent_indent_size = 4
 let g:hindent_line_length = 80
-" formatprg is set in .vim/after/ftplugin/haskell.vim
 " vim-stylish-haskell {{{3
 "
 " Functions {{{1
