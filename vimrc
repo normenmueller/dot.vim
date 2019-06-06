@@ -1,4 +1,5 @@
 " Vundle {{{1
+" =============================================================================
 "
 set nocompatible
 filetype off
@@ -9,6 +10,8 @@ Plugin 'VundleVim/Vundle.vim'
 "
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+" Git {{{2
+Plugin 'tpope/vim-fugitive'
 " File / Directory {{{2
 "
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -41,13 +44,17 @@ Plugin 'derekwyatt/vim-scala'
 Plugin 'tpope/vim-sensible'
 call vundle#end()
 " Base {{{1
+" =============================================================================
 "
+
 filetype plugin indent on
 syntax enable
+
 " General {{{1
+" =============================================================================
 "
 " http://bit.ly/2DpGoBD
-"
+
 "set autoread                   "via vim-sensible
 set encoding=utf-8
 "set backspace=indent,eol,start "via vim-sensible
@@ -76,10 +83,17 @@ cnoremap <C-j> <DOWN>
 set wildignore+=*.so,*.swp,*.zip
 "set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 "set splitbelow
+augroup qlw
+    autocmd!
+    autocmd QuickFixCmdPost [^l]* cwindow
+    autocmd QuickFixCmdPost l*    lwindow
+augroup END
+
 " Backup {{{1
+" =============================================================================
 "
 " http://bit.ly/30SBDsB
-"
+
 set swapfile
 set directory=${HOME}/.vim/tmp/swp//
 set undofile
@@ -88,47 +102,44 @@ set backup
 set writebackup
 set backupdir=${HOME}/.vim/tmp/backup//
 set backupskip=/tmp/*,/private/tmp/*
+
 " Diff {{{1
+" =============================================================================
 "
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+
 set nolist
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+
+" Convenient command to see the difference between the current buffer and
+" the file it was loaded from, thus the changes you made.
 " Revert with: ":delcommand DiffOrg".
 " Cf.
 " - $VIMRUNTIME/defaults.vim
 " - https://stackoverflow.com/questions/63104/smarter-vim-recovery
-"
+
 if !exists(":DiffOrg")
   command DiffOrg vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
     \ | wincmd p | diffthis
 endif
-" Convenient command to see the difference between the current file and the
-" backup file.
-" Revert with: ":delcommand DiffBak".
-" Cf.
-" - https://vim.fandom.com/wiki/Diff_current_buffer_and_the_original_file
-"
-if !exists(":DiffBak")
-function! s:DiffWithBackup()
-  let filetype=&ft
-  let bf=expand("%:p") . "~"
-  diffthis | exe "vnew " . bf
-  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
-  diffthis
-endfunction
-com! DiffBak call s:DiffWithBackup()
-endif
+
 " Navigation {{{1
+" =============================================================================
 "
+
 set mouse=
 set ttymouse=
+
 " Buffer switching {{{2
+" ------------------------------------------
 "
+
 nnoremap <F8> :bprevious<CR>
 nnoremap <F9> :bnext<CR>
+
 " Inclusive movements {{{2
+" ------------------------------------------
 "
+
 "onoremap h vh
 "onoremap l vl
 "onoremap b vb
@@ -141,8 +152,11 @@ nnoremap <F9> :bnext<CR>
 "onoremap g+ vg+
 "onoremap ( v(
 "onoremap ` v`
+
 " Move with visual lines {{{2
+" ------------------------------------------
 "
+
 "nnoremap j gj
 "nnoremap k gk
 "nnoremap 0 g0
@@ -150,14 +164,19 @@ nnoremap <F9> :bnext<CR>
 "nnoremap $ g$
 
 " Spelling {{{1
+" =============================================================================
 "
+
 set spelllang=en_us,de
 set spellfile=$HOME/.vim/spell/nrm.utf-8.add
 "hi clear SpellBad
 "hi SpellBad cterm=underline ctermfg=red
 "hi Comment cterm=italic
+
 " GUI (Color, Fonts, Cursor ...) {{{1
+" =============================================================================
 "
+
 if has('gui_running')
   set guioptions=egmrL
   if has("gui_mac") || has("gui_macvim")
@@ -171,8 +190,11 @@ if has('gui_running')
 else
   let g:airline_theme='light'
 endif
+
 " Airlines' tabline {{{2
+" ------------------------------------------
 "
+
 " +-----------------------------------------------------------------------------+
 " | A | B |                     C                            X | Y | Z |  [...] |
 " +-----------------------------------------------------------------------------+
@@ -195,56 +217,87 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
+
 " Cursor {{{2
+" ------------------------------------------
 "
 " http://vim.wikia.com/wiki/Change_cursor_shape_in_different_modes
 "
+
 "let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 "let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 "let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 set cursorline
+
 " Views {{{1
+" =============================================================================
 "
 " Cf. http://vim.wikia.com/wiki/Make_views_automatic
 "
+
 "set viewoptions-=options
 "autocmd BufWinLeave *.hs mkview
 "autocmd BufWinEnter *.hs silent loadview
 "" autocmd BufWinLeave ?* mkview
 "" autocmd BufWinEnter ?* silent loadview
+
 " Folding {{{1
+" =============================================================================
 "
 " cf. https://vim.fandom.com/wiki/Folding
 "
+
 "augroup vimrc
 "  au BufReadPre * setlocal foldmethod=indent
 "  au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
 "augroup END
+
 " Windows {{{1
+" =============================================================================
 "
+
 " Switching windows {{{2
+" ------------------------------------------
 "
+
 "nnoremap <C-H> <C-W><C-H>
 "nnoremap <C-J> <C-W><C-J>
 "nnoremap <C-K> <C-W><C-K>
 "nnoremap <C-L> <C-W><C-L>
+
 " Plugin settings {{{1
+" =============================================================================
 "
+
 " Command alias {{{2
+" ------------------------------------------
 "
+
 so $HOME/.vim/plugin/cmdalias.vim
+
 " Select buffer {{{2
+" ------------------------------------------
 "
+
 "let g:selBufDefaultSortOrder = "path"
 ":call CmdAlias('ls', 'SelectBuf')
+
 " Buffer explorer {{{2
+" ------------------------------------------
 "
+
 :call CmdAlias('ls', 'BufExplorer') " - or 'BufExplorerHorizontalSplit'
+
 " Buffer kill {{{2
+" ------------------------------------------
 "
+
 :call CmdAlias('bd', 'BD')
+
 " Yank ring {{{2
+" ------------------------------------------
 "
+
 ":command! Yanks YRShow
 "let g:yankring_window_use_bottom=0
 "let g:yankring_manage_numbered_reg = 0
@@ -258,19 +311,28 @@ so $HOME/.vim/plugin/cmdalias.vim
 "let g:yankring_replace_n_nkey = ''
 "let g:yankring_paste_v_bkey = ''
 "let g:yankring_paste_v_akey = ''
+
 " fzf {{{2
+" ------------------------------------------
 "
+
 "set rtp+=/usr/local/opt/fzf
 "let g:fzf_layout = { 'up': '~20%' }
 "let g:fzf_buffers_jump = 1
 "nnoremap <C-p> :<C-u>FZF<CR>
+
 " vim-table-mode {{{2
+" ------------------------------------------
 "
+
 "let g:table_mode_corner='+'
 "let g:table_mode_corner_corner='+'
 "let g:table_mode_header_fillchar='='
+
 " netrw {{{2
+" ------------------------------------------
 "
+
 " - :edit a folder to open a file browser
 " - <CR>/v/t to open in an h-split/v-split/tab
 " - check |netrw-browse-maps| for more mappings
@@ -280,34 +342,48 @@ so $HOME/.vim/plugin/cmdalias.vim
 "let g:netrw_liststyle=3     " tree view
 "let g:netrw_list_hide=netrw_gitignore#Hide()
 "let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
 " CtrlP {{{2
+" ------------------------------------------
 "
+
 ""set runtimepath^=~/.vim/bundle/ctrlp.vim
 ""let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
-\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+\ 'dir':  '\v[\/]\.(git|hg|svn|stack-work)$',
 \ 'file': '\~$\|\v\.(exe|so|dll|class)'
 \ }
+
 " NERD Tree options {{{2
+" ------------------------------------------
 " http://bit.ly/30J9vIq
 "
+
 nmap <leader>d :NERDTreeToggle<CR>
 nmap <leader>f :NERDTreeFind<CR>
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeIgnore = ['\~$']
 " NERD Commenter
-"
 "let g:NERDSpaceDelims = 1
+
 " Pandoc {{{2
+" ------------------------------------------
 "
+
 "let g:pandoc#folding#fdc=0
+
 " XML {{{2
+" ------------------------------------------
 "
+
 au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+
 " ctags {{{2
+" ------------------------------------------
 "
+
 set tags=./tags,tags,../tags
 command! MakeCTags !ctags -R .
 command! MakeHTags !hasktags -L --ctags .
@@ -318,14 +394,20 @@ command! MakeHTags !hasktags -L --ctags .
 nnoremap <C-w>v <C-w>v <C-w>l
 "nnoremap <C-]> :only<bar>:vsplit<CR>:exec("tag".expand("<cword>"))<CR>
 "nnoremap <C-]> :vsp <CR>:exec("tag ".expand("<cword>"))
+
 " ale {{{2
+" ------------------------------------------
 "
+
 "let b:ale_fixers = ['stylish-haskell', 'hlint']
 "let b:ale_fixers = ['stylish-haskell', 'brittany', 'hlint']
 "let b:ale_set_ballons = 1
 "autocmd FileType haskell nnoremap <buffer> <leader>? :call ale#cursor#ShowCursorDetail()<cr>
+
 " ghc-mod {{{2
+" ------------------------------------------
 "
+
 ""map <silent> ti :GhcModTypeInsert<CR>
 ""map <silent> ts :GhcModSplitFunCase<CR>
 ""map <silent> tq :GhcModType<CR>
@@ -335,8 +417,11 @@ nnoremap <C-w>v <C-w>v <C-w>l
 "map <silent> tc :GhcModCheck<CR>
 "map <silent> ti :GhcModInfo<CR>
 "map <silent> tl :GhcModLint<CR>
+
 " vim-hdevtools {{{2
+" ------------------------------------------
 "
+
 let g:hdevtools_stack = 1
 "au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
 "au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
@@ -344,8 +429,11 @@ let g:hdevtools_stack = 1
 au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
 au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
 au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
+
 " syntastic {{{2
+" ------------------------------------------
 "
+
 map <Leader>s :SyntasticToggleMode<CR>
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -354,26 +442,36 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
+
 " haskellmode-vim {{{2
+" ------------------------------------------
 "
+
 " stack path --compiler-exe
 "
 "au BufEnter *.hs compiler ghc
 "let g:ghc="/Users/nrm/.stack/programs/x86_64-osx/ghc-8.0.2/bin/ghc"
 "let g:haddock_browser="open"
 "let g:haddock_browser_callformat="%s %s"
+
 " haskell code formatter {{{2
+" ------------------------------------------
 "
+
 " 'formatprg' is set in .vim/after/ftplugin/haskell.vim
-"
+
 " vim-hindent {{{3
 "
+
 let g:hindent_on_save = 0
 let g:hindent_indent_size = 4
 let g:hindent_line_length = 80
+
 " vim-stylish-haskell {{{3
 "
+
 " Functions {{{1
+" =============================================================================
 "
 function! RemoveTrailingSpaces() "{{{
   silent! execute '%s/\s\+$//ge'
