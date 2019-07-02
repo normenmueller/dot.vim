@@ -8,41 +8,62 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 " Visual {{{2
 "
+
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+
 " Git {{{2
+"
+
 Plugin 'tpope/vim-fugitive'
+
 " File / Directory {{{2
 "
+
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
+
 " Buffer {{{2
 "
+
 Plugin 'tpope/vim-surround'
 Plugin 'qpkorr/vim-bufkill'
+
 " Markup {{{2
 "
+
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
+
 " Development {{{2
 "
+
 " General {{{3
 "
+
 Plugin 'vim-syntastic/syntastic'
+
 " Haskell {{{3
 "
-Plugin 'bitc/vim-hdevtools'
+
+"Plugin 'bitc/vim-hdevtools'
 "Plugin 'Twinside/vim-hoogle'
-Plugin 'alx741/vim-hindent'
-"Plugin 'neovimhaskell/haskell-vim'
-"Plugin 'alx741/vim-stylishask'
+"Plugin 'alx741/vim-hindent'
+""Plugin 'alx741/vim-stylishask'
+""Plugin 'neovimhaskell/haskell-vim'
+
 " Scala {{{3
 "
+
 Plugin 'derekwyatt/vim-scala'
+
 " General {{{2
 "
+
 Plugin 'tpope/vim-sensible'
+
 call vundle#end()
+
 " Base {{{1
 " =============================================================================
 "
@@ -53,8 +74,9 @@ syntax enable
 " General {{{1
 " =============================================================================
 "
-" http://bit.ly/2DpGoBD
 
+" https://andrew.stwrt.ca/posts/project-specific-vimrc/
+set exrc
 "set autoread                   "via vim-sensible
 set encoding=utf-8
 "set backspace=indent,eol,start "via vim-sensible
@@ -79,6 +101,7 @@ set hlsearch
 "set wildmenu                   "via vim-sensible
 set wildmode=list:longest,full
 let &wildcharm = &wildchar
+" http://bit.ly/2DpGoBD
 cnoremap <C-j> <DOWN>
 set wildignore+=*.so,*.swp,*.zip
 "set wildignore+=*/tmp/*,*.so,*.swp,*.zip
@@ -169,9 +192,14 @@ nnoremap <F9> :bnext<CR>
 
 set spelllang=en_us,de
 set spellfile=$HOME/.vim/spell/nrm.utf-8.add
+
 "hi clear SpellBad
 "hi SpellBad cterm=underline ctermfg=red
 "hi Comment cterm=italic
+
+autocmd FileType markdown setlocal spell
+autocmd FileType pandoc setlocal spell
+autocmd FileType gitcommit setlocal spell
 
 " GUI (Color, Fonts, Cursor ...) {{{1
 " =============================================================================
@@ -183,12 +211,12 @@ if has('gui_running')
     " Use option (alt) as meta key.
     set macmeta
     set lines=30
-    set columns=85
+    set columns=75
     set guifont=SF\ Mono\ Light:h14
     "set guifont=Source\ Code\ Pro\ Light:h14
   endif
-else
-  let g:airline_theme='light'
+"else
+"  let g:airline_theme='light'
 endif
 
 " Airlines' tabline {{{2
@@ -227,6 +255,7 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 "let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 "let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 "let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
 set cursorline
 
 " Views {{{1
@@ -236,6 +265,7 @@ set cursorline
 "
 
 "set viewoptions-=options
+
 "autocmd BufWinLeave *.hs mkview
 "autocmd BufWinEnter *.hs silent loadview
 "" autocmd BufWinLeave ?* mkview
@@ -363,8 +393,10 @@ let g:ctrlp_custom_ignore = {
 
 nmap <leader>d :NERDTreeToggle<CR>
 nmap <leader>f :NERDTreeFind<CR>
+
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeIgnore = ['\~$']
+
 " NERD Commenter
 "let g:NERDSpaceDelims = 1
 
@@ -385,15 +417,14 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 "
 
 set tags=./tags,tags,../tags
+
 command! MakeCTags !ctags -R .
 command! MakeHTags !hasktags -L --ctags .
-"command! MakeHTags !hasktags -L --ctags ./.lib/ ./src/
-"command! MakeHTags !hasktags -L --ignore-close-implementation --ctags .
-" open tag in vertical split (to open a tag in horizontal split use <C-W>])
+
+" Open tag in vertical split
+" To open a tag in horizontal split use <C-W>]
 " cf. http://bit.ly/305gPxX
 nnoremap <C-w>v <C-w>v <C-w>l
-"nnoremap <C-]> :only<bar>:vsplit<CR>:exec("tag".expand("<cword>"))<CR>
-"nnoremap <C-]> :vsp <CR>:exec("tag ".expand("<cword>"))
 
 " ale {{{2
 " ------------------------------------------
@@ -402,6 +433,7 @@ nnoremap <C-w>v <C-w>v <C-w>l
 "let b:ale_fixers = ['stylish-haskell', 'hlint']
 "let b:ale_fixers = ['stylish-haskell', 'brittany', 'hlint']
 "let b:ale_set_ballons = 1
+
 "autocmd FileType haskell nnoremap <buffer> <leader>? :call ale#cursor#ShowCursorDetail()<cr>
 
 " ghc-mod {{{2
@@ -422,13 +454,32 @@ nnoremap <C-w>v <C-w>v <C-w>l
 " ------------------------------------------
 "
 
-let g:hdevtools_stack = 1
-"au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
-"au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
-"au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
-au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
-au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
-au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
+"let g:hdevtools_stack = 1
+
+"au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
+"au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
+"au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
+""au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+""au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
+""au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
+
+" LanguageClient-neovim {{{2
+" ------------------------------------------
+"
+" Note: `hie` and `hie-wrapper`, respectively, must be installed.
+
+set runtimepath+=~/Applications/LanguageClient-neovim
+let g:LanguageClient_serverCommands = { 'haskell': ['hie-wrapper'] }
+let g:LanguageClient_rootMarkers = ['*.cabal', 'stack.yaml']
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
+map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
+map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
+map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
+map <Leader>lb :call LanguageClient#textDocument_references()<CR>
+map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
+map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
 
 " syntastic {{{2
 " ------------------------------------------
@@ -463,9 +514,9 @@ let g:syntastic_check_on_wq = 1
 " vim-hindent {{{3
 "
 
-let g:hindent_on_save = 0
-let g:hindent_indent_size = 4
-let g:hindent_line_length = 80
+"let g:hindent_on_save = 0
+"let g:hindent_indent_size = 4
+"let g:hindent_line_length = 80
 
 " vim-stylish-haskell {{{3
 "
@@ -478,5 +529,12 @@ function! RemoveTrailingSpaces() "{{{
   silent! execute 'g/\v^$\n*%$/norm! dd'
 endfunction
 autocmd BufWritePre * call RemoveTrailingSpaces()
+
+" Miscellaneous {{{1
+" =============================================================================
+"
+
+" https://andrew.stwrt.ca/posts/project-specific-vimrc/
+set secure
 
 " vim:fdm=marker
