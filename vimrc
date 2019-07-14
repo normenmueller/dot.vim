@@ -1,11 +1,12 @@
 " Vundle {{{1
-" =============================================================================
+" ===============================================================
 "
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
+
 " Visual {{{2
 "
 
@@ -15,7 +16,7 @@ Plugin 'vim-airline/vim-airline-themes'
 " Git {{{2
 "
 
-Plugin 'tpope/vim-fugitive'
+"Plugin 'tpope/vim-fugitive'
 
 " File / Directory {{{2
 "
@@ -32,8 +33,8 @@ Plugin 'qpkorr/vim-bufkill'
 " Markup {{{2
 "
 
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
+"Plugin 'vim-pandoc/vim-pandoc'
+"Plugin 'vim-pandoc/vim-pandoc-syntax'
 
 " Development {{{2
 "
@@ -46,11 +47,11 @@ Plugin 'vim-syntastic/syntastic'
 " Haskell {{{3
 "
 
-"Plugin 'bitc/vim-hdevtools'
+Plugin 'bitc/vim-hdevtools'
 "Plugin 'Twinside/vim-hoogle'
-"Plugin 'alx741/vim-hindent'
-""Plugin 'alx741/vim-stylishask'
-""Plugin 'neovimhaskell/haskell-vim'
+Plugin 'alx741/vim-hindent'
+Plugin 'alx741/vim-stylishask'
+"Plugin 'neovimhaskell/haskell-vim'
 
 " Scala {{{3
 "
@@ -65,39 +66,51 @@ Plugin 'tpope/vim-sensible'
 call vundle#end()
 
 " Base {{{1
-" =============================================================================
+" ===============================================================
 "
 
 filetype plugin indent on
 syntax enable
 
 " General {{{1
-" =============================================================================
+" ===============================================================
 "
 
+" Project specific .vimrc files.
 " https://andrew.stwrt.ca/posts/project-specific-vimrc/
 set exrc
+
 "set autoread                   "via vim-sensible
+
 set encoding=utf-8
+
 "set backspace=indent,eol,start "via vim-sensible
+
 "set ruler                      "via vim-sensible
+
 set showcmd
 set cmdheight=2
 "set laststatus=2               "via vim-sensible
+
 set hidden
+
 set clipboard=unnamed
+
 set linebreak
 set breakindent
 let &showbreak = '↳ '
 set cpo+=n
+
 "set autoindent                 "via vim-sensible
 set expandtab
 "set smarttab                   "via vim-sensible
 set tabstop=4
 set shiftwidth=2
 set softtabstop=2
+
 set hlsearch
 "set incsearch                  "via vim-sensible
+
 "set wildmenu                   "via vim-sensible
 set wildmode=list:longest,full
 let &wildcharm = &wildchar
@@ -105,6 +118,7 @@ let &wildcharm = &wildchar
 cnoremap <C-j> <DOWN>
 set wildignore+=*.so,*.swp,*.zip
 "set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+
 "set splitbelow
 augroup qlw
     autocmd!
@@ -113,29 +127,29 @@ augroup qlw
 augroup END
 
 " Backup {{{1
-" =============================================================================
+" ===============================================================
 "
 " http://bit.ly/30SBDsB
 
 set swapfile
 set directory=${HOME}/.vim/tmp/swp//
+
 set undofile
 set undodir=${HOME}/.vim/tmp/undo//
+
 set backup
 set writebackup
 set backupdir=${HOME}/.vim/tmp/backup//
 set backupskip=/tmp/*,/private/tmp/*
 
 " Diff {{{1
-" =============================================================================
+" ===============================================================
 "
 
 set nolist
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
-" Convenient command to see the difference between the current buffer and
-" the file it was loaded from, thus the changes you made.
-" Revert with: ":delcommand DiffOrg".
+" Convenient command to see the difference between the current buffer and the file it was loaded from, thus the changes you made.  Revert with: ":delcommand DiffOrg".
 " Cf.
 " - $VIMRUNTIME/defaults.vim
 " - https://stackoverflow.com/questions/63104/smarter-vim-recovery
@@ -146,7 +160,7 @@ if !exists(":DiffOrg")
 endif
 
 " Navigation {{{1
-" =============================================================================
+" ===============================================================
 "
 
 set mouse=
@@ -187,7 +201,7 @@ nnoremap <F9> :bnext<CR>
 "nnoremap $ g$
 
 " Spelling {{{1
-" =============================================================================
+" ===============================================================
 "
 
 set spelllang=en_us,de
@@ -202,7 +216,7 @@ autocmd FileType pandoc setlocal spell
 autocmd FileType gitcommit setlocal spell
 
 " GUI (Color, Fonts, Cursor ...) {{{1
-" =============================================================================
+" ===============================================================
 "
 
 if has('gui_running')
@@ -212,11 +226,12 @@ if has('gui_running')
     set macmeta
     set lines=30
     set columns=75
-    set guifont=SF\ Mono\ Light:h14
+    set guifont=SF\ Mono\ Light:h12
     "set guifont=Source\ Code\ Pro\ Light:h14
   endif
-"else
+else
 "  let g:airline_theme='light'
+  colorscheme habiLight
 endif
 
 " Airlines' tabline {{{2
@@ -256,10 +271,10 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 "let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 "let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-set cursorline
+"set cursorline
 
 " Views {{{1
-" =============================================================================
+" ===============================================================
 "
 " Cf. http://vim.wikia.com/wiki/Make_views_automatic
 "
@@ -272,7 +287,7 @@ set cursorline
 "" autocmd BufWinEnter ?* silent loadview
 
 " Folding {{{1
-" =============================================================================
+" ===============================================================
 "
 " cf. https://vim.fandom.com/wiki/Folding
 "
@@ -283,7 +298,7 @@ set cursorline
 "augroup END
 
 " Windows {{{1
-" =============================================================================
+" ===============================================================
 "
 
 " Switching windows {{{2
@@ -296,7 +311,7 @@ set cursorline
 "nnoremap <C-L> <C-W><C-L>
 
 " Plugin settings {{{1
-" =============================================================================
+" ===============================================================
 "
 
 " Command alias {{{2
@@ -454,32 +469,32 @@ nnoremap <C-w>v <C-w>v <C-w>l
 " ------------------------------------------
 "
 
-"let g:hdevtools_stack = 1
+let g:hdevtools_stack = 1
 
-"au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
-"au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
-"au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
-""au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
-""au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
-""au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
+au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
+au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
+"au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+"au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
+"au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
 
 " LanguageClient-neovim {{{2
 " ------------------------------------------
 "
 " Note: `hie` and `hie-wrapper`, respectively, must be installed.
 
-set runtimepath+=~/Applications/LanguageClient-neovim
-let g:LanguageClient_serverCommands = { 'haskell': ['hie-wrapper'] }
-let g:LanguageClient_rootMarkers = ['*.cabal', 'stack.yaml']
+"set runtimepath+=~/Applications/LanguageClient-neovim
+"let g:LanguageClient_serverCommands = { 'haskell': ['hie-wrapper'] }
+"let g:LanguageClient_rootMarkers = ['*.cabal', 'stack.yaml']
 
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
-map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
-map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
-map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
-map <Leader>lb :call LanguageClient#textDocument_references()<CR>
-map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
-map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
+"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+"map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
+"map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
+"map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
+"map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
+"map <Leader>lb :call LanguageClient#textDocument_references()<CR>
+"map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
+"map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
 
 " syntastic {{{2
 " ------------------------------------------
@@ -514,9 +529,9 @@ let g:syntastic_check_on_wq = 1
 " vim-hindent {{{3
 "
 
-"let g:hindent_on_save = 0
-"let g:hindent_indent_size = 4
-"let g:hindent_line_length = 80
+let g:hindent_on_save = 0
+let g:hindent_indent_size = 4
+let g:hindent_line_length = 80
 
 " vim-stylish-haskell {{{3
 "
