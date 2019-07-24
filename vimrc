@@ -33,8 +33,10 @@ Plugin 'qpkorr/vim-bufkill'
 " Markup {{{2
 "
 
-"Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'vim-pandoc/vim-pandoc'
 "Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 
 " Development {{{2
 "
@@ -48,9 +50,11 @@ Plugin 'vim-syntastic/syntastic'
 "
 
 Plugin 'bitc/vim-hdevtools'
-"Plugin 'Twinside/vim-hoogle'
+Plugin 'Twinside/vim-hoogle'
+Plugin 'meck/vim-brittany'
 Plugin 'alx741/vim-hindent'
 Plugin 'alx741/vim-stylishask'
+"Plugin 'dag/vim2hs'
 "Plugin 'neovimhaskell/haskell-vim'
 
 " Scala {{{3
@@ -218,21 +222,21 @@ autocmd FileType gitcommit setlocal spell
 " GUI (Color, Fonts, Cursor ...) {{{1
 " ===============================================================
 "
+colorscheme default
 
-if has('gui_running')
-  set guioptions=egmrL
-  if has("gui_mac") || has("gui_macvim")
-    " Use option (alt) as meta key.
-    set macmeta
-    set lines=30
-    set columns=75
-    set guifont=SF\ Mono\ Light:h12
-    "set guifont=Source\ Code\ Pro\ Light:h14
-  endif
-else
-"  let g:airline_theme='light'
-  colorscheme habiLight
-endif
+"if has('gui_running')
+"  set guioptions=egmrL
+"  if has("gui_mac") || has("gui_macvim")
+"    " Use option (alt) as meta key.
+"    set macmeta
+"    set lines=30
+"    set columns=75
+"    set guifont=SF\ Mono\ Light:h12
+"    "set guifont=Source\ Code\ Pro\ Light:h14
+"  endif
+"else
+"  "let g:airline_theme='light'
+"endif
 
 " Airlines' tabline {{{2
 " ------------------------------------------
@@ -520,21 +524,29 @@ let g:syntastic_check_on_wq = 1
 "let g:haddock_browser="open"
 "let g:haddock_browser_callformat="%s %s"
 
-" haskell code formatter {{{2
+" Haskell code formatter {{{2
 " ------------------------------------------
 "
 
 " 'formatprg' is set in .vim/after/ftplugin/haskell.vim
 
+" vim-brittany {{{3
+"
+
+let g:brittany_on_save = 0
+
 " vim-hindent {{{3
 "
 
 let g:hindent_on_save = 0
+
 let g:hindent_indent_size = 4
 let g:hindent_line_length = 80
 
 " vim-stylish-haskell {{{3
 "
+
+let g:stylishask_on_save = 0
 
 " Functions {{{1
 " =============================================================================

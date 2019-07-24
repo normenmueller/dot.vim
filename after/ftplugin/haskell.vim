@@ -14,7 +14,8 @@ setlocal shiftround        "Round indent to nearest shiftwidth multiple
 " Formatter: manual, stylish-haskell, floskell
 "setlocal formatprg=
 "setlocal formatprg=hindent
-nmap g= :Hindent<CR>
+"nmap g= :Hindent<CR>
+nmap g= :Brittany<CR>
 
 " hindet
 "function! s:Hindent()
