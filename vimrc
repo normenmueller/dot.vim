@@ -62,6 +62,11 @@ Plugin 'alx741/vim-stylishask'
 
 Plugin 'derekwyatt/vim-scala'
 
+" Window {{{2
+"
+
+"Plugin 'wesQ3/vim-windowswap'
+
 " General {{{2
 "
 
