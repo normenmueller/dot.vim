@@ -34,9 +34,9 @@ Plugin 'qpkorr/vim-bufkill'
 "
 
 Plugin 'vim-pandoc/vim-pandoc'
-"Plugin 'vim-pandoc/vim-pandoc-syntax'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
+Plugin 'vim-pandoc/vim-pandoc-syntax'
+"Plugin 'godlygeek/tabular'
+"Plugin 'plasticboy/vim-markdown'
 
 " Development {{{2
 "
@@ -44,18 +44,22 @@ Plugin 'plasticboy/vim-markdown'
 " General {{{3
 "
 
+" Syntax checking
 Plugin 'vim-syntastic/syntastic'
 
 " Haskell {{{3
 "
 
+" Type checking, Type information
 Plugin 'bitc/vim-hdevtools'
+"Plugin 'dag/vim2hs'
+"Plugin 'neovimhaskell/haskell-vim'
+" Documentation
 Plugin 'Twinside/vim-hoogle'
+" Formatting
 Plugin 'meck/vim-brittany'
 Plugin 'alx741/vim-hindent'
 Plugin 'alx741/vim-stylishask'
-"Plugin 'dag/vim2hs'
-"Plugin 'neovimhaskell/haskell-vim'
 
 " Scala {{{3
 "
@@ -168,6 +172,16 @@ if !exists(":DiffOrg")
     \ | wincmd p | diffthis
 endif
 
+" https://stackoverflow.com/questions/749297/can-i-see-changes-before-i-save-my-file-in-vim
+function! s:DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+com! DiffSaved call s:DiffWithSaved()
+
 " Navigation {{{1
 " ===============================================================
 "
@@ -229,19 +243,19 @@ autocmd FileType gitcommit setlocal spell
 "
 colorscheme default
 
-"if has('gui_running')
-"  set guioptions=egmrL
-"  if has("gui_mac") || has("gui_macvim")
-"    " Use option (alt) as meta key.
-"    set macmeta
-"    set lines=30
-"    set columns=75
-"    set guifont=SF\ Mono\ Light:h12
-"    "set guifont=Source\ Code\ Pro\ Light:h14
-"  endif
-"else
-"  "let g:airline_theme='light'
-"endif
+if has('gui_running')
+  "set guioptions=egmrL
+  if has("gui_mac") || has("gui_macvim")
+    " Use option (alt) as meta key.
+    set macmeta
+    set lines=30
+    set columns=85
+    set guifont=Source\ Code\ Pro:h16
+    "set guifont=SF\ Mono\ Light:h12
+  endif
+else
+   "let g:airline_theme='light'
+endif
 
 " Airlines' tabline {{{2
 " ------------------------------------------
@@ -258,7 +272,8 @@ colorscheme default
 " Y	file encoding[fileformat] (utf-8[unix])
 " Z	current position in the file
 " [...]	additional sections (warning/errors/statistics) from external plugins (e.g. YCM, syntastic, ...)
-let g:airline_section_b="%t"
+let g:airline_section_b=""
+"let g:airline_section_b="%t"
 let g:airline_section_c=""
 let g:airline_section_x=""
 let g:airline_section_y=""
@@ -385,17 +400,26 @@ so $HOME/.vim/plugin/cmdalias.vim
 
 " netrw {{{2
 " ------------------------------------------
-"
+" https://shapeshed.com/vim-netrw/
 
 " - :edit a folder to open a file browser
 " - <CR>/v/t to open in an h-split/v-split/tab
 " - check |netrw-browse-maps| for more mappings
-"let g:netrw_banner=0        " disable annoying banner
-"let g:netrw_browse_split=4  " open in prior window
-"let g:netrw_altv=1          " open splits to the right
-"let g:netrw_liststyle=3     " tree view
-"let g:netrw_list_hide=netrw_gitignore#Hide()
-"let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+"let g:netrw_banner=0
+"let g:netrw_liststyle=3
+let g:netrw_altv=1
+let g:netrw_winsize = 25
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_browse_split = 0
+"" open files from netrw in a previous window, unless we're opening the current dir
+"" https://stackoverflow.com/questions/40764442/opening-a-file-from-netrw-in-current-window
+"if argv(0) ==# '.'
+"    let g:netrw_browse_split = 0
+"else
+"    let g:netrw_browse_split = 4
+"endif
+nmap <leader>` :Explore<CR>
 
 " CtrlP {{{2
 " ------------------------------------------
@@ -417,12 +441,13 @@ let g:ctrlp_custom_ignore = {
 
 nmap <leader>d :NERDTreeToggle<CR>
 nmap <leader>f :NERDTreeFind<CR>
-
+"
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeIgnore = ['\~$']
+let g:NERDTreeAutoDeleteBuffer=1
 
 " NERD Commenter
-"let g:NERDSpaceDelims = 1
+let g:NERDSpaceDelims = 1
 
 " Pandoc {{{2
 " ------------------------------------------
@@ -528,30 +553,6 @@ let g:syntastic_check_on_wq = 1
 "let g:ghc="/Users/nrm/.stack/programs/x86_64-osx/ghc-8.0.2/bin/ghc"
 "let g:haddock_browser="open"
 "let g:haddock_browser_callformat="%s %s"
-
-" Haskell code formatter {{{2
-" ------------------------------------------
-"
-
-" 'formatprg' is set in .vim/after/ftplugin/haskell.vim
-
-" vim-brittany {{{3
-"
-
-let g:brittany_on_save = 0
-
-" vim-hindent {{{3
-"
-
-let g:hindent_on_save = 0
-
-let g:hindent_indent_size = 4
-let g:hindent_line_length = 80
-
-" vim-stylish-haskell {{{3
-"
-
-let g:stylishask_on_save = 0
 
 " Functions {{{1
 " =============================================================================
