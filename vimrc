@@ -52,8 +52,6 @@ Plugin 'vim-syntastic/syntastic'
 
 " Type checking, Type information
 Plugin 'bitc/vim-hdevtools'
-"Plugin 'dag/vim2hs'
-"Plugin 'neovimhaskell/haskell-vim'
 " Documentation
 Plugin 'Twinside/vim-hoogle'
 " Formatting
@@ -118,8 +116,8 @@ set cpo+=n
 set expandtab
 "set smarttab                   "via vim-sensible
 set tabstop=4
-set shiftwidth=2
-set softtabstop=2
+set shiftwidth=4
+set softtabstop=4
 
 set hlsearch
 "set incsearch                  "via vim-sensible
@@ -475,61 +473,6 @@ command! MakeHTags !hasktags -L --ctags .
 " cf. http://bit.ly/305gPxX
 nnoremap <C-w>v <C-w>v <C-w>l
 
-" ale {{{2
-" ------------------------------------------
-"
-
-"let b:ale_fixers = ['stylish-haskell', 'hlint']
-"let b:ale_fixers = ['stylish-haskell', 'brittany', 'hlint']
-"let b:ale_set_ballons = 1
-
-"autocmd FileType haskell nnoremap <buffer> <leader>? :call ale#cursor#ShowCursorDetail()<cr>
-
-" ghc-mod {{{2
-" ------------------------------------------
-"
-
-""map <silent> ti :GhcModTypeInsert<CR>
-""map <silent> ts :GhcModSplitFunCase<CR>
-""map <silent> tq :GhcModType<CR>
-""map <silent> te :GhcModTypeClear<CR>
-"map <silent> tq :GhcModType<CR>
-"map <silent> te :GhcModTypeClear<CR>
-"map <silent> tc :GhcModCheck<CR>
-"map <silent> ti :GhcModInfo<CR>
-"map <silent> tl :GhcModLint<CR>
-
-" vim-hdevtools {{{2
-" ------------------------------------------
-"
-
-"let g:hdevtools_stack = 1
-"
-"au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
-"au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
-"au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
-""au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
-""au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
-""au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
-
-" LanguageClient-neovim {{{2
-" ------------------------------------------
-"
-" Note: `hie` and `hie-wrapper`, respectively, must be installed.
-
-"set runtimepath+=~/Applications/LanguageClient-neovim
-"let g:LanguageClient_serverCommands = { 'haskell': ['hie-wrapper'] }
-"let g:LanguageClient_rootMarkers = ['*.cabal', 'stack.yaml']
-
-"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-"map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
-"map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
-"map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
-"map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
-"map <Leader>lb :call LanguageClient#textDocument_references()<CR>
-"map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
-"map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
-
 " syntastic {{{2
 " ------------------------------------------
 "
@@ -542,17 +485,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
-
-" haskellmode-vim {{{2
-" ------------------------------------------
-"
-
-" stack path --compiler-exe
-"
-"au BufEnter *.hs compiler ghc
-"let g:ghc="/Users/nrm/.stack/programs/x86_64-osx/ghc-8.0.2/bin/ghc"
-"let g:haddock_browser="open"
-"let g:haddock_browser_callformat="%s %s"
 
 " Functions {{{1
 " =============================================================================
