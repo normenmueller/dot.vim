@@ -250,7 +250,7 @@ if has('gui_running')
     set macmeta
     set lines=30
     set columns=85
-    set guifont=Source\ Code\ Pro:h16
+    set guifont=Source\ Code\ Pro:h12
     "set guifont=SF\ Mono\ Light:h12
   endif
 else
@@ -503,14 +503,14 @@ nnoremap <C-w>v <C-w>v <C-w>l
 " ------------------------------------------
 "
 
-let g:hdevtools_stack = 1
-
-au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
-au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
-au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
-"au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
-"au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
-"au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
+"let g:hdevtools_stack = 1
+"
+"au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
+"au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
+"au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
+""au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+""au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
+""au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
 
 " LanguageClient-neovim {{{2
 " ------------------------------------------
