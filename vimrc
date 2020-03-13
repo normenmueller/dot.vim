@@ -486,6 +486,17 @@ let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 
+" hdevtools {{{2
+" ------------------------------------------
+"
+
+au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
+au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
+"au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+"au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
+"au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
+
 " Functions {{{1
 " =============================================================================
 "
