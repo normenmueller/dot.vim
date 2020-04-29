@@ -37,6 +37,7 @@ Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 "Plugin 'godlygeek/tabular'
 "Plugin 'plasticboy/vim-markdown'
+Plugin 'neo4j-contrib/cypher-vim-syntax'
 
 " Development {{{2
 "
@@ -63,6 +64,11 @@ Plugin 'alx741/vim-stylishask'
 "
 
 Plugin 'derekwyatt/vim-scala'
+
+" XPath {{{3
+"
+
+"Plugin 'actionshrimp/vim-xpath'
 
 " Window {{{2
 "
@@ -121,6 +127,7 @@ set softtabstop=4
 
 set hlsearch
 "set incsearch                  "via vim-sensible
+set nowrapscan
 
 "set wildmenu                   "via vim-sensible
 set wildmode=list:longest,full
@@ -221,21 +228,6 @@ nnoremap <F9> :bnext<CR>
 "nnoremap ^ g^
 "nnoremap $ g$
 
-" Spelling {{{1
-" ===============================================================
-"
-
-set spelllang=en_us,de
-set spellfile=$HOME/.vim/spell/nrm.utf-8.add
-
-"hi clear SpellBad
-"hi SpellBad cterm=underline ctermfg=red
-"hi Comment cterm=italic
-
-autocmd FileType markdown setlocal spell
-autocmd FileType pandoc setlocal spell
-autocmd FileType gitcommit setlocal spell
-
 " GUI (Color, Fonts, Cursor ...) {{{1
 " ===============================================================
 "
@@ -254,6 +246,23 @@ if has('gui_running')
 else
    "let g:airline_theme='light'
 endif
+
+" Spelling {{{1
+" ===============================================================
+"
+
+set spelllang=en_us,de
+set spellfile=$HOME/.vim/spell/nrm.utf-8.add
+
+hi clear SpellBad
+hi SpellBad cterm=underline ctermfg=red
+" Set style for gVim
+hi SpellBad gui=undercurl
+hi Comment cterm=italic
+
+autocmd FileType markdown setlocal spell
+autocmd FileType pandoc setlocal spell
+autocmd FileType gitcommit setlocal spell
 
 " Airlines' tabline {{{2
 " ------------------------------------------
