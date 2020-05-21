@@ -29,6 +29,7 @@ Plugin 'scrooloose/nerdtree'
 
 Plugin 'tpope/vim-surround'
 Plugin 'qpkorr/vim-bufkill'
+Plugin 'jlanzarotta/bufexplorer'
 
 " Markup {{{2
 "
@@ -128,6 +129,9 @@ set softtabstop=4
 set hlsearch
 "set incsearch                  "via vim-sensible
 set nowrapscan
+" `//` Search for visually selected text
+" cf. https://vim.fandom.com/wiki/Search_for_visually_selected_text
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 "set wildmenu                   "via vim-sensible
 set wildmode=list:longest,full
@@ -487,13 +491,15 @@ nnoremap <C-w>v <C-w>v <C-w>l
 "
 
 map <Leader>s :SyntasticToggleMode<CR>
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
 
 " hdevtools {{{2
 " ------------------------------------------
@@ -509,11 +515,11 @@ au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
 " Functions {{{1
 " =============================================================================
 "
-function! RemoveTrailingSpaces() "{{{
-  silent! execute '%s/\s\+$//ge'
-  silent! execute 'g/\v^$\n*%$/norm! dd'
-endfunction
-autocmd BufWritePre * call RemoveTrailingSpaces()
+"function! RemoveTrailingSpaces() "{{{
+"  silent! execute '%s/\s\+$//ge'
+"  silent! execute 'g/\v^$\n*%$/norm! dd'
+"endfunction
+"autocmd BufWritePre * call RemoveTrailingSpaces()
 
 " Miscellaneous {{{1
 " =============================================================================
