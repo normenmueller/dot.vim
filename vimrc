@@ -1,6 +1,7 @@
 " Vundle {{{1
 " ===============================================================
 "
+
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -16,7 +17,7 @@ Plugin 'vim-airline/vim-airline-themes'
 " Git {{{2
 "
 
-"Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 
 " File / Directory {{{2
 "
@@ -46,17 +47,15 @@ Plugin 'neo4j-contrib/cypher-vim-syntax'
 " General {{{3
 "
 
-" Syntax checking
+Plugin 'prabirshrestha/vim-lsp'
+"Plugin 'mattn/vim-lsp-settings'
 Plugin 'vim-syntastic/syntastic'
 
 " Haskell {{{3
 "
 
-" Type checking, Type information
-Plugin 'bitc/vim-hdevtools'
-" Documentation
 Plugin 'Twinside/vim-hoogle'
-" Formatting
+"Plugin 'sdiehl/vim-ormolu'
 Plugin 'meck/vim-brittany'
 Plugin 'alx741/vim-hindent'
 Plugin 'alx741/vim-stylishask'
@@ -177,17 +176,17 @@ set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 " - https://stackoverflow.com/questions/63104/smarter-vim-recovery
 
 if !exists(":DiffOrg")
-  command DiffOrg vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-    \ | wincmd p | diffthis
+    command DiffOrg vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+                \ | wincmd p | diffthis
 endif
 
 " https://stackoverflow.com/questions/749297/can-i-see-changes-before-i-save-my-file-in-vim
 function! s:DiffWithSaved()
-  let filetype=&ft
-  diffthis
-  vnew | r # | normal! 1Gdd
-  diffthis
-  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+    let filetype=&ft
+    diffthis
+    vnew | r # | normal! 1Gdd
+    diffthis
+    exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 com! DiffSaved call s:DiffWithSaved()
 
@@ -238,17 +237,17 @@ nnoremap <F9> :bnext<CR>
 colorscheme default
 
 if has('gui_running')
-  "set guioptions=egmrL
-  if has("gui_mac") || has("gui_macvim")
-    " Use option (alt) as meta key.
-    set macmeta
-    set lines=30
-    set columns=85
-    set guifont=Source\ Code\ Pro:h12
-    "set guifont=SF\ Mono\ Light:h12
-  endif
+    "set guioptions=egmrL
+    if has("gui_mac") || has("gui_macvim")
+        " Use option (alt) as meta key.
+        set macmeta
+        set lines=30
+        set columns=85
+        "set guifont=Source\ Code\ Pro:h12
+        set guifont=SF\ Mono\ Light:h12
+    endif
 else
-   "let g:airline_theme='light'
+    "let g:airline_theme='light'
 endif
 
 " Spelling {{{1
@@ -290,7 +289,7 @@ let g:airline_section_x=""
 let g:airline_section_y=""
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_enable_fugitive=0
+let g:airline_enable_fugitive=1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
@@ -314,12 +313,12 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 " Cf. http://vim.wikia.com/wiki/Make_views_automatic
 "
 
-"set viewoptions-=options
+set viewoptions-=options
 
-"autocmd BufWinLeave *.hs mkview
-"autocmd BufWinEnter *.hs silent loadview
-"" autocmd BufWinLeave ?* mkview
-"" autocmd BufWinEnter ?* silent loadview
+""autocmd BufWinLeave *.* mkview
+""autocmd BufWinEnter *.* silent loadview
+"autocmd BufWinLeave ?* mkview
+"autocmd BufWinEnter ?* silent loadview
 
 " Folding {{{1
 " ===============================================================
@@ -331,6 +330,14 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 "  au BufReadPre * setlocal foldmethod=indent
 "  au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
 "augroup END
+
+" Fold digest {{{2
+" ------------------------------------------
+" https://www.vim.org/scripts/script.php?script_id=732
+"
+
+let folddigest_options = "vertical,flexnumwidth"
+let folddigest_size = 30
 
 " Windows {{{1
 " ===============================================================
@@ -441,9 +448,9 @@ nmap <leader>` :Explore<CR>
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
-\ 'dir':  '\v[\/]\.(git|hg|svn|stack-work)$',
-\ 'file': '\~$\|\v\.(exe|so|dll|class)'
-\ }
+            \ 'dir':  '\v[\/]\.(git|hg|svn|stack-work)$',
+            \ 'file': '\~$\|\v\.(exe|so|dll|class)'
+            \ }
 
 " NERD Tree options {{{2
 " ------------------------------------------
@@ -460,18 +467,6 @@ let g:NERDTreeAutoDeleteBuffer=1
 " NERD Commenter
 let g:NERDSpaceDelims = 1
 
-" Pandoc {{{2
-" ------------------------------------------
-"
-
-"let g:pandoc#folding#fdc=0
-
-" XML {{{2
-" ------------------------------------------
-"
-
-au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
-
 " ctags {{{2
 " ------------------------------------------
 "
@@ -486,6 +481,18 @@ command! MakeHTags !hasktags -L --ctags .
 " cf. http://bit.ly/305gPxX
 nnoremap <C-w>v <C-w>v <C-w>l
 
+" Pandoc {{{2
+" ------------------------------------------
+"
+
+"let g:pandoc#folding#fdc=0
+
+" XML {{{2
+" ------------------------------------------
+"
+
+au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+
 " syntastic {{{2
 " ------------------------------------------
 "
@@ -496,30 +503,121 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
+"set statusline+=%{FugitiveStatusline()}
+
+let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
+
+" ghcide {{{2
+" ------------------------------------------
+"
+
+if executable('ghcide')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'ghcide',
+                \ 'cmd': {server_info->['ghcide', '--lsp']},
+                \ 'allowlist': ['haskell'],
+                \ })
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    "if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> <leader>qd :LspDocumentDiagnostic<CR>
+    nmap <buffer> <leader>qt :LspHover<CR>
+    nmap <buffer> qd <plug>(lsp-definition)
+    nmap <buffer> qr <plug>(lsp-references)
+    nmap <buffer> qi <plug>(lsp-implementation)
+    nmap <buffer> qt <plug>(lsp-type-definition)
+    nmap <buffer> [d <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]d <plug>(lsp-next-diagnostic)
+
+    " refer to doc to add more commands
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+let g:lsp_signs_enabled = 1
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+"let g:lsp_diagnostics_float_cursor = 1
 
 " hdevtools {{{2
 " ------------------------------------------
 "
 
-au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
-au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
-au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
-"au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
-"au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
-"au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
+"au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
+"au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
+"au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
+" au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+" au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
+" au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
+
+
+" ormolu {{{2
+" ------------------------------------------
+"
+
+"let g:ormolu_disable=1
+
+"nnoremap tf :call RunOrmolu()<CR>
+
+" brittany {{{2
+" ------------------------------------------
+"
+
+let g:brittany_on_save = 0
+
+" hindent {{{2
+" ------------------------------------------
+"
+
+let g:hindent_on_save = 0
+
+" stylishask {{{2
+" ------------------------------------------
+"
+
+let g:stylishask_on_save = 0
 
 " Functions {{{1
 " =============================================================================
 "
-"function! RemoveTrailingSpaces() "{{{
-"  silent! execute '%s/\s\+$//ge'
-"  silent! execute 'g/\v^$\n*%$/norm! dd'
-"endfunction
-"autocmd BufWritePre * call RemoveTrailingSpaces()
+" #########################################################
+" #  A way to remove trailing spaces
+function! RemoveTrailingSpaces()
+    silent! execute '%s/\s\+$//ge'
+    silent! execute 'g/\v^$\n*%$/norm! dd'
+endfunction
+autocmd BufWritePre * call RemoveTrailingSpaces()
+
+" #########################################################
+" # A way to delete 'mkview'
+" # https://www.vim.org/scripts/script.php?script_id=5109
+function! MyDeleteView()
+    let path = fnamemodify(bufname('%'),':p')
+    " vim's odd =~ escaping for /
+    let path = substitute(path, '=', '==', 'g')
+    if empty($HOME)
+    else
+        let path = substitute(path, '^'.$HOME, '\~', '')
+    endif
+    let path = substitute(path, '/', '=+', 'g') . '='
+    " view directory
+    let path = &viewdir.'/'.path
+    call delete(path)
+    echo "Deleted: ".path
+endfunction
+command Delview call MyDeleteView()
+" Lower-case user commands: http://vim.wikia.com/wiki/Replace_a_builtin_command_using_cabbrev
+cabbrev delview <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'Delview' : 'delview')<CR>
 
 " Miscellaneous {{{1
 " =============================================================================
