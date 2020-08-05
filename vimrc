@@ -37,9 +37,9 @@ Plugin 'jlanzarotta/bufexplorer'
 
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plugin 'neo4j-contrib/cypher-vim-syntax'
 "Plugin 'godlygeek/tabular'
 "Plugin 'plasticboy/vim-markdown'
-Plugin 'neo4j-contrib/cypher-vim-syntax'
 
 " Development {{{2
 "
@@ -54,7 +54,7 @@ Plugin 'vim-syntastic/syntastic'
 " Haskell {{{3
 "
 
-Plugin 'Twinside/vim-hoogle'
+"Plugin 'Twinside/vim-hoogle'
 "Plugin 'sdiehl/vim-ormolu'
 Plugin 'meck/vim-brittany'
 Plugin 'alx741/vim-hindent'
@@ -497,18 +497,18 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 " ------------------------------------------
 "
 
-map <Leader>s :SyntasticToggleMode<CR>
+"map <Leader>s :SyntasticToggleMode<CR>
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
-"set statusline+=%{FugitiveStatusline()}
+""set statusline+=%{FugitiveStatusline()}
 
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_always_populate_loc_list = 0
+"let g:syntastic_auto_loc_list = 0
+"let g:syntastic_check_on_open = 0
+"let g:syntastic_check_on_wq = 0
 
 " ghcide {{{2
 " ------------------------------------------
@@ -559,7 +559,6 @@ let g:lsp_diagnostics_echo_cursor = 1
 " au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
 " au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
 " au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
-
 
 " ormolu {{{2
 " ------------------------------------------
