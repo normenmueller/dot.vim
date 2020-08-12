@@ -54,7 +54,8 @@ Plugin 'vim-syntastic/syntastic'
 " Haskell {{{3
 "
 
-"Plugin 'Twinside/vim-hoogle'
+Plugin 'Twinside/vim-hoogle'
+
 "Plugin 'sdiehl/vim-ormolu'
 Plugin 'meck/vim-brittany'
 Plugin 'alx741/vim-hindent'
@@ -92,10 +93,6 @@ syntax enable
 " General {{{1
 " ===============================================================
 "
-
-" Project specific .vimrc files.
-" https://andrew.stwrt.ca/posts/project-specific-vimrc/
-set exrc
 
 "set autoread                   "via vim-sensible
 
@@ -141,11 +138,11 @@ set wildignore+=*.so,*.swp,*.zip
 "set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 "set splitbelow
-augroup qlw
-    autocmd!
-    autocmd QuickFixCmdPost [^l]* cwindow
-    autocmd QuickFixCmdPost l*    lwindow
-augroup END
+"augroup qlw
+"    autocmd!
+"    autocmd QuickFixCmdPost [^l]* cwindow
+"    autocmd QuickFixCmdPost l*    lwindow
+"augroup END
 
 " Backup {{{1
 " ===============================================================
@@ -497,18 +494,18 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 " ------------------------------------------
 "
 
-"map <Leader>s :SyntasticToggleMode<CR>
+map <Leader>s :SyntasticToggleMode<CR>
 
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-""set statusline+=%{FugitiveStatusline()}
+"set statusline+=%{FugitiveStatusline()}
 
-"let g:syntastic_always_populate_loc_list = 0
-"let g:syntastic_auto_loc_list = 0
-"let g:syntastic_check_on_open = 0
-"let g:syntastic_check_on_wq = 0
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
 
 " ghcide {{{2
 " ------------------------------------------
@@ -590,7 +587,7 @@ let g:stylishask_on_save = 0
 " =============================================================================
 "
 " #########################################################
-" #  A way to remove trailing spaces
+" #  A way to remove trailing spaces "{{{2
 function! RemoveTrailingSpaces()
     silent! execute '%s/\s\+$//ge'
     silent! execute 'g/\v^$\n*%$/norm! dd'
@@ -598,7 +595,7 @@ endfunction
 autocmd BufWritePre * call RemoveTrailingSpaces()
 
 " #########################################################
-" # A way to delete 'mkview'
+" # A way to delete 'mkview' "{{{2
 " # https://www.vim.org/scripts/script.php?script_id=5109
 function! MyDeleteView()
     let path = fnamemodify(bufname('%'),':p')
@@ -622,7 +619,9 @@ cabbrev delview <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'Delview' : 'delvie
 " =============================================================================
 "
 
+" Project specific .vimrc files.
 " https://andrew.stwrt.ca/posts/project-specific-vimrc/
+set exrc
 set secure
 
 " vim:fdm=marker
