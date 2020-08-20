@@ -35,9 +35,9 @@ Plugin 'jlanzarotta/bufexplorer'
 " Markup {{{2
 "
 
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
-Plugin 'neo4j-contrib/cypher-vim-syntax'
+"Plugin 'vim-pandoc/vim-pandoc'
+"Plugin 'vim-pandoc/vim-pandoc-syntax'
+"Plugin 'neo4j-contrib/cypher-vim-syntax'
 "Plugin 'godlygeek/tabular'
 "Plugin 'plasticboy/vim-markdown'
 
@@ -47,14 +47,20 @@ Plugin 'neo4j-contrib/cypher-vim-syntax'
 " General {{{3
 "
 
-Plugin 'prabirshrestha/vim-lsp'
-"Plugin 'mattn/vim-lsp-settings'
 Plugin 'vim-syntastic/syntastic'
+
+" LSP {{{3
+"
+
+"Plugin 'prabirshrestha/vim-lsp'
+"Plugin 'mattn/vim-lsp-settings'
+Plugin 'neoclide/coc.nvim'
 
 " Haskell {{{3
 "
 
 Plugin 'Twinside/vim-hoogle'
+"Plugin 'neovimhaskell/haskell-vim'
 
 "Plugin 'sdiehl/vim-ormolu'
 Plugin 'meck/vim-brittany'
@@ -97,17 +103,15 @@ syntax enable
 "set autoread                   "via vim-sensible
 
 set encoding=utf-8
-
 "set backspace=indent,eol,start "via vim-sensible
 
 "set ruler                      "via vim-sensible
-
 set showcmd
 set cmdheight=2
 "set laststatus=2               "via vim-sensible
 
 set hidden
-
+set updatetime=300
 set clipboard=unnamed
 
 set linebreak
@@ -464,6 +468,13 @@ let g:NERDTreeAutoDeleteBuffer=1
 " NERD Commenter
 let g:NERDSpaceDelims = 1
 
+" fugitive {{{2
+" ------------------------------------------
+" https://dpwright.com/posts/2018/04/06/graphical-log-with-vimfugitive/
+
+command -nargs=* Glg Git --paginate lg <args>
+"command -nargs=* Glg Git! log --graph --pretty=format:'\%h - (\%ad)\%d \%s <\%an>' --abbrev-commit --date=local <args>
+
 " ctags {{{2
 " ------------------------------------------
 "
@@ -494,7 +505,12 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 " ------------------------------------------
 "
 
-map <Leader>s :SyntasticToggleMode<CR>
+"nmap <leader>st :SyntasticToggleMode<CR>
+nmap <leader>sc :SyntasticCheck<CR>
+nmap <leader>sd :SyntasticSetLoclist<CR>
+nmap <leader>sr :SyntasticReset<CR>
+"nnoremap <leader>sN :bufdo let b:syntastic_mode="passive"<cr>
+"nnoremap <leader>sY :bufdo unlet b:syntastic_mode<cr>
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -511,40 +527,88 @@ let g:syntastic_check_on_wq = 0
 " ------------------------------------------
 "
 
-if executable('ghcide')
-    au User lsp_setup call lsp#register_server({
-                \ 'name': 'ghcide',
-                \ 'cmd': {server_info->['ghcide', '--lsp']},
-                \ 'allowlist': ['haskell'],
-                \ })
-endif
+" with vim-lsp {{{3
+" cf. https://github.com/digital-asset/ghcide#vim-lsp
 
+"if executable('ghcide')
+"    au User lsp_setup call lsp#register_server({
+"                \ 'name': 'ghcide',
+"                \ 'cmd': {server_info->['ghcide', '--lsp']},
+"                \ 'allowlist': ['haskell'],
+"                \ })
+"endif
+"
+" mappings
+" cf. https://github.com/prabirshrestha/vim-lsp#registering-servers
+
+"function! s:on_lsp_buffer_enabled() abort
+"    setlocal omnifunc=lsp#complete
+"    setlocal signcolumn=yes
+"    "if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+"    nmap <buffer> qd :LspDocumentDiagnostic<CR>
+"    nmap <buffer> qt :LspHover<CR>
+"    nmap <buffer> [d <plug>(lsp-previous-diagnostic)
+"    nmap <buffer> ]d <plug>(lsp-next-diagnostic)
+"
+"    " refer to doc to add more commands
+"endfunction
+"
+"augroup lsp_install
+"    au!
+"    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+"    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+"augroup END
+
+"let g:lsp_signs_enabled = 1
+"let g:lsp_diagnostics_enabled = 1
+"let g:lsp_diagnostics_echo_cursor = 1
+""let g:lsp_diagnostics_float_cursor = 1
+
+" with coc {{{3
+" http://marco-lopes.com/articles/Vim-and-Haskell-in-2019/
+" https://github.com/neoclide/coc.nvim#example-vim-configuration
+
+" cf. ~/.vim/coc-settings.json
+
+" mappings
 function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    "if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nmap <buffer> <leader>qd :LspDocumentDiagnostic<CR>
-    nmap <buffer> <leader>qt :LspHover<CR>
-    nmap <buffer> qd <plug>(lsp-definition)
-    nmap <buffer> qr <plug>(lsp-references)
-    nmap <buffer> qi <plug>(lsp-implementation)
-    nmap <buffer> qt <plug>(lsp-type-definition)
-    nmap <buffer> [d <plug>(lsp-previous-diagnostic)
-    nmap <buffer> ]d <plug>(lsp-next-diagnostic)
+    setlocal signcolumn=number
+    " Some servers have issues with backup files, see #649.
+    set nobackup
+    set nowritebackup
+    " Don't pass messages to |ins-completion-menu|.
+    set shortmess+=c
+    " Use K to show documentation in preview window.
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+    " Show all diagnostics.
+    nnoremap <silent><nowait> <leader>qg :<C-u>CocList diagnostics<cr>
+    " Navigate diagnostic
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+    " GoTo
+    nmap <silent> <leader>gd <Plug>(coc-definition)
+    nmap <silent> <leader>gy <Plug>(coc-type-definition)
+    nmap <silent> <leader>gi <Plug>(coc-implementation)
+    nmap <silent> <leader>gr <Plug>(coc-references)
+    " Symbol renaming
+    nmap <leader>rn <Plug>(coc-rename)
+    " AutoFix
+    nmap <leader>qf <Plug>(coc-fix-current)
+    " refer to doc at https://github.com/neoclide/coc.nvim to add more commands
+endfunction
 
-    " refer to doc to add more commands
+function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
 endfunction
 
 augroup lsp_install
     au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+    autocmd FileType haskell call s:on_lsp_buffer_enabled()
 augroup END
-
-let g:lsp_signs_enabled = 1
-let g:lsp_diagnostics_enabled = 1
-let g:lsp_diagnostics_echo_cursor = 1
-"let g:lsp_diagnostics_float_cursor = 1
 
 " hdevtools {{{2
 " ------------------------------------------
@@ -592,7 +656,7 @@ function! RemoveTrailingSpaces()
     silent! execute '%s/\s\+$//ge'
     silent! execute 'g/\v^$\n*%$/norm! dd'
 endfunction
-autocmd BufWritePre * call RemoveTrailingSpaces()
+"autocmd BufWritePre * call RemoveTrailingSpaces()
 
 " #########################################################
 " # A way to delete 'mkview' "{{{2
