@@ -52,8 +52,6 @@ Plugin 'vim-syntastic/syntastic'
 " LSP {{{3
 "
 
-"Plugin 'prabirshrestha/vim-lsp'
-"Plugin 'mattn/vim-lsp-settings'
 Plugin 'neoclide/coc.nvim'
 
 " Haskell {{{3
@@ -159,10 +157,13 @@ set directory=${HOME}/.vim/tmp/swp//
 set undofile
 set undodir=${HOME}/.vim/tmp/undo//
 
-set backup
-set writebackup
-set backupdir=${HOME}/.vim/tmp/backup//
-set backupskip=/tmp/*,/private/tmp/*
+" Some LSP servers have issues with backup files
+set nobackup
+set nowritebackup
+"set backup
+"set writebackup
+"set backupdir=${HOME}/.vim/tmp/backup//
+"set backupskip=/tmp/*,/private/tmp/*
 
 " Diff {{{1
 " ===============================================================
@@ -460,7 +461,7 @@ let g:ctrlp_custom_ignore = {
 
 nmap <leader>d :NERDTreeToggle<CR>
 nmap <leader>f :NERDTreeFind<CR>
-"
+
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeIgnore = ['\~$']
 let g:NERDTreeAutoDeleteBuffer=1
@@ -523,91 +524,138 @@ let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
-" ghcide {{{2
+" coc {{{2
 " ------------------------------------------
-"
-
-" with vim-lsp {{{3
-" cf. https://github.com/digital-asset/ghcide#vim-lsp
-
-"if executable('ghcide')
-"    au User lsp_setup call lsp#register_server({
-"                \ 'name': 'ghcide',
-"                \ 'cmd': {server_info->['ghcide', '--lsp']},
-"                \ 'allowlist': ['haskell'],
-"                \ })
-"endif
-"
-" mappings
-" cf. https://github.com/prabirshrestha/vim-lsp#registering-servers
-
-"function! s:on_lsp_buffer_enabled() abort
-"    setlocal omnifunc=lsp#complete
-"    setlocal signcolumn=yes
-"    "if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-"    nmap <buffer> qd :LspDocumentDiagnostic<CR>
-"    nmap <buffer> qt :LspHover<CR>
-"    nmap <buffer> [d <plug>(lsp-previous-diagnostic)
-"    nmap <buffer> ]d <plug>(lsp-next-diagnostic)
-"
-"    " refer to doc to add more commands
-"endfunction
-"
-"augroup lsp_install
-"    au!
-"    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-"    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-"augroup END
-
-"let g:lsp_signs_enabled = 1
-"let g:lsp_diagnostics_enabled = 1
-"let g:lsp_diagnostics_echo_cursor = 1
-""let g:lsp_diagnostics_float_cursor = 1
-
-" with coc {{{3
+" cf. ~/.vim/coc-settings.json
 " http://marco-lopes.com/articles/Vim-and-Haskell-in-2019/
 " https://github.com/neoclide/coc.nvim#example-vim-configuration
-
-" cf. ~/.vim/coc-settings.json
+" https://github.com/scalameta/coc-metals/blob/master/coc-mappings.vim
+"
 
 " mappings
+" refer to doc at https://github.com/neoclide/coc.nvim to add more commands
 function! s:on_lsp_buffer_enabled() abort
     setlocal signcolumn=number
-    " Some servers have issues with backup files, see #649.
-    set nobackup
-    set nowritebackup
     " Don't pass messages to |ins-completion-menu|.
     set shortmess+=c
-    " Use K to show documentation in preview window.
-    nnoremap <silent> K :call <SID>show_documentation()<CR>
-    " Show all diagnostics.
-    nnoremap <silent><nowait> <leader>qg :<C-u>CocList diagnostics<cr>
-    " Navigate diagnostic
+
+    " Use tab for trigger completion with characters ahead and navigate.
+    " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+    inoremap <silent><expr> <TAB>
+          \ pumvisible() ? "\<C-n>" :
+          \ <SID>check_back_space() ? "\<TAB>" :
+          \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+    " Use <c-space> to trigger completion.
+    inoremap <silent><expr> <c-space> coc#refresh()
+
+    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+    " Coc only does snippet and additional edit on confirm.
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+    " Use `[g` and `]g` to navigate diagnostics
     nmap <silent> [g <Plug>(coc-diagnostic-prev)
     nmap <silent> ]g <Plug>(coc-diagnostic-next)
-    " GoTo
-    nmap <silent> <leader>gd <Plug>(coc-definition)
-    nmap <silent> <leader>gy <Plug>(coc-type-definition)
-    nmap <silent> <leader>gi <Plug>(coc-implementation)
-    nmap <silent> <leader>gr <Plug>(coc-references)
-    " Symbol renaming
+
+    " Remap keys for gotos
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Used to expand decorations in worksheets
+    nmap <Leader>ws <Plug>(coc-metals-expand-decoration)
+
+    " Use K to either doHover or show documentation in preview window
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+    " Highlight symbol under cursor on CursorHold
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+
+    " Remap for rename current word
     nmap <leader>rn <Plug>(coc-rename)
-    " AutoFix
-    nmap <leader>qf <Plug>(coc-fix-current)
-    " refer to doc at https://github.com/neoclide/coc.nvim to add more commands
+
+    " Remap for format selected region
+    xmap <leader>fm  <Plug>(coc-format-selected)
+    nmap <leader>fm  <Plug>(coc-format-selected)
+
+    " Remap for do codeAction of current line
+    xmap <leader>a  <Plug>(coc-codeaction-line)
+    nmap <leader>a  <Plug>(coc-codeaction-line)
+
+    " Fix autofix problem of current line
+    nmap <leader>qf  <Plug>(coc-fix-current)
+
+    " Use `:Format` to format current buffer
+    command! -nargs=0 Format :call CocAction('format')
+
+    " Use `:Fold` to fold current buffer
+    command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+    " Trigger for code actions
+    " Make sure `"codeLens.enable": true` is set in your coc config
+    nnoremap <leader>cl :<C-u>call CocActionAsync('codeLensAction')<CR>
+
+    " Show all diagnostics
+    nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+    " Manage extensions
+    nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+    " Show commands
+    nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+    " Find symbol of current document
+    nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+    " Search workspace symbols
+    nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+    " Do default action for next item.
+    nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+    " Do default action for previous item.
+    nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+    " Resume latest coc list
+    nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+    " Notify coc.nvim that <enter> has been pressed.
+    " Currently used for the formatOnType feature.
+    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+          \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+    " Toggle panel with Tree Views
+    nnoremap <silent> <space>t :<C-u>CocCommand metals.tvp<CR>
+    " Toggle Tree View 'metalsPackages'
+    nnoremap <silent> <space>tp :<C-u>CocCommand metals.tvp metalsPackages<CR>
+    " Toggle Tree View 'metalsCompile'
+    nnoremap <silent> <space>tc :<C-u>CocCommand metals.tvp metalsCompile<CR>
+    " Toggle Tree View 'metalsBuild'
+    nnoremap <silent> <space>tb :<C-u>CocCommand metals.tvp metalsBuild<CR>
+    " Reveal current current class (trait or object) in Tree View 'metalsPackages'
+    nnoremap <silent> <space>tf :<C-u>CocCommand metals.revealInTreeView metalsPackages<CR>
+endfunction
+
+" Used in the tab autocompletion for coc
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
+        execute 'h '.expand('<cword>')
     else
-      call CocAction('doHover')
+        call CocAction('doHover')
     endif
 endfunction
 
-augroup lsp_install
+" Help Vim recognize *.sbt and *.sc as Scala files
+au BufRead,BufNewFile *.sbt,*.sc set filetype=scala
+
+augroup coc_config
     au!
-    autocmd FileType haskell call s:on_lsp_buffer_enabled()
+    autocmd FileType haskell,scala call s:on_lsp_buffer_enabled()
+
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType scala setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup END
 
 " hdevtools {{{2
