@@ -38,8 +38,8 @@ Plugin 'jlanzarotta/bufexplorer'
 "Plugin 'vim-pandoc/vim-pandoc'
 "Plugin 'vim-pandoc/vim-pandoc-syntax'
 "Plugin 'neo4j-contrib/cypher-vim-syntax'
-"Plugin 'godlygeek/tabular'
-"Plugin 'plasticboy/vim-markdown'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 
 " Development {{{2
 "
@@ -223,7 +223,7 @@ nnoremap <F9> :bnext<CR>
 "onoremap ( v(
 "onoremap ` v`
 
-" Move with visual lines {{{2
+" Move within visual lines {{{2
 " ------------------------------------------
 "
 
@@ -410,14 +410,6 @@ so $HOME/.vim/plugin/cmdalias.vim
 "let g:fzf_buffers_jump = 1
 "nnoremap <C-p> :<C-u>FZF<CR>
 
-" vim-table-mode {{{2
-" ------------------------------------------
-"
-
-"let g:table_mode_corner='+'
-"let g:table_mode_corner_corner='+'
-"let g:table_mode_header_fillchar='='
-
 " netrw {{{2
 " ------------------------------------------
 " https://shapeshed.com/vim-netrw/
@@ -454,7 +446,7 @@ let g:ctrlp_custom_ignore = {
             \ 'file': '\~$\|\v\.(exe|so|dll|class)'
             \ }
 
-" NERD Tree options {{{2
+" NERDTree {{{2
 " ------------------------------------------
 " http://bit.ly/30J9vIq
 "
@@ -490,11 +482,16 @@ command! MakeHTags !hasktags -L --ctags .
 " cf. http://bit.ly/305gPxX
 nnoremap <C-w>v <C-w>v <C-w>l
 
-" Pandoc {{{2
+" Markdown {{{2
 " ------------------------------------------
 "
 
-"let g:pandoc#folding#fdc=0
+let g:vim_markdown_math = 1
+let g:vim_markdown_toc_autofit = 0
+let g:vim_markdown_folding_level = 1
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_new_list_item_indent = 0
 
 " XML {{{2
 " ------------------------------------------
