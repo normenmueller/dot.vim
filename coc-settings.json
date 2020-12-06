@@ -1,16 +1,16 @@
 {
     "languageserver": {
         "haskell": {
-            "command": "ghcide",
-            "args": [
-                "--lsp"
-            ],
+            "command": "ghcide-lsp-via-stack-exec",
+            "args": [ "" ],
             "rootPatterns": [
+                "*.cabal",
+                "cabal.config",
+                "cabal.project",
+                "package.yaml",
                 ".stack.yaml",
                 ".hie-bios",
-                "BUILD.bazel",
-                "cabal.config",
-                "package.yaml"
+                "BUILD.bazel"
             ],
             "filetypes": [
                 "hs",
@@ -19,5 +19,6 @@
             ],
             "disableCompletion": true
         }
-    }
+    },
+    "coc.preferences.hoverTarget": "preview"
 }

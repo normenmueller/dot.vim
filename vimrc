@@ -35,11 +35,14 @@ Plugin 'jlanzarotta/bufexplorer'
 " Markup {{{2
 "
 
-"Plugin 'vim-pandoc/vim-pandoc'
-"Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'vim-pandoc/vim-pandoc-syntax'
 "Plugin 'neo4j-contrib/cypher-vim-syntax'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
+"if !&diff
+"    Plugin 'godlygeek/tabular'
+"    Plugin 'plasticboy/vim-markdown'
+"endif
+"Plugin 'pedrohdz/vim-yaml-folds'
 
 " Development {{{2
 "
@@ -172,6 +175,10 @@ set nowritebackup
 set nolist
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
+" https://stackoverflow.com/questions/16840433/forcing-vimdiff-to-wrap-lines
+"autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+au VimEnter * if &diff | execute 'windo set wrap' | endif
+
 " Convenient command to see the difference between the current buffer and the file it was loaded from, thus the changes you made.  Revert with: ":delcommand DiffOrg".
 " Cf.
 " - $VIMRUNTIME/defaults.vim
@@ -190,6 +197,7 @@ function! s:DiffWithSaved()
     diffthis
     exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
+
 com! DiffSaved call s:DiffWithSaved()
 
 " Navigation {{{1
@@ -227,11 +235,12 @@ nnoremap <F9> :bnext<CR>
 " ------------------------------------------
 "
 
-"nnoremap j gj
-"nnoremap k gk
-"nnoremap 0 g0
-"nnoremap ^ g^
-"nnoremap $ g$
+nmap <silent> <C-k> gk
+"nnoremap <silent> k gk
+nmap <silent> <C-j> gj
+"nnoremap <silent> j gj
+"nnoremap <silent> 0 g0
+"nnoremap <silent> $ g$
 
 " GUI (Color, Fonts, Cursor ...) {{{1
 " ===============================================================
@@ -482,16 +491,36 @@ command! MakeHTags !hasktags -L --ctags .
 " cf. http://bit.ly/305gPxX
 nnoremap <C-w>v <C-w>v <C-w>l
 
+" Yaml {{{2
+" ------------------------------------------
+" https://www.arthurkoziel.com/setting-up-vim-for-yaml/
+"
+
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
 " Markdown {{{2
 " ------------------------------------------
 "
 
+nmap <leader>t :Toc<CR>
+
 let g:vim_markdown_math = 1
 let g:vim_markdown_toc_autofit = 0
-let g:vim_markdown_folding_level = 1
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_new_list_item_indent = 0
+
+"let g:vim_markdown_conceal = 0
+
+"let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_folding_level = 6
+let g:vim_markdown_folding_style_pythonic = 1
+"let g:vim_markdown_override_foldtext = 0
+
+" Requires `tpope/vim-surround`
+" https://vi.stackexchange.com/questions/2645/write-a-key-command-for-a-markdown-comment
+
+let b:surround_{char2nr('#')} = "[//]: # (\r)"
 
 " XML {{{2
 " ------------------------------------------
@@ -528,6 +557,7 @@ let g:syntastic_check_on_wq = 0
 " https://github.com/neoclide/coc.nvim#example-vim-configuration
 " https://github.com/scalameta/coc-metals/blob/master/coc-mappings.vim
 "
+" !!! https://github.com/neoclide/coc.nvim/wiki/Language-servers#haskell
 
 " mappings
 " refer to doc at https://github.com/neoclide/coc.nvim to add more commands
@@ -635,11 +665,13 @@ function! s:check_back_space() abort
 endfunction
 
 function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    else
-        call CocAction('doHover')
-    endif
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
 endfunction
 
 " Help Vim recognize *.sbt and *.sc as Scala files
