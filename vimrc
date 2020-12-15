@@ -19,16 +19,15 @@ Plugin 'vim-airline/vim-airline-themes'
 
 Plugin 'tpope/vim-fugitive'
 
-" File / Directory {{{2
+" Navigation - File / Directory {{{2
 "
 
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 
-" Buffer {{{2
+" Navigation - Buffer {{{2
 "
 
-Plugin 'tpope/vim-surround'
 Plugin 'qpkorr/vim-bufkill'
 Plugin 'jlanzarotta/bufexplorer'
 
@@ -37,12 +36,6 @@ Plugin 'jlanzarotta/bufexplorer'
 
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
-"Plugin 'neo4j-contrib/cypher-vim-syntax'
-"if !&diff
-"    Plugin 'godlygeek/tabular'
-"    Plugin 'plasticboy/vim-markdown'
-"endif
-"Plugin 'pedrohdz/vim-yaml-folds'
 
 " Development {{{2
 "
@@ -61,6 +54,7 @@ Plugin 'neoclide/coc.nvim'
 "
 
 Plugin 'Twinside/vim-hoogle'
+Plugin 'Twinside/vim-haskellFold'
 "Plugin 'neovimhaskell/haskell-vim'
 
 "Plugin 'sdiehl/vim-ormolu'
@@ -78,15 +72,11 @@ Plugin 'derekwyatt/vim-scala'
 
 "Plugin 'actionshrimp/vim-xpath'
 
-" Window {{{2
-"
-
-"Plugin 'wesQ3/vim-windowswap'
-
 " General {{{2
 "
 
 Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-surround'
 
 call vundle#end()
 
@@ -141,13 +131,6 @@ let &wildcharm = &wildchar
 cnoremap <C-j> <DOWN>
 set wildignore+=*.so,*.swp,*.zip
 "set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-
-"set splitbelow
-"augroup qlw
-"    autocmd!
-"    autocmd QuickFixCmdPost [^l]* cwindow
-"    autocmd QuickFixCmdPost l*    lwindow
-"augroup END
 
 " Backup {{{1
 " ===============================================================
@@ -206,13 +189,6 @@ com! DiffSaved call s:DiffWithSaved()
 
 set mouse=
 set ttymouse=
-
-" Buffer switching {{{2
-" ------------------------------------------
-"
-
-nnoremap <F8> :bprevious<CR>
-nnoremap <F9> :bnext<CR>
 
 " Inclusive movements {{{2
 " ------------------------------------------
@@ -350,19 +326,6 @@ set viewoptions-=options
 let folddigest_options = "vertical,flexnumwidth"
 let folddigest_size = 30
 
-" Windows {{{1
-" ===============================================================
-"
-
-" Switching windows {{{2
-" ------------------------------------------
-"
-
-"nnoremap <C-H> <C-W><C-H>
-"nnoremap <C-J> <C-W><C-J>
-"nnoremap <C-K> <C-W><C-K>
-"nnoremap <C-L> <C-W><C-L>
-
 " Plugin settings {{{1
 " ===============================================================
 "
@@ -391,33 +354,6 @@ so $HOME/.vim/plugin/cmdalias.vim
 "
 
 :call CmdAlias('bd', 'BD')
-
-" Yank ring {{{2
-" ------------------------------------------
-"
-
-":command! Yanks YRShow
-"let g:yankring_window_use_bottom=0
-"let g:yankring_manage_numbered_reg = 0
-"let g:yankring_clipboard_monitor = 0
-"let g:yankring_paste_check_default_buffer = 0
-"let g:yankring_zap_keys = ''
-"let g:yankring_paste_n_bkey = ''
-"let g:yankring_paste_n_akey = ''
-"let g:yankring_paste_v_key = ''
-"let g:yankring_replace_n_pkey = ''
-"let g:yankring_replace_n_nkey = ''
-"let g:yankring_paste_v_bkey = ''
-"let g:yankring_paste_v_akey = ''
-
-" fzf {{{2
-" ------------------------------------------
-"
-
-"set rtp+=/usr/local/opt/fzf
-"let g:fzf_layout = { 'up': '~20%' }
-"let g:fzf_buffers_jump = 1
-"nnoremap <C-p> :<C-u>FZF<CR>
 
 " netrw {{{2
 " ------------------------------------------
@@ -498,30 +434,6 @@ nnoremap <C-w>v <C-w>v <C-w>l
 
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
-" Markdown {{{2
-" ------------------------------------------
-"
-
-nmap <leader>t :Toc<CR>
-
-let g:vim_markdown_math = 1
-let g:vim_markdown_toc_autofit = 0
-let g:vim_markdown_strikethrough = 1
-let g:vim_markdown_auto_insert_bullets = 0
-let g:vim_markdown_new_list_item_indent = 0
-
-"let g:vim_markdown_conceal = 0
-
-"let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_folding_level = 6
-let g:vim_markdown_folding_style_pythonic = 1
-"let g:vim_markdown_override_foldtext = 0
-
-" Requires `tpope/vim-surround`
-" https://vi.stackexchange.com/questions/2645/write-a-key-command-for-a-markdown-comment
-
-let b:surround_{char2nr('#')} = "[//]: # (\r)"
-
 " XML {{{2
 " ------------------------------------------
 "
@@ -545,166 +457,10 @@ set statusline+=%*
 
 "set statusline+=%{FugitiveStatusline()}
 
-let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
-
-" coc {{{2
-" ------------------------------------------
-" cf. ~/.vim/coc-settings.json
-" http://marco-lopes.com/articles/Vim-and-Haskell-in-2019/
-" https://github.com/neoclide/coc.nvim#example-vim-configuration
-" https://github.com/scalameta/coc-metals/blob/master/coc-mappings.vim
-"
-" !!! https://github.com/neoclide/coc.nvim/wiki/Language-servers#haskell
-
-" mappings
-" refer to doc at https://github.com/neoclide/coc.nvim to add more commands
-function! s:on_lsp_buffer_enabled() abort
-    setlocal signcolumn=number
-    " Don't pass messages to |ins-completion-menu|.
-    set shortmess+=c
-
-    " Use tab for trigger completion with characters ahead and navigate.
-    " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-    inoremap <silent><expr> <TAB>
-          \ pumvisible() ? "\<C-n>" :
-          \ <SID>check_back_space() ? "\<TAB>" :
-          \ coc#refresh()
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-    " Use <c-space> to trigger completion.
-    inoremap <silent><expr> <c-space> coc#refresh()
-
-    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-    " Coc only does snippet and additional edit on confirm.
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-    " Use `[g` and `]g` to navigate diagnostics
-    nmap <silent> [g <Plug>(coc-diagnostic-prev)
-    nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-    " Remap keys for gotos
-    nmap <silent> gd <Plug>(coc-definition)
-    nmap <silent> gy <Plug>(coc-type-definition)
-    nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> gr <Plug>(coc-references)
-
-    " Used to expand decorations in worksheets
-    nmap <Leader>ws <Plug>(coc-metals-expand-decoration)
-
-    " Use K to either doHover or show documentation in preview window
-    nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-    " Highlight symbol under cursor on CursorHold
-    autocmd CursorHold * silent call CocActionAsync('highlight')
-
-    " Remap for rename current word
-    nmap <leader>rn <Plug>(coc-rename)
-
-    " Remap for format selected region
-    xmap <leader>fm  <Plug>(coc-format-selected)
-    nmap <leader>fm  <Plug>(coc-format-selected)
-
-    " Remap for do codeAction of current line
-    xmap <leader>a  <Plug>(coc-codeaction-line)
-    nmap <leader>a  <Plug>(coc-codeaction-line)
-
-    " Fix autofix problem of current line
-    nmap <leader>qf  <Plug>(coc-fix-current)
-
-    " Use `:Format` to format current buffer
-    command! -nargs=0 Format :call CocAction('format')
-
-    " Use `:Fold` to fold current buffer
-    command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-    " Trigger for code actions
-    " Make sure `"codeLens.enable": true` is set in your coc config
-    nnoremap <leader>cl :<C-u>call CocActionAsync('codeLensAction')<CR>
-
-    " Show all diagnostics
-    nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-    " Manage extensions
-    nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-    " Show commands
-    nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-    " Find symbol of current document
-    nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-    " Search workspace symbols
-    nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-    " Do default action for next item.
-    nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-    " Do default action for previous item.
-    nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-    " Resume latest coc list
-    nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
-    " Notify coc.nvim that <enter> has been pressed.
-    " Currently used for the formatOnType feature.
-    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-          \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-    " Toggle panel with Tree Views
-    nnoremap <silent> <space>t :<C-u>CocCommand metals.tvp<CR>
-    " Toggle Tree View 'metalsPackages'
-    nnoremap <silent> <space>tp :<C-u>CocCommand metals.tvp metalsPackages<CR>
-    " Toggle Tree View 'metalsCompile'
-    nnoremap <silent> <space>tc :<C-u>CocCommand metals.tvp metalsCompile<CR>
-    " Toggle Tree View 'metalsBuild'
-    nnoremap <silent> <space>tb :<C-u>CocCommand metals.tvp metalsBuild<CR>
-    " Reveal current current class (trait or object) in Tree View 'metalsPackages'
-    nnoremap <silent> <space>tf :<C-u>CocCommand metals.revealInTreeView metalsPackages<CR>
-endfunction
-
-" Used in the tab autocompletion for coc
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
-" Help Vim recognize *.sbt and *.sc as Scala files
-au BufRead,BufNewFile *.sbt,*.sc set filetype=scala
-
-augroup coc_config
-    au!
-    autocmd FileType haskell,scala call s:on_lsp_buffer_enabled()
-
-    " Setup formatexpr specified filetype(s).
-    autocmd FileType scala setl formatexpr=CocAction('formatSelected')
-    " Update signature help on jump placeholder
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup END
-
-" hdevtools {{{2
-" ------------------------------------------
-"
-
-"au FileType haskell nnoremap <buffer> qt :HdevtoolsType<CR>
-"au FileType haskell nnoremap <buffer> qi :HdevtoolsInfo<CR>
-"au FileType haskell nnoremap <buffer> qc :HdevtoolsClear<CR>
-" au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
-" au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsInfo<CR>
-" au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsClear<CR>
-
-" ormolu {{{2
-" ------------------------------------------
-"
-
-"let g:ormolu_disable=1
-
-"nnoremap tf :call RunOrmolu()<CR>
 
 " brittany {{{2
 " ------------------------------------------

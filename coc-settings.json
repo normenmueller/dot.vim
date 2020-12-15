@@ -1,24 +1,26 @@
 {
+    "diagnostic.checkCurrentLine": true,
+
+    "coc.preferences.enableMessageDialog": true,
+    "coc.preferences.useQuickfixForLocations": true,
+    "coc.preferences.hoverTarget": "preview",
+    "coc.preferences.previewAutoClose": true,
+
     "languageserver": {
         "haskell": {
-            "command": "ghcide-lsp-via-stack-exec",
-            "args": [ "" ],
+            "command": "haskell-language-server-wrapper",
+            "args": ["--lsp"],
             "rootPatterns": [
                 "*.cabal",
-                "cabal.config",
+                "stack.yaml",
                 "cabal.project",
                 "package.yaml",
-                ".stack.yaml",
-                ".hie-bios",
-                "BUILD.bazel"
+                "hie.yaml"
             ],
-            "filetypes": [
-                "hs",
-                "lhs",
-                "haskell"
-            ],
-            "disableCompletion": true
+            "filetypes": ["haskell", "lhaskell"],
+            "initializationOptions": {
+                "haskell.formattingProvider": "stylish-haskell"
+            }
         }
-    },
-    "coc.preferences.hoverTarget": "preview"
+    }
 }
