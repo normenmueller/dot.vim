@@ -235,6 +235,8 @@ if has('gui_running')
     endif
 else
     "let g:airline_theme='light'
+    " https://stackoverflow.com/questions/16014361/how-to-set-a-custom-color-to-folded-highlighting-in-vimrc-for-use-with-putty
+    hi Folded ctermbg=255
 endif
 
 " Spelling {{{1
@@ -310,9 +312,8 @@ set viewoptions-=options
 " Folding {{{1
 " ===============================================================
 "
-" cf. https://vim.fandom.com/wiki/Folding
-"
 
+" cf. https://vim.fandom.com/wiki/Folding
 "augroup vimrc
 "  au BufReadPre * setlocal foldmethod=indent
 "  au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
@@ -427,12 +428,18 @@ command! MakeHTags !hasktags -L --ctags .
 " cf. http://bit.ly/305gPxX
 nnoremap <C-w>v <C-w>v <C-w>l
 
+" JSON {{{2
+" ------------------------------------------
+"
+
+autocmd FileType json setlocal fdm=syntax
+
 " Yaml {{{2
 " ------------------------------------------
 " https://www.arthurkoziel.com/setting-up-vim-for-yaml/
 "
 
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab fdm=syntax
 
 " XML {{{2
 " ------------------------------------------

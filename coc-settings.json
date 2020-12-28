@@ -1,10 +1,14 @@
 {
-    "diagnostic.checkCurrentLine": true,
+    "diagnostic.checkCurrentLine": false,
 
-    "coc.preferences.enableMessageDialog": true,
+    "coc.preferences.enableMessageDialog": false,
     "coc.preferences.useQuickfixForLocations": true,
-    "coc.preferences.hoverTarget": "preview",
     "coc.preferences.previewAutoClose": true,
+
+    "suggest.floatEnable": false,
+    "diagnostic.messageTarget": "echo",
+    "signature.target": "echo",
+    "coc.preferences.hoverTarget": "preview",
 
     "languageserver": {
         "haskell": {
@@ -19,7 +23,12 @@
             ],
             "filetypes": ["haskell", "lhaskell"],
             "initializationOptions": {
-                "haskell.formattingProvider": "stylish-haskell"
+                "haskell.formattingProvider": "brittany",
+                "languageServerHaskell": {
+                    "hlintOn": true,
+                    "maxNumberOfProblems": 10,
+                    "completionSnippetsOn": true
+                }
             }
         }
     }
