@@ -72,6 +72,11 @@ Plugin 'derekwyatt/vim-scala'
 
 "Plugin 'actionshrimp/vim-xpath'
 
+" REST {{{3
+"
+
+"Plugin 'nicwest/vim-http'
+
 " General {{{2
 "
 
@@ -271,18 +276,19 @@ autocmd FileType gitcommit setlocal spell
 " Y	file encoding[fileformat] (utf-8[unix])
 " Z	current position in the file
 " [...]	additional sections (warning/errors/statistics) from external plugins (e.g. YCM, syntastic, ...)
-let g:airline_section_b=""
-"let g:airline_section_b="%t"
-let g:airline_section_c=""
-let g:airline_section_x=""
-let g:airline_section_y=""
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_enable_fugitive=1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+"let g:airline_section_b=""
+""let g:airline_section_b="%t"
+"let g:airline_section_c=""
+"let g:airline_section_x=""
+"let g:airline_section_y=""
+"let g:airline_left_sep=''
+"let g:airline_right_sep=''
+"let g:airline_enable_fugitive=1
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+"let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " Cursor {{{2
 " ------------------------------------------
