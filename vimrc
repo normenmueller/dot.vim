@@ -17,7 +17,7 @@ Plugin 'vim-airline/vim-airline-themes'
 " Git {{{2
 "
 
-Plugin 'tpope/vim-fugitive'
+"Plugin 'tpope/vim-fugitive'
 
 " Navigation - File / Directory {{{2
 "
@@ -58,14 +58,14 @@ Plugin 'Twinside/vim-haskellFold'
 "Plugin 'neovimhaskell/haskell-vim'
 
 "Plugin 'sdiehl/vim-ormolu'
-Plugin 'meck/vim-brittany'
+"Plugin 'meck/vim-brittany'
 Plugin 'alx741/vim-hindent'
-Plugin 'alx741/vim-stylishask'
+"Plugin 'alx741/vim-stylishask'
 
 " Scala {{{3
 "
 
-Plugin 'derekwyatt/vim-scala'
+"Plugin 'derekwyatt/vim-scala'
 
 " XPath {{{3
 "
@@ -77,7 +77,7 @@ Plugin 'derekwyatt/vim-scala'
 
 "Plugin 'nicwest/vim-http'
 
-" General {{{2
+" General, cont'd {{{2
 "
 
 Plugin 'tpope/vim-sensible'
@@ -479,7 +479,7 @@ let g:syntastic_check_on_wq = 0
 " ------------------------------------------
 "
 
-let g:brittany_on_save = 0
+"let g:brittany_on_save = 0
 
 " hindent {{{2
 " ------------------------------------------
@@ -491,7 +491,7 @@ let g:hindent_on_save = 0
 " ------------------------------------------
 "
 
-let g:stylishask_on_save = 0
+"let g:stylishask_on_save = 0
 
 " Functions {{{1
 " =============================================================================
