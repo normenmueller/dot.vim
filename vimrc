@@ -236,7 +236,8 @@ if has('gui_running')
         set lines=30
         set columns=85
         "set guifont=Source\ Code\ Pro:h12
-        set guifont=SF\ Mono\ Light:h12
+        "set guifont=SF\ Mono\ Light:h12
+        set guifont=MesloLGS\ NF:h12
     endif
 else
     "let g:airline_theme='light'
@@ -361,6 +362,10 @@ so $HOME/.vim/plugin/cmdalias.vim
 "
 
 :call CmdAlias('bd', 'BD')
+
+" CoC {{{2
+" ------------------------------------------
+let b:coc_enabled=0
 
 " netrw {{{2
 " ------------------------------------------
