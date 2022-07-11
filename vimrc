@@ -365,7 +365,17 @@ so $HOME/.vim/plugin/cmdalias.vim
 
 " CoC {{{2
 " ------------------------------------------
-let b:coc_enabled=0
+"
+
+let g:coc_start_at_startup = v:false
+
+" https://github.com/neoclide/coc.nvim/issues/1025
+"let g:coc_enabled=0
+"let g:coc_enabled = !&diff
+"augroup disableCocInDiff
+"  autocmd!
+"  autocmd DiffUpdated * let b:coc_enabled=0
+"augroup END
 
 " netrw {{{2
 " ------------------------------------------
