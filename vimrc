@@ -237,7 +237,7 @@ if has('gui_running')
         set columns=85
         "set guifont=Source\ Code\ Pro:h12
         "set guifont=SF\ Mono\ Light:h12
-        set guifont=MesloLGS\ NF:h12
+        set guifont=MesloLGS\ NF:h13
     endif
 else
     "let g:airline_theme='light'
