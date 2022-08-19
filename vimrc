@@ -64,6 +64,37 @@ let &wildcharm = &wildchar
 " http://bit.ly/2DpGoBD
 cnoremap <C-j> <DOWN>
 set wildignore+=*.so,*.swp,*.zip
+" Editing {{{1 ----------------------------------------------------------
+" https://vim.fandom.com/wiki/Remove_unwanted_spaces
+:nnoremap <silent> <F5> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
+" Spelling {{{1 ----------------------------------------------------------
+set spelllang=en_us,de
+set spellfile=$HOME/.vim/spell/nrm.utf-8.add
+
+hi clear SpellBad
+hi SpellBad cterm=underline ctermfg=red
+" Set style for gVim
+hi SpellBad gui=undercurl
+hi Comment cterm=italic
+
+autocmd FileType markdown setlocal spell
+autocmd FileType pandoc setlocal spell
+autocmd FileType gitcommit setlocal spell
+" Navigation {{{1 --------------------------------------------------------
+" Move within visual lines
+nmap <silent> <C-k> gk
+"nnoremap <silent> k gk
+nmap <silent> <C-j> gj
+"nnoremap <silent> j gj
+"nnoremap <silent> 0 g0
+"nnoremap <silent> $ g$
+" Differencing {{{1 --------------------------------------------------------------
+set nolist
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+
+" https://stackoverflow.com/questions/16840433/forcing-vimdiff-to-wrap-lines
+"autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+au VimEnter * if &diff | execute 'windo set wrap' | endif
 " Swap & Backup {{{1 -----------------------------------------------------
 " http://bit.ly/30SBDsB
 set swapfile
@@ -77,43 +108,6 @@ set nowritebackup
 "set writebackup
 "set backupdir=${HOME}/.vim/tmp/backup//
 "set backupskip=/tmp/*,/private/tmp/*
-" Diff {{{1 --------------------------------------------------------------
-set nolist
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
-
-" https://stackoverflow.com/questions/16840433/forcing-vimdiff-to-wrap-lines
-"autocmd FilterWritePre * if &diff | setlocal wrap< | endif
-au VimEnter * if &diff | execute 'windo set wrap' | endif
-
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.  Revert with:
-" ":delcommand DiffOrg".
-" Cf.
-" - $VIMRUNTIME/defaults.vim
-" - https://stackoverflow.com/questions/63104/smarter-vim-recovery
-if !exists(":DiffOrg")
-    command DiffOrg vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-                \ | wincmd p | diffthis
-endif
-
-" https://stackoverflow.com/questions/749297/can-i-see-changes-before-i-save-my-file-in-vim
-function! s:DiffWithSaved()
-    let filetype=&ft
-    diffthis
-    vnew | r # | normal! 1Gdd
-    diffthis
-    exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
-endfunction
-
-com! DiffSaved call s:DiffWithSaved()
-" Navigation {{{1 --------------------------------------------------------
-" Move within visual lines
-nmap <silent> <C-k> gk
-"nnoremap <silent> k gk
-nmap <silent> <C-j> gj
-"nnoremap <silent> j gj
-"nnoremap <silent> 0 g0
-"nnoremap <silent> $ g$
 " GUI {{{1 ---------------------------------------------------------------
 " Color & Fonts {{{2
 colorscheme default
@@ -140,19 +134,6 @@ endif
 "let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 "set cursorline
-" Spelling {{{1 ----------------------------------------------------------
-set spelllang=en_us,de
-set spellfile=$HOME/.vim/spell/nrm.utf-8.add
-
-hi clear SpellBad
-hi SpellBad cterm=underline ctermfg=red
-" Set style for gVim
-hi SpellBad gui=undercurl
-hi Comment cterm=italic
-
-autocmd FileType markdown setlocal spell
-autocmd FileType pandoc setlocal spell
-autocmd FileType gitcommit setlocal spell
 " Views {{{1 -------------------------------------------------------------
 " Cf. http://vim.wikia.com/wiki/Make_views_automatic
 set viewoptions-=options
