@@ -12,6 +12,8 @@ Plugin 'tpope/vim-surround'
 " Visual {{{2
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+
+Plugin 'jmckiern/vim-venter'
 " Markup {{{2
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
