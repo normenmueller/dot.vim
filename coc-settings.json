@@ -3,12 +3,10 @@
 
     "coc.preferences.enableMessageDialog": false,
     "coc.preferences.useQuickfixForLocations": true,
-    "coc.preferences.previewAutoClose": true,
 
     "suggest.floatEnable": false,
-    "diagnostic.messageTarget": "echo",
-    "signature.target": "echo",
-    "coc.preferences.hoverTarget": "preview",
+    "diagnostic.messageTarget": "float",
+    "signature.target": "float",
 
     "languageserver": {
         "haskell": {
@@ -25,7 +23,6 @@
             "initializationOptions": {
                 "haskell.formattingProvider": "brittany",
                 "languageServerHaskell": {
-                    "hlintOn": false,
                     "maxNumberOfProblems": 10,
                     "completionSnippetsOn": true
                 }
