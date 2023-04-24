@@ -23,7 +23,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'qpkorr/vim-bufkill'
 Plugin 'jlanzarotta/bufexplorer'
 " Development {{{2
-Plugin 'neoclide/coc.nvim'
+"Plugin 'neoclide/coc.nvim'
 Plugin 'alx741/vim-hindent'
 
 call vundle#end()
