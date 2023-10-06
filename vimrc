@@ -36,6 +36,8 @@ set ttymouse=
 set encoding=utf-8
 
 set showcmd
+set modeline
+set modelines=5
 set cmdheight=2
 
 set hidden
