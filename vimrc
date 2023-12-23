@@ -14,8 +14,9 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'jmckiern/vim-venter'
 " Markup {{{2
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
+" Plugin 'vim-pandoc/vim-pandoc'
+" Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plugin 'iamcco/markdown-preview.nvim'
 " Navigation {{{2
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
@@ -216,6 +217,8 @@ autocmd FileType json setlocal fdm=syntax
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab fdm=indent
 " XML {{{3
 au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+" Markdown preview {{{3
+let g:mkdp_theme = 'light'
 " Miscellaneous {{{2 -----------------------------------------------------
 " Enable project specific .vimrc files.
 " https://andrew.stwrt.ca/posts/project-specific-vimrc/
