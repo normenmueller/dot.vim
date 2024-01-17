@@ -14,9 +14,9 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'jmckiern/vim-venter'
 " Markup {{{2
-" Plugin 'vim-pandoc/vim-pandoc'
-" Plugin 'vim-pandoc/vim-pandoc-syntax'
-Plugin 'iamcco/markdown-preview.nvim'
+Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'vim-pandoc/vim-pandoc-syntax'
+"Plugin 'iamcco/markdown-preview.nvim'
 " Navigation {{{2
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
