@@ -48,6 +48,9 @@ set cpo+=n
 set linebreak
 set breakindent
 let &showbreak = '↳ '
+set formatoptions+=a
+set textwidth=80
+set whichwrap+=<,>,h,l
 
 set expandtab
 set tabstop=4
