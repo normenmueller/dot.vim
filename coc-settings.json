@@ -1,0 +1,35 @@
+{
+  "languageserver": {
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": ["*.cabal", "cabal.project", "hie.yaml"],
+      "filetypes": ["haskell", "lhaskell"],
+      "settings": {
+        "haskell": {
+          "checkParents": "CheckOnSave",
+          "checkProject": true,
+          "maxCompletions": 40,
+          "plugin": {
+            "hlint": {
+              "codeActionsOn": true,
+              "diagnosticsOn": true
+            },
+            "stan": {
+              "globalOn": false
+            },
+            "importLens": {
+              "globalOn": true
+            },
+            "codeRange": {
+              "globalOn": true
+            },
+            "ghcide-type-lenses": {
+              "globalOn": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

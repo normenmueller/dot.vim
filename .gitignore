@@ -1,0 +1,11 @@
+bundle/*
+plugged/*
+tmp/
+view/
+
+*.swp
+.netrwhist
+
+tags
+passwords.vim
+autoload/plug.vim
