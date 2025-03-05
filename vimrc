@@ -40,6 +40,7 @@ Plug 'jlanzarotta/bufexplorer'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
 
 " Markup {{{2
@@ -68,6 +69,12 @@ for f in split(glob("~/.vim/plugin/*.vim"), "\n")
         echom "Error loading " . f
     endtry
 endfor
+
+
+" Sets the $PATH in Vim from a saved file (~/.zsh_path),
+" which contains the correct PATH from the zsh shell.
+" This ensures that MacVim uses the same PATH as the terminal.
+let $PATH = trim(readfile(expand("~/.zsh_path"))[0])
 
 
 " Basics {{{2

@@ -1,1 +1,0 @@
-/Users/nrm/Repositories/GitHub/3rd/onehalf/vim/colors/onehalfdark.vim
