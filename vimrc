@@ -202,9 +202,10 @@ colorscheme onehalfdark
 let g:airline_theme='onehalfdark'
 highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#5c6370
 
-if system('osascript -e "tell application \"System Events\" to tell appearance preferences to return dark mode"') !~ "true"
-    call ToggleTheme()
-endif
+" XXX pretty slow :-(
+"if system('osascript -e "tell application \"System Events\" to tell appearance preferences to return dark mode"') !~ "true"
+"    call ToggleTheme()
+"endif
 
 if has("gui_running")
     set guifont=Monoid-Regular:h12
