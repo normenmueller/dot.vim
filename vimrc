@@ -120,6 +120,10 @@ cnoremap <C-j> <DOWN>
 set wildignore+=*.so,*.swp,*.zip
 
 
+" Terminal {{{2 ----------------------------------------------------------------
+
+nnoremap <leader>it :silent !open -a /Applications/iTerm.app "`pwd`"<CR>
+
 " Spelling {{{2 ----------------------------------------------------------------
 
 
@@ -198,9 +202,9 @@ if has("termguicolors")
 endif
 
 "colorscheme default
-colorscheme onehalflight
-let g:airline_theme='onehalflight'
-highlight! Folded term=NONE ctermbg=white ctermfg=lightgray guibg=#ffffff guifg=#b0b0b0
+colorscheme onehalfdark
+let g:airline_theme='onehalfdark'
+highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#5c6370
 
 " XXX pretty slow :-(
 "if system('osascript -e "tell application \"System Events\" to tell appearance preferences to return dark mode"') !~ "true"
