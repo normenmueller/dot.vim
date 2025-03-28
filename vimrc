@@ -84,9 +84,10 @@ let $PATH = trim(readfile(expand("~/.zsh_path"))[0])
 set encoding=utf-8
 
 set showcmd
-set modeline
-set modelines=5
 set cmdheight=2
+
+set modeline
+set modelines=2
 
 set hidden
 set updatetime=300
