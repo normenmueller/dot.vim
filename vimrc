@@ -81,8 +81,6 @@ let $PATH = trim(readfile(expand("~/.zsh_path"))[0])
 " Basics {{{2
 
 
-set mouse=
-set ttymouse=
 set encoding=utf-8
 
 set showcmd
