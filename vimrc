@@ -81,6 +81,7 @@ let $PATH = trim(readfile(expand("~/.zsh_path"))[0])
 " Basics {{{2
 
 
+set updatetime=300
 set encoding=utf-8
 
 set showcmd
@@ -90,7 +91,6 @@ set modeline
 set modelines=2
 
 set hidden
-set updatetime=300
 set clipboard=unnamed
 
 " By default visual line break only
