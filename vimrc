@@ -62,6 +62,7 @@ call plug#end()
 " Configurations {{{1 ----------------------------------------------------------
 
 
+" Load simple plug-ins (opposed to packages)
 for f in split(glob("~/.vim/plugin/*.vim"), "\n")
     try
         execute "source " . f
@@ -71,8 +72,8 @@ for f in split(glob("~/.vim/plugin/*.vim"), "\n")
 endfor
 
 
-" Sets the $PATH in Vim from a saved file (~/.zsh_path),
-" which contains the correct PATH from the zsh shell.
+" Sets the $PATH in Vim from a saved file, which contains the correct PATH
+" from the zsh shell (eg., via `echo $PATH > ~/.zsh_path` in your `.zshrc`).
 " This ensures that MacVim uses the same PATH as the terminal.
 let $PATH = trim(readfile(expand("~/.zsh_path"))[0])
 
@@ -198,9 +199,9 @@ if has("termguicolors")
 endif
 
 "colorscheme default
-colorscheme onehalfdark
-let g:airline_theme='onehalfdark'
-highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#5c6370
+colorscheme onehalflight
+let g:airline_theme='onehalflight'
+highlight! Folded term=NONE ctermbg=white ctermfg=lightgray guibg=#ffffff guifg=#b0b0b0
 
 " XXX pretty slow :-(
 "if system('osascript -e "tell application \"System Events\" to tell appearance preferences to return dark mode"') !~ "true"
@@ -208,7 +209,7 @@ highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#
 "endif
 
 if has("gui_running")
-    set guifont=Monoid-Regular:h12
+    set guifont=Monoid-Regular:h13
 endif
 
 

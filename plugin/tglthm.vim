@@ -2,7 +2,7 @@ function! ToggleTheme()
     if !exists("g:colors_name") || g:colors_name == "onehalfdark"
         colorscheme onehalflight
         let g:airline_theme='onehalflight'
-        highlight Folded term=NONE ctermbg=white ctermfg=lightgray guibg=#ffffff guifg=#b0b0b0
+        highlight! Folded term=NONE ctermbg=white ctermfg=lightgray guibg=#ffffff guifg=#b0b0b0
     else
         colorscheme onehalfdark
         let g:airline_theme='onehalfdark'
