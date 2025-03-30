@@ -23,26 +23,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 
 
-" Navigation {{{2
-
-
-Plug 'ctrlpvim/ctrlp.vim'
-" Alternative to CtrlP
-"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-"Plug 'junegunn/fzf.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'qpkorr/vim-bufkill'
-Plug 'jlanzarotta/bufexplorer'
-
-
-" Visual {{{2
-
-
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-
-
 " Markup {{{2
 
 
@@ -50,10 +30,34 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 
 
+" Buffers {{{2
+
+
+Plug 'qpkorr/vim-bufkill'
+Plug 'jlanzarotta/bufexplorer'
+
+
+" Interface {{{2
+
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+
+
+" File System {{{2
+
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdtree'
+
+
 " Development {{{2
 
 
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'npm ci'}
+Plug 'liuchengxu/vista.vim'
 Plug 'alx741/vim-hindent'
 
 call plug#end()
@@ -100,6 +104,10 @@ set breakindent
 let &showbreak = '↳ '
 set whichwrap+=<,>,h,l
 
+" Move within visual lines
+nmap <silent> <C-k> gk
+nmap <silent> <C-j> gj
+
 set expandtab
 set tabstop=4
 set shiftwidth=4
@@ -119,56 +127,8 @@ let &wildcharm = &wildchar
 cnoremap <C-j> <DOWN>
 set wildignore+=*.so,*.swp,*.zip
 
-
-" Terminal {{{2 ----------------------------------------------------------------
-
-nnoremap <leader>it :silent !open -a /Applications/iTerm.app "`pwd`"<CR>
-
-" Spelling {{{2 ----------------------------------------------------------------
-
-
-" refactored to project local .vimrc
-"set spelllang=de
-"set spellfile=$HOME/.vim/spell/de.utf-8.add
-"set spelllang=en_us
-"set spellfile=$HOME/.vim/spell/en_us.utf-8.add
-
-hi clear SpellBad
-hi SpellBad cterm=underline ctermfg=red
-" Set style for gVim
-hi SpellBad gui=undercurl
-hi Comment cterm=italic
-
-"autocmd FileType markdown setlocal spell
-"autocmd FileType pandoc setlocal spell
-autocmd FileType gitcommit setlocal spell
-
-
-" Navigation {{{2 --------------------------------------------------------------
-
-
-" Move within visual lines
-nmap <silent> <C-k> gk
-"nnoremap <silent> k gk
-nmap <silent> <C-j> gj
-"nnoremap <silent> j gj
-"nnoremap <silent> 0 g0
-"nnoremap <silent> $ g$
-
-
-" Differencing {{{2 ------------------------------------------------------------
-
-
-set nolist
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
-
-" https://stackoverflow.com/questions/16840433/forcing-vimdiff-to-wrap-lines
-"autocmd FilterWritePre * if &diff | setlocal wrap< | endif
-au VimEnter * if &diff | execute 'windo set wrap' | endif
-
-
-" Swap & Backup {{{2 -----------------------------------------------------------
-
+" Cf. http://vim.wikia.com/wiki/Make_views_automatic
+set viewoptions-=options
 
 if !isdirectory(expand('~/.vim/tmp/swp'))
     call mkdir(expand('~/.vim/tmp/swp'), 'p')
@@ -185,35 +145,69 @@ set undodir=${HOME}/.vim/tmp/undo//
 
 set nobackup
 set nowritebackup
-"set backup
-"set writebackup
 "set backupdir=${HOME}/.vim/tmp/backup//
 "set backupskip=/tmp/*,/private/tmp/*
 
+set spelllang=en_us
+set spellfile=$HOME/.vim/spell/en_us.utf-8.add
 
-" GUI {{{2 ---------------------------------------------------------------------
+hi clear SpellBad
+hi SpellBad cterm=underline ctermfg=red
+hi SpellBad gui=undercurl
+hi Comment cterm=italic
+
+autocmd FileType gitcommit setlocal spell
 
 
-" Color & Fonts {{{3
+" Buffers {{{2
 
 
-if has("termguicolors")
-  set termguicolors
-endif
+" Buffer explorer {{{3
 
-"colorscheme default
-colorscheme onehalfdark
-let g:airline_theme='onehalfdark'
-highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#5c6370
 
-" XXX pretty slow :-(
-"if system('osascript -e "tell application \"System Events\" to tell appearance preferences to return dark mode"') !~ "true"
-"    call ToggleTheme()
-"endif
+:call CmdAlias('ls', 'BufExplorer') " - or 'BufExplorerHorizontalSplit'
 
-if has("gui_running")
-    set guifont=Monoid-Regular:h13
-endif
+
+" Buffer kill {{{3
+
+
+:call CmdAlias('bd', 'BD')
+
+
+" Markup {{{2
+
+
+" XML {{{3
+
+
+autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+
+
+" JSON {{{3
+
+
+autocmd FileType json setlocal fdm=syntax
+
+
+" YAML {{{3
+
+
+" https://www.arthurkoziel.com/setting-up-vim-for-yaml/
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab fdm=indent
+
+
+" Pandoc {{{3
+
+
+let g:pandoc#spell#enabled = 0
+let g:pandoc#syntax#conceal#use=0
+let g:pandoc#formatting#preserve_indentation = 1
+
+autocmd FileType markdown setlocal foldcolumn=0
+autocmd FileType pandoc setlocal foldcolumn=0
+
+
+" Interface {{{2
 
 
 " Cursor {{{3
@@ -245,19 +239,8 @@ if !has('gui_running')
     let &t_EI = "\e[2 q"   " Normal-Modus: Block-Cursor
 endif
 
-"set cursorline
 
-
-" Views {{{2 -------------------------------------------------------------------
-" Cf. http://vim.wikia.com/wiki/Make_views_automatic
-set viewoptions-=options
-""autocmd BufWinLeave *.* mkview
-""autocmd BufWinEnter *.* silent loadview
-"autocmd BufWinLeave ?* mkview
-"autocmd BufWinEnter ?* silent loadview
-
-
-" Folding {{{2 -----------------------------------------------------------------
+" Folding {{{3
 " cf. https://vim.fandom.com/wiki/Folding
 
 "augroup vimrc
@@ -282,32 +265,33 @@ let folddigest_options = "vertical,flexnumwidth,nofoldclose"
 let folddigest_size = 20
 
 
-" Plugin settings {{{2 ---------------------------------------------------
+
+" Color & Fonts {{{3
 
 
-" Buffer explorer {{{3
+if has("termguicolors")
+  set termguicolors
+endif
+
+"colorscheme default
+colorscheme onehalfdark
+let g:airline_theme='onehalfdark'
+"highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#5c6370
+
+if has("gui_running")
+    set guifont=Monoid-Regular:h13
+endif
 
 
-:call CmdAlias('ls', 'BufExplorer') " - or 'BufExplorerHorizontalSplit'
+" File System {{{2
 
 
-" Buffer kill {{{3
-
-
-:call CmdAlias('bd', 'BD')
-
-
-" CoC {{{3
-
-
-autocmd FileType haskell let b:coc_enabled = 1
+nnoremap <leader>it :silent !open -a /Applications/iTerm.app "`pwd`"<CR>
 
 
 " CtrlP {{{3
 
 
-""set runtimepath^=~/.vim/bundle/ctrlp.vim
-""let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
@@ -323,12 +307,36 @@ let g:ctrlp_custom_ignore = {
 let g:NERDTreeIgnore = ['\~$']
 
 let g:NERDSpaceDelims = 1
+
+let g:NERDTreeWinSize = 35
 let g:NERDTreeChDirMode = 2
-let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeQuitOnOpen = 0
 let g:NERDTreeAutoDeleteBuffer=1
 
 nmap <leader>d :NERDTreeToggle<CR>
 nmap <leader>f :NERDTreeFind<CR>
+
+
+" Differencing {{{3
+
+
+set nolist
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+
+" https://stackoverflow.com/questions/16840433/forcing-vimdiff-to-wrap-lines
+"autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+au VimEnter * if &diff | execute 'windo set wrap' | endif
+
+
+" Development  {{{2
+
+
+" CoC {{{3
+
+
+autocmd FileType haskell let b:coc_enabled = 1
+
+nnoremap <leader>mt :CocList outline<CR>
 
 
 " ctags {{{3
@@ -344,45 +352,21 @@ command! MakeHTags !hasktags -L --ctags .
 " cf. http://bit.ly/305gPxX
 nnoremap <C-w>v <C-w>v <C-w>l
 
-" JSON {{{3
+
+" Vista {{{3
 
 
-autocmd FileType json setlocal fdm=syntax
+let g:vista_sidebar_width = 35
+" use `CoC` instead of `ctags`
+let g:vista_default_executive = 'coc'
+let g:vista_sidebar_position = "vertical topleft"
+" requires universal-ctags (brew install --HEAD universal-ctags)
+let g:vista_ctags_executable = '/opt/homebrew/bin/ctags'
+
+nnoremap <leader>vt :Vista!!<CR>
 
 
-" YAML {{{3
 
-
-" https://www.arthurkoziel.com/setting-up-vim-for-yaml/
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab fdm=indent
-
-
-" XML {{{3
-
-
-autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
-
-
-" Pandoc {{{3
-
-
-let g:pandoc#spell#enabled = 0
-let g:pandoc#syntax#conceal#use=0
-let g:pandoc#formatting#preserve_indentation = 1
-
-autocmd FileType markdown setlocal foldcolumn=0
-autocmd FileType pandoc setlocal foldcolumn=0
-
-"augroup pandoc_settings
-"  autocmd!
-"  " Diese Einstellungen gelten nur für Pandoc-Dateitypen
-"  autocmd FileType pandoc setlocal autoindent
-"  autocmd FileType pandoc setlocal textwidth=80
-"  autocmd FileType pandoc setlocal formatoptions+=t
-"augroup END
-"
-"let g:pandoc#formatting#mode = 'h' " Hard wrapping aktivieren
-"let g:pandoc#formatting#textwidth = 80 " Zeilenumbrüche nach 80 Zeichen
 
 
 " Miscellaneous {{{2 -----------------------------------------------------------
