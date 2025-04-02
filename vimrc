@@ -337,7 +337,8 @@ au VimEnter * if &diff | execute 'windo set wrap' | endif
 
 autocmd FileType haskell let b:coc_enabled = 1
 
-nnoremap <leader>mt :CocList outline<CR>
+" use `<space>o` instead!
+"nnoremap <leader>mt :CocList outline<CR>
 " Close CoC popups
 "nnoremap <silent> <M-h> :call coc#float#close_all()<CR>
 
