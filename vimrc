@@ -57,7 +57,6 @@ Plug 'scrooloose/nerdtree'
 
 
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'npm ci'}
-Plug 'liuchengxu/vista.vim'
 Plug 'alx741/vim-hindent'
 
 
