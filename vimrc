@@ -202,10 +202,10 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab fdm=indent
 let g:pandoc#spell#enabled = 0
 let g:pandoc#syntax#conceal#use=0
 let g:pandoc#formatting#preserve_indentation = 1
+let g:pandoc#toc#position = 'right'
 
 autocmd FileType markdown setlocal foldcolumn=0
 autocmd FileType pandoc setlocal foldcolumn=0
-
 
 " Interface {{{2
 
