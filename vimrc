@@ -159,6 +159,15 @@ hi Comment cterm=italic
 autocmd FileType gitcommit setlocal spell
 
 
+" Key mappings {{{2
+
+
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
+
 " Buffers {{{2
 
 
@@ -504,22 +513,6 @@ command! MakeHTags !hasktags -L --ctags .
 " To open a tag in horizontal split use <C-W>]
 " cf. http://bit.ly/305gPxX
 nnoremap <C-w>v <C-w>v <C-w>l
-
-
-" Vista {{{3
-
-
-let g:vista_sidebar_width = 35
-" use `CoC` instead of `ctags`
-let g:vista_default_executive = 'coc'
-let g:vista_sidebar_position = "vertical topleft"
-" requires universal-ctags (brew install --HEAD universal-ctags)
-let g:vista_ctags_executable = '/opt/homebrew/bin/ctags'
-
-nnoremap <leader>vt :Vista!!<CR>
-
-
-
 
 
 " Miscellaneous {{{2 -----------------------------------------------------------
