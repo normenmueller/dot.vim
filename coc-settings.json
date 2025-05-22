@@ -1,42 +1,38 @@
 {
-    "languageserver": {
-        "markdown": {
-            "command": "marksman",
-            "args": ["server"],
-            "filetypes": ["markdown"],
-            "rootPatterns": [".git/"],
-            "initializationOptions": {}
-        },
-        "haskell": {
-            "command": "haskell-language-server-wrapper",
-            "args": ["--lsp"],
-            "rootPatterns": ["*.cabal", "cabal.project", "hie.yaml"],
-            "filetypes": ["haskell", "lhaskell"],
-            "settings": {
-                "haskell": {
-                    "checkParents": "CheckOnSave",
-                    "checkProject": true,
-                    "maxCompletions": 40,
-                    "plugin": {
-                        "hlint": {
-                            "codeActionsOn": true,
-                            "diagnosticsOn": true
-                        },
-                        "stan": {
-                            "globalOn": false
-                        },
-                        "importLens": {
-                            "globalOn": false
-                        },
-                        "codeRange": {
-                            "globalOn": true
-                        },
-                        "ghcide-type-lenses": {
-                            "globalOn": true
-                        }
-                    }
-                }
-            }
-        }
+  "languageserver": {
+    "markdown": {
+      "command": "marksman",
+      "args": ["server"],
+      "filetypes": ["markdown"],
+      "rootPatterns": [".git/"],
+      "initializationOptions": {}
+    },
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+       "args": ["--lsp"],
+       "filetypes": ["haskell", "lhaskell"],
+       "rootPatterns": ["*.cabal", "cabal.project", "hie.yaml"],
+       "settings": {
+         "haskell": {
+           "checkProject": true,
+           "checkParents": "CheckOnSave",
+           "maxCompletions": 40,
+           "plugin": {
+             "hlint": {
+               "codeActionsOn": true,
+               "diagnosticsOn": true
+             },
+             "stan": { "globalOn": false },
+             "codeLense": { "globalOn": false },
+             "codeRange": { "globalOn": false },
+             // offers CodeLens actions for adding explicit import lists to modules.
+             "importLens": { "globalOn": false },
+             // automatically displays type signatures of functions as CodeLens above the definition.
+             "ghcide-type-lenses": { "globalOn": true }
+           }
+         }
+       }
     }
+  }
 }
+
