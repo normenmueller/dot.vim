@@ -1,4 +1,16 @@
 {
+  // Interactive actions or information *above* the code.
+  "codeLens.enable": false,
+  // Inline notes *in* the code (e.g. types).
+  "inlayHint.enable": false,
+
+  "outline.autoWidth": true,
+  //"outline.splitCommand": "botright 30vs",
+  "outline.showLineNumber": false,
+
+  "suggest.noselect": true,
+  "suggest.autoTrigger": "none",
+
   "languageserver": {
     "markdown": {
       "command": "marksman",
@@ -18,17 +30,13 @@
            "checkParents": "CheckOnSave",
            "maxCompletions": 40,
            "plugin": {
+             // Enable hlint diagnostics & suggestions
              "hlint": {
                "codeActionsOn": true,
                "diagnosticsOn": true
              },
-             "stan": { "globalOn": false },
-             "codeLense": { "globalOn": false },
-             "codeRange": { "globalOn": false },
-             // offers CodeLens actions for adding explicit import lists to modules.
-             "importLens": { "globalOn": false },
-             // automatically displays type signatures of functions as CodeLens above the definition.
-             "ghcide-type-lenses": { "globalOn": true }
+             // Disable stan (static analysis engine)
+             "stan": { "globalOn": false }
            }
          }
        }

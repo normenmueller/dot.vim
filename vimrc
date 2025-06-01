@@ -287,6 +287,15 @@ colorscheme onehalfdark
 let g:airline_theme='onehalfdark'
 "highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#5c6370
 
+if has('terminal')
+  let g:terminal_ansi_colors = [
+        \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
+        \ '#61afef', '#c678dd', '#56b6c2', '#dcdfe4',
+        \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
+        \ '#61afef', '#c678dd', '#56b6c2', '#ffffff'
+        \ ]
+endif
+
 if has("gui_running")
     set guifont=Monoid-Regular:h13
 endif
@@ -356,20 +365,15 @@ au VimEnter * if &diff | execute 'windo set wrap' | endif
 " Development  {{{2
 
 
-" CoC {{{3
+" Coc {{{3
 
 
 autocmd FileType haskell let b:coc_enabled = 1
 
-" use `<space>o` instead!
-"nnoremap <leader>mt :CocList outline<CR>
-" Close CoC popups
-"nnoremap <silent> <M-h> :call coc#float#close_all()<CR>
-
-" --- CoC (defaults)
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
 " utf-8 byte sequence
 set encoding=utf-8
+
 " Some servers have issues with backup files, see #649
 set nobackup
 set nowritebackup
@@ -382,6 +386,8 @@ set updatetime=300
 " diagnostics appear/become resolved
 set signcolumn=yes
 
+" Completion {{{4
+
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable
 " no select by `"suggest.noselect": true` in your configuration file
@@ -393,33 +399,49 @@ inoremap <silent><expr> <TAB>
       \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
 function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 " Use <c-space> to trigger completion
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+" Abort with <c-e>.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Diagnostic {{{4
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+" Navigation {{{4
+
 " GoTo code navigation
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" Mapping to toggle outline
+nnoremap <silent><nowait> <space>o  :call ToggleOutline()<CR>
+function! ToggleOutline() abort
+  let winid = coc#window#find('cocViewId', 'OUTLINE')
+  if winid == -1
+    call CocActionAsync('showOutline', 1)
+  else
+    call coc#window#close(winid)
+  endif
+endfunction
+
+" Documentation {{{4
+
+" Note: Use `:call coc#float#close_all()` or `:call popup_clear()` to close all popups
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call ShowDocumentation()<CR>
@@ -432,8 +454,22 @@ function! ShowDocumentation()
   endif
 endfunction
 
+" Remap <C-f> and <C-b> to scroll float windows/popups
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Visualization {{{4
+
 " Highlight the symbol and its references when holding the cursor
 autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Miscellaneous {{{4
 
 " Symbol renaming
 nmap <leader>rn <Plug>(coc-rename)
@@ -469,16 +505,6 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
-" Remap <C-f> and <C-b> to scroll float windows/popups
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-endif
-
 " Use CTRL-S for selections ranges
 " Requires 'textDocument/selectionRange' support of language server
 nmap <silent> <C-s> <Plug>(coc-range-select)
@@ -506,7 +532,7 @@ nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
 " Show commands
 nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+"nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
 nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item
@@ -515,7 +541,6 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-
 
 " ctags {{{3
 
