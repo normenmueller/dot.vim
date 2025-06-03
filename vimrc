@@ -249,30 +249,6 @@ if !has('gui_running')
 endif
 
 
-" Folding {{{3
-" cf. https://vim.fandom.com/wiki/Folding
-
-"augroup vimrc
-"  au BufReadPre * setlocal foldmethod=indent
-"  au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
-"augroup END
-
-"- `block`: Öffnet einen Fold, wenn du den Cursor zu einem Block {} oder einem ähnlichen Paar von Strukturblöcken (wie if/endif in manchen Sprachen) bewegst.
-" - `hor`: Öffnet einen Fold, wenn du horizontal (z. B. mit <Right> oder l) in eine gefaltete Zeile hinein navigierst.
-"- `mark`: Öffnet einen Fold, wenn du mit einer Markierung ('a, 'b, etc.) zu einer gefalteten Zeile springst.
-"- `percent`: Öffnet einen Fold, wenn du die Prozentbewegung (%) verwendest, um zwischen passenden Klammern, Blöcken oder ähnlichen Strukturen zu springen.
-"- `quickfix`: Öffnet einen Fold, wenn du mit einer Quickfix- oder Fehlerliste (:cnext, :cprev, etc.) zu einer gefalteten Zeile springst.
-"- `search`: Öffnet einen Fold, wenn du durch eine Suchbewegung (/, ?, n, N) zu einer gefalteten Zeile gelangst.
-"- `tag`: Öffnet einen Fold, wenn du mit :tag oder Ctrl-] zu einem Tag innerhalb eines Folds springst.
-"- `undo`: Öffnet einen Fold, wenn du einen Undo-Schritt (u) ausführst, der zu einer gefalteten Zeile führt.
-
-"set foldopen=
-set foldopen-=hor
-
-" cf. https://www.vim.org/scripts/script.php?script_id=732
-let folddigest_options = "vertical,flexnumwidth,nofoldclose"
-let folddigest_size = 20
-
 
 
 " Color & Fonts {{{3
@@ -282,22 +258,55 @@ if has("termguicolors")
   set termguicolors
 endif
 
-"colorscheme default
-colorscheme onehalfdark
-let g:airline_theme='onehalfdark'
-"highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#5c6370
-
-if has('terminal')
-  let g:terminal_ansi_colors = [
-        \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
-        \ '#61afef', '#c678dd', '#56b6c2', '#dcdfe4',
-        \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
-        \ '#61afef', '#c678dd', '#56b6c2', '#ffffff'
-        \ ]
+if has("gui_running")
+  set guifont=Monoid-Regular:h13
 endif
 
-if has("gui_running")
-    set guifont=Monoid-Regular:h13
+
+""colorscheme default
+"colorscheme onehalfdark
+"let g:airline_theme='onehalfdark'
+""highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#5c6370
+"
+"if has('terminal')
+"  let g:terminal_ansi_colors = [
+"        \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
+"        \ '#61afef', '#c678dd', '#56b6c2', '#dcdfe4',
+"        \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
+"        \ '#61afef', '#c678dd', '#56b6c2', '#ffffff'
+"        \ ]
+"endif
+
+
+if has('macunix')
+  let mode = system('defaults read -g AppleInterfaceStyle 2>/dev/null')
+  if match(mode, 'Dark') >= 0
+    colorscheme onehalfdark
+    let g:airline_theme='onehalfdark'
+    highlight! Folded term=NONE ctermbg=white ctermfg=lightgray guibg=#ffffff guifg=#b0b0b0
+
+    if has('terminal')
+      let g:terminal_ansi_colors = [
+            \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
+            \ '#61afef', '#c678dd', '#56b6c2', '#dcdfe4',
+            \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
+            \ '#61afef', '#c678dd', '#56b6c2', '#ffffff'
+            \ ]
+    endif
+  else
+    colorscheme onehalflight
+    let g:airline_theme='onehalflight'
+    highlight! Folded term=NONE ctermbg=white ctermfg=lightgray guibg=#ffffff guifg=#b0b0b0
+
+    if has('terminal')
+      let g:terminal_ansi_colors = [
+            \ '#f0f0f0', '#e45649', '#50a14f', '#986801',
+            \ '#4078f2', '#a626a4', '#0184bc', '#383a42',
+            \ '#f0f0f0', '#e45649', '#50a14f', '#986801',
+            \ '#4078f2', '#a626a4', '#0184bc', '#090a0b'
+            \ ]
+    endif
+  endif
 endif
 
 
@@ -326,7 +335,7 @@ let g:NERDTreeIgnore = ['\~$']
 
 let g:NERDSpaceDelims = 1
 
-let g:NERDTreeWinSize = 35
+let g:NERDTreeWinSize = 30
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeQuitOnOpen = 0
 let g:NERDTreeAutoDeleteBuffer=1
@@ -386,7 +395,9 @@ set updatetime=300
 " diagnostics appear/become resolved
 set signcolumn=yes
 
+
 " Completion {{{4
+
 
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable
@@ -409,27 +420,31 @@ endfunction
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use <c-space> to trigger completion
-" Abort with <c-e>.
+" Use <c-space> to trigger completion. Abort with <c-e>.
 inoremap <silent><expr> <c-space> coc#refresh()
 
+
 " Diagnostic {{{4
+
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+
 " Navigation {{{4
+
 
 " GoTo code navigation
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gr <Plug>(coc-references)
 
 " Mapping to toggle outline
-nnoremap <silent><nowait> <space>o  :call ToggleOutline()<CR>
+nnoremap <silent><nowait> <space>o :call ToggleOutline()<CR>
+
 function! ToggleOutline() abort
   let winid = coc#window#find('cocViewId', 'OUTLINE')
   if winid == -1
@@ -439,7 +454,9 @@ function! ToggleOutline() abort
   endif
 endfunction
 
+
 " Documentation {{{4
+
 
 " Note: Use `:call coc#float#close_all()` or `:call popup_clear()` to close all popups
 
@@ -448,7 +465,8 @@ nnoremap <silent> K :call ShowDocumentation()<CR>
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
+    "call CocActionAsync('doHover')
+    call CocActionAsync('definitionHover')
   else
     call feedkeys('K', 'in')
   endif
@@ -464,14 +482,25 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
+
 " Visualization {{{4
+
 
 " Highlight the symbol and its references when holding the cursor
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
+" Add (Neo)Vim's native statusline support
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline
+let g:airline#extensions#coc#enabled = 1
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+
 " Miscellaneous {{{4
 
+
 " Symbol renaming
+" Use command `:CocCommand document.renameCurrentWord`
 nmap <leader>rn <Plug>(coc-rename)
 
 " Applying code actions to the selected code block
@@ -492,7 +521,7 @@ xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
 nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
 
 " Run the Code Lens action on the current line
-nmap <leader>cl  <Plug>(coc-codelens-action)
+nmap <leader>cl <Plug>(coc-codelens-action)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server
@@ -519,28 +548,24 @@ command! -nargs=? Fold :call CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer
 command! -nargs=0 OR :call CocActionAsync('runCommand', 'editor.action.organizeImport')
 
-" Add (Neo)Vim's native statusline support
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
 " Mappings for CoCList
 " Show all diagnostics
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <space>a :<C-u>CocList diagnostics<cr>
 " Manage extensions
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <space>e :<C-u>CocList extensions<cr>
 " Show commands
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <space>c :<C-u>CocList commands<cr>
 " Find symbol of current document
-"nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+"nnoremap <silent><nowait> <space>o :<C-u>CocList outline<cr>
 " Search workspace symbols
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <space>s :<C-u>CocList -I symbols<cr>
 " Do default action for next item
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <space>j :<C-u>CocNext<CR>
 " Do default action for previous item
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR>
 " Resume latest coc list
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <space>p :<C-u>CocListResume<CR>
+
 
 " ctags {{{3
 
