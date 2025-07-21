@@ -15,7 +15,8 @@ function! ToggleTheme()
     else
         colorscheme onehalfdark
         let g:airline_theme='onehalfdark'
-        highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#5c6370
+        "highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#5c6370
+        highlight! Folded term=NONE ctermbg=lightgray ctermfg=darkgray guibg=#3c3f44 guifg=#b0b0b0
 
         if has('terminal')
           let g:terminal_ansi_colors = [

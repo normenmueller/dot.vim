@@ -283,7 +283,8 @@ if has('macunix')
   if match(mode, 'Dark') >= 0
     colorscheme onehalfdark
     let g:airline_theme='onehalfdark'
-    highlight! Folded term=NONE ctermbg=white ctermfg=lightgray guibg=#ffffff guifg=#b0b0b0
+    "highlight! Folded term=NONE ctermbg=white ctermfg=lightgray guibg=#ffffff guifg=#b0b0b0
+    highlight! Folded term=NONE ctermbg=lightgray ctermfg=darkgray guibg=#3c3f44 guifg=#b0b0b0
 
     if has('terminal')
       let g:terminal_ansi_colors = [
