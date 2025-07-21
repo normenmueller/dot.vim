@@ -7,11 +7,17 @@
 
   "outline.autoWidth": true,
   //"outline.splitCommand": "aboveleft 30vs",
-  "outline.splitCommand": "botright 30vs",
+  "outline.splitCommand": "botright 75vs",
   "outline.showLineNumber": false,
 
   "suggest.noselect": true,
   "suggest.autoTrigger": "none",
+
+  // coc-explorer
+  // https://github.com/weirongxu/coc-explorer
+  //"explorer.file.showHiddenFiles": true,
+  //"explorer.icon.enableNerdfont": true,
+  //"explorer.width": 40,
 
   "languageserver": {
 
