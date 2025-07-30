@@ -7,7 +7,7 @@
 
   "outline.autoWidth": true,
   //"outline.splitCommand": "aboveleft 30vs",
-  "outline.splitCommand": "botright 75vs",
+  "outline.splitCommand": "botright 55vs",
   "outline.showLineNumber": false,
 
   "suggest.noselect": true,
