@@ -344,23 +344,6 @@ let g:NERDTreeAutoDeleteBuffer=1
 nmap <leader>d :NERDTreeToggle<CR>
 nmap <leader>f :NERDTreeFind<CR>
 
-if has("gui_mac") || has("gui_macvim") || has("mac")
-  " Navigate to a node in the NERDTree view, type m to bring up the fs menu,
-  " then o to open the current node.
-
-  augroup nerdtree_custom_menu
-    autocmd!
-    autocmd FileType nerdtree call s:SetupNERDTreeMenu()
-  augroup END
-
-  function! s:SetupNERDTreeMenu()
-    call NERDTreeAddMenuItem({'text': '(r)eveal in Finder the current node', 'shortcut': 'r', 'callback': 'NERDTreeRevealInFinder'})
-    call NERDTreeAddMenuItem({'text': '(o)pen the current node with system editor', 'shortcut': 'o', 'callback': 'NERDTreeExecuteFile'})
-    call NERDTreeAddMenuItem({'text': '(q)uicklook the current node', 'shortcut': 'q', 'callback': 'NERDTreeQuickLook'})
-  endfunction
-endif
-
-
 " Differencing {{{3
 
 
