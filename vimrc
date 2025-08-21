@@ -91,6 +91,8 @@ set encoding=utf-8
 set showcmd
 set cmdheight=2
 
+set belloff=all
+
 set modeline
 set modelines=2
 
