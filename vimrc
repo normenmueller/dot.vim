@@ -261,7 +261,7 @@ if has("termguicolors")
 endif
 
 if has("gui_running")
-  set guifont=Monoid-Regular:h13
+  set guifont=Monoid-Regular:h11
 endif
 
 
