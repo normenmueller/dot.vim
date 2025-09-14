@@ -9,7 +9,7 @@ if empty(glob(plug_file))
 endif
 
 
-" Packages {{{1 ----------------------------------------------------------------
+" Packages {{{1
 
 
 call plug#begin()
@@ -22,6 +22,8 @@ Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 " Markup {{{2
 
@@ -34,7 +36,7 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 
 
 Plug 'qpkorr/vim-bufkill'
-Plug 'jlanzarotta/bufexplorer'
+"Plug 'jlanzarotta/bufexplorer'
 
 
 " Interface {{{2
@@ -48,8 +50,6 @@ Plug 'sonph/onehalf', { 'rtp': 'vim' }
 " File System {{{2
 
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 
 
@@ -63,7 +63,7 @@ Plug 'alx741/vim-hindent'
 call plug#end()
 
 
-" Configurations {{{1 ----------------------------------------------------------
+" Configurations {{{1
 
 
 " Load simple plug-ins (opposed to packages)
@@ -109,6 +109,12 @@ set whichwrap+=<,>,h,l
 " Move within visual lines
 nmap <silent> <C-k> gk
 nmap <silent> <C-j> gj
+
+" Key mappings
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
 
 set expandtab
 set tabstop=2
@@ -161,28 +167,15 @@ hi Comment cterm=italic
 autocmd FileType gitcommit setlocal spell
 
 
-" Key mappings {{{2
+" Commons {{{2
 
 
-nnoremap j gj
-nnoremap k gk
-vnoremap j gj
-vnoremap k gk
+" fzf {{{3
 
 
-" Buffers {{{2
-
-
-" Buffer explorer {{{3
-
-
-:call CmdAlias('ls', 'BufExplorer') " - or 'BufExplorerHorizontalSplit'
-
-
-" Buffer kill {{{3
-
-
-:call CmdAlias('bd', 'BD')
+nnoremap <C-O> :Files<CR>
+nnoremap <C-P> :Buffers<CR>
+:call CmdAlias('ls', 'Buffers')
 
 
 " Markup {{{2
@@ -218,8 +211,23 @@ let g:pandoc#toc#position = 'right'
 autocmd FileType markdown setlocal foldcolumn=0
 autocmd FileType pandoc setlocal foldcolumn=0
 
-" Interface {{{2
 
+" Buffers {{{2
+
+
+" Buffer explorer {{{3
+
+
+":call CmdAlias('ls', 'BufExplorer') " - or 'BufExplorerHorizontalSplit'
+
+
+" Buffer kill {{{3
+
+
+:call CmdAlias('bd', 'BD')
+
+
+" Interface {{{2
 
 " Cursor {{{3
 
@@ -314,20 +322,6 @@ endif
 
 
 " File System {{{2
-
-
-nnoremap <leader>it :silent !open -a /Applications/iTerm.app "`pwd`"<CR>
-
-
-" CtrlP {{{3
-
-
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/]\.(git|hg|svn|stack-work)$',
-            \ 'file': '\~$\|\v\.(exe|so|dll|class)'
-            \ }
 
 
 " NERDTree {{{3
