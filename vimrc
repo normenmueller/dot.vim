@@ -173,8 +173,8 @@ autocmd FileType gitcommit setlocal spell
 " fzf {{{3
 
 
-nnoremap <C-O> :Files<CR>
-nnoremap <C-P> :Buffers<CR>
+"nnoremap <C-O> :Files<CR>
+nnoremap <C-P> :Files<CR>
 :call CmdAlias('ls', 'Buffers')
 
 
