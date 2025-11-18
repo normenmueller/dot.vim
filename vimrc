@@ -229,6 +229,21 @@ autocmd FileType pandoc setlocal foldcolumn=0
 
 " Interface {{{2
 
+" UI {{{3
+
+" Airline-Tabline aktiv
+let g:airline#extensions#tabline#enabled   = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tabline#fnamemod  = ':t'
+
+" optional
+let g:airline#extensions#tabline#left_padding  = 2
+let g:airline#extensions#tabline#right_padding = 2
+let g:airline#extensions#tabline#show_tabs    = 1
+let g:airline#extensions#tabline#show_tab_nr  = 1
+let g:airline#extensions#tabline#show_splits  = 0
+
+
 " Cursor {{{3
 
 
@@ -257,8 +272,6 @@ if !has('gui_running')
     let &t_SR = "\e[4 q"   " Replace-Modus: Unterstrich-Cursor
     let &t_EI = "\e[2 q"   " Normal-Modus: Block-Cursor
 endif
-
-
 
 
 " Color & Fonts {{{3
