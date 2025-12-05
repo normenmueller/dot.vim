@@ -212,6 +212,20 @@ autocmd FileType markdown setlocal foldcolumn=0
 autocmd FileType pandoc setlocal foldcolumn=0
 
 
+" Markdown {{{3
+
+
+" vim-pandoc should also be active for filetype=markdown
+let g:pandoc#filetypes#handled = ['pandoc', 'markdown']
+let g:pandoc#filetypes#pandoc_markdown = 0
+
+" safety-net: .md explicitly set as markdown
+augroup my_markdown_ft
+  autocmd!
+  autocmd BufRead,BufNewFile *.md setfiletype markdown
+augroup END
+
+
 " Buffers {{{2
 
 
@@ -371,10 +385,6 @@ au VimEnter * if &diff | execute 'windo set wrap' | endif
 
 
 autocmd FileType haskell let b:coc_enabled = 1
-
-" May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
-" utf-8 byte sequence
-set encoding=utf-8
 
 " Some servers have issues with backup files, see #649
 set nobackup

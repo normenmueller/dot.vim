@@ -24,7 +24,7 @@
     "markdown": {
       "command": "marksman",
       "args": ["server"],
-      "filetypes": ["markdown"],
+      "filetypes": ["markdown", "pandoc"],
       "rootPatterns": [".git/"],
       "initializationOptions": {}
     },
