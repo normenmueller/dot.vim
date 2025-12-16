@@ -217,7 +217,7 @@ autocmd FileType pandoc setlocal foldcolumn=0
 
 " vim-pandoc should also be active for filetype=markdown
 let g:pandoc#filetypes#handled = ['pandoc', 'markdown']
-let g:pandoc#filetypes#pandoc_markdown = 0
+let g:pandoc#filetypes#pandoc_markdown = 1
 
 " safety-net: .md explicitly set as markdown
 augroup my_markdown_ft
@@ -296,54 +296,16 @@ if has("termguicolors")
 endif
 
 if has("gui_running")
-  set guifont=Monoid-Regular:h11
+  "set guifont=Monoid-Regular:h11
+  set guifont=Monoid\ Nerd\ Font\ Mono:h11
 endif
-
-
-""colorscheme default
-"colorscheme onehalfdark
-"let g:airline_theme='onehalfdark'
-""highlight! Folded term=NONE ctermbg=black ctermfg=darkgray guibg=#282c34 guifg=#5c6370
-"
-"if has('terminal')
-"  let g:terminal_ansi_colors = [
-"        \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
-"        \ '#61afef', '#c678dd', '#56b6c2', '#dcdfe4',
-"        \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
-"        \ '#61afef', '#c678dd', '#56b6c2', '#ffffff'
-"        \ ]
-"endif
-
 
 if has('macunix')
   let mode = system('defaults read -g AppleInterfaceStyle 2>/dev/null')
   if match(mode, 'Dark') >= 0
-    colorscheme onehalfdark
-    let g:airline_theme='onehalfdark'
-    "highlight! Folded term=NONE ctermbg=white ctermfg=lightgray guibg=#ffffff guifg=#b0b0b0
-    highlight! Folded term=NONE ctermbg=lightgray ctermfg=darkgray guibg=#3c3f44 guifg=#b0b0b0
-
-    if has('terminal')
-      let g:terminal_ansi_colors = [
-            \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
-            \ '#61afef', '#c678dd', '#56b6c2', '#dcdfe4',
-            \ '#282c34', '#e06c75', '#98c379', '#e5c07b',
-            \ '#61afef', '#c678dd', '#56b6c2', '#ffffff'
-            \ ]
-    endif
+    call tglthm#apply('dark')
   else
-    colorscheme onehalflight
-    let g:airline_theme='onehalflight'
-    highlight! Folded term=NONE ctermbg=white ctermfg=lightgray guibg=#ffffff guifg=#b0b0b0
-
-    if has('terminal')
-      let g:terminal_ansi_colors = [
-            \ '#f0f0f0', '#e45649', '#50a14f', '#986801',
-            \ '#4078f2', '#a626a4', '#0184bc', '#383a42',
-            \ '#f0f0f0', '#e45649', '#50a14f', '#986801',
-            \ '#4078f2', '#a626a4', '#0184bc', '#090a0b'
-            \ ]
-    endif
+    call tglthm#apply('light')
   endif
 endif
 
