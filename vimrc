@@ -297,7 +297,7 @@ endif
 
 if has("gui_running")
   "set guifont=Monoid-Regular:h11
-  set guifont=Monoid\ Nerd\ Font\ Mono:h11
+  set guifont=Monoid\ Nerd\ Font\ Mono:h12
 endif
 
 if has('macunix')
