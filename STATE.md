@@ -1,33 +1,21 @@
 # Agent State
 
-This repository is a classic Vim/MacVim configuration, not a Neovim config.
+This repository is a classic Vim/MacVim configuration. Do not assume Neovim or
+Lua-plugin compatibility unless a branch explicitly adds it.
 
-## Current branch state
+## Branch map
 
-- Current branch: `feature/pimp-all-zenbones`.
-- Working tree is expected to be clean except for this `STATE.md` if not yet committed.
-- Relevant local branches:
-  - `trunk`
-    - Contains `bin/sync-plugins`.
-    - Commit: `4de9ce3 Add plugin sync helper`.
-  - `feature/pimp-all-everforest`
-    - Everforest + lightline Vim UI variant.
-    - Contains `bin/sync-plugins`.
-    - Commit: `c8502bf Add plugin sync helper`.
-  - `feature/pimp-all-zenbones`
-    - Zenbones + lightline Vim UI variant.
-    - Contains `bin/sync-plugins`.
-    - Commit: `e028d25 Add plugin sync helper`.
-  - `feature/pimp-ui-lightline`
-    - Earlier lightline-only UI variant.
-  - `feature/pimp-ui-crafted`
-    - Earlier native handcrafted UI prototype.
+- `trunk`: baseline Vim config with the plugin sync helper.
+- `feature/pimp-ui-crafted`: earlier handcrafted native UI prototype.
+- `feature/pimp-ui-lightline`: earlier lightline-only UI variant.
+- `feature/pimp-all-everforest`: Vim-compatible Everforest + lightline variant.
+- `feature/pimp-all-zenbones`: Vim-compatible Zenbones + lightline variant.
 
-## Plugin synchronization policy
+## Plugin sync policy
 
-`plugged/` is ignored by Git and is local machine state. Branch switches do not
-automatically remove ignored plugin checkouts. To keep the local plugin checkout
-matching the active branch, run:
+`plugged/` is ignored by Git and is local machine state. Git branch switches do
+not automatically remove ignored plugin checkouts. Always synchronize local
+plugins after switching branches or before validating UI behavior:
 
 ```sh
 ./bin/sync-plugins
@@ -39,46 +27,63 @@ The script executes:
 vim -Nu "$PWD/vimrc" -n -es +'PlugClean!' +'PlugInstall --sync' +'qa!'
 ```
 
-Effects:
+Behavior:
 - Remove plugins under `plugged/` that are not declared by the active branch.
 - Install plugins declared by the active branch that are missing locally.
 - Do not commit `plugged/`; it remains ignored local state.
 
-## Current local plugin state
+## Expected plugin sets
 
-After synchronizing `feature/pimp-all-zenbones`, `plugged/` should contain only
-the Zenbones branch plugin set:
+- `trunk`
+  - Includes legacy UI stack: NERDTree, onehalf, vim-airline, vim-airline-themes.
+- `feature/pimp-ui-lightline`
+  - Uses lightline + onehalf.
+  - Does not use airline.
+- `feature/pimp-ui-crafted`
+  - Uses the handcrafted native UI prototype.
+  - Contains `autoload/nemui.vim`.
+- `feature/pimp-all-everforest`
+  - Uses Everforest + lightline.
+  - Does not use NERDTree, onehalf, vim-airline, or vim-airline-themes.
+- `feature/pimp-all-zenbones`
+  - Uses Zenbones + lightline.
+  - Does not use NERDTree, onehalf, vim-airline, or vim-airline-themes.
 
-- `zenbones.nvim`
-- `lightline.vim`
-- `coc.nvim`
-- `fzf`
-- `fzf.vim`
-- shared Vim plugins such as `vim-sensible`, `vim-surround`, `vim-fugitive`,
-  `vim-pandoc`, `vim-pandoc-syntax`, `vim-bufkill`, and `vim-hindent`
+Shared Vim plugins are expected across most branches: `coc.nvim`, `fzf`,
+`fzf.vim`, `vim-sensible`, `vim-surround`, `vim-fugitive`, `vim-pandoc`,
+`vim-pandoc-syntax`, `vim-bufkill`, and `vim-hindent`.
 
-It should not contain `everforest`, `nerdtree`, `onehalf`, `vim-airline`, or
-`vim-airline-themes` while `feature/pimp-all-zenbones` is active and synced.
+## Sync exit status caveat
 
-## Verification commands
+`./bin/sync-plugins` may occasionally exit with status `1` after printing
+vim-plug progress such as `Removed ... directories`, `Updating ...`, and
+`Finishing ...`. Treat this as inconclusive, not immediately fatal.
 
-Use these checks after plugin sync or branch switches:
+The authoritative post-sync check is `PlugStatus`:
 
 ```sh
-git status --short
-find plugged -maxdepth 1 -mindepth 1 -type d -print | sort
 vim -Nu "$PWD/vimrc" -n -es +'PlugStatus' +'redir! > /tmp/plugstatus.txt' +'silent %print' +'redir END' +'qa!'
 sed -n '1,160p' /tmp/plugstatus.txt
 ```
 
-Expected `PlugStatus` result for a healthy branch:
+Expected healthy result:
 
 ```text
 Finished. 0 error(s).
 ```
 
-Note: `./bin/sync-plugins` may occasionally exit with status `1` after printing
-vim-plug progress such as `Removed ... directories`, `Updating ...`, and
-`Finishing ...`. Treat this as inconclusive rather than immediately fatal.
-Always verify with `PlugStatus`; Zenbones and Everforest were both verified with
+Zenbones and Everforest were both verified with `PlugStatus` reporting
 `Finished. 0 error(s).`
+
+## Verification commands
+
+Use these checks after plugin sync, branch switches, or UI edits:
+
+```sh
+git status --short
+find plugged -maxdepth 1 -mindepth 1 -type d -print | sort
+vim -i NONE -Nu "$PWD/vimrc" -n -V1 -es +'call tglthm#toggle()' +'call tglthm#toggle()' +'messages' +'qa!'
+```
+
+For script loading validation, capture `:scriptnames` and assert that only the
+branch's intended UI plugins are loaded.
