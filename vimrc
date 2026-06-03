@@ -173,6 +173,9 @@ autocmd FileType gitcommit setlocal spell
 " fzf {{{3
 
 
+let g:fzf_preview_window = []
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:false, 'yoffset': -2.0 } }
+
 "nnoremap <C-O> :Files<CR>
 nnoremap <C-P> :Files<CR>
 :call CmdAlias('ls', 'Buffers')
