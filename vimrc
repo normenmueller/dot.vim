@@ -66,20 +66,24 @@ call plug#end()
 " Configurations {{{1
 
 
-" Load simple plug-ins (opposed to packages)
-for f in split(glob("~/.vim/plugin/*.vim"), "\n")
-    try
-        execute "source " . f
-    catch
-        echom "Error loading " . f
-    endtry
-endfor
+" CmdAlias is used below before Vim's normal plugin pass runs.
+runtime plugin/cmdalias.vim
 
 
 " Sets the $PATH in Vim from a saved file, which contains the correct PATH
 " from the zsh shell (eg., via `echo $PATH > ~/.zsh_path` in your `.zshrc`).
 " This ensures that MacVim uses the same PATH as the terminal.
-let $PATH = trim(readfile(expand("~/.zsh_path"))[0])
+let s:zsh_path_file = expand('~/.zsh_path')
+if filereadable(s:zsh_path_file)
+  let s:zsh_path = readfile(s:zsh_path_file, '', 1)
+  if !empty(s:zsh_path) && !empty(trim(s:zsh_path[0]))
+    let $PATH = trim(s:zsh_path[0])
+  endif
+endif
+unlet s:zsh_path_file
+if exists('s:zsh_path')
+  unlet s:zsh_path
+endif
 
 
 " Basics {{{2
@@ -164,7 +168,10 @@ hi SpellBad cterm=underline ctermfg=red
 hi SpellBad gui=undercurl
 hi Comment cterm=italic
 
-autocmd FileType gitcommit setlocal spell
+augroup my_spell
+  autocmd!
+  autocmd FileType gitcommit setlocal spell
+augroup END
 
 
 " Commons {{{2
@@ -187,20 +194,22 @@ nnoremap <C-P> :Files<CR>
 " XML {{{3
 
 
-autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+augroup my_filetypes
+  autocmd!
+  autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
 
 " JSON {{{3
 
 
-autocmd FileType json setlocal fdm=syntax
+  autocmd FileType json setlocal fdm=syntax
 
 
 " YAML {{{3
 
 
 " https://www.arthurkoziel.com/setting-up-vim-for-yaml/
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab fdm=indent
+  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab fdm=indent
 
 
 " Pandoc {{{3
@@ -211,8 +220,9 @@ let g:pandoc#syntax#conceal#use=0
 let g:pandoc#formatting#preserve_indentation = 1
 let g:pandoc#toc#position = 'right'
 
-autocmd FileType markdown setlocal foldcolumn=0
-autocmd FileType pandoc setlocal foldcolumn=0
+  autocmd FileType markdown setlocal foldcolumn=0
+  autocmd FileType pandoc setlocal foldcolumn=0
+augroup END
 
 
 " Markdown {{{3
@@ -340,7 +350,10 @@ set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
 " https://stackoverflow.com/questions/16840433/forcing-vimdiff-to-wrap-lines
 "autocmd FilterWritePre * if &diff | setlocal wrap< | endif
-au VimEnter * if &diff | execute 'windo set wrap' | endif
+augroup my_diff
+  autocmd!
+  autocmd VimEnter * if &diff | execute 'windo set wrap' | endif
+augroup END
 
 
 " Development  {{{2
@@ -349,7 +362,10 @@ au VimEnter * if &diff | execute 'windo set wrap' | endif
 " Coc {{{3
 
 
-autocmd FileType haskell let b:coc_enabled = 1
+augroup my_coc_filetypes
+  autocmd!
+  autocmd FileType haskell let b:coc_enabled = 1
+augroup END
 
 " Some servers have issues with backup files, see #649
 set nobackup
@@ -455,7 +471,10 @@ endif
 
 
 " Highlight the symbol and its references when holding the cursor
-autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup my_coc_highlight
+  autocmd!
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup END
 
 " Add (Neo)Vim's native statusline support
 " NOTE: Please see `:h coc-status` for integrations with external plugins that

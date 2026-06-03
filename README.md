@@ -16,8 +16,9 @@ This `.vimrc` is designed for **modern, efficient, and intuitive Vim usage**, pa
 ### 🔹 **Navigation & Usability Enhancements**
 
 - **Wrapped line navigation** via `<C-j>` / `<C-k>`.
-- **Quick buffer switching** with `<Leader><Leader>`.
-- **File tree navigation** with `NERDTree`, toggleable via `<Leader>n`.
+- **Quick file opening** with `<C-P>` via `fzf`.
+- **Buffer switching** with `:ls`, aliased to `:Buffers`.
+- **File tree navigation** with `NERDTree`, toggleable via `<Leader>d`; locate the current file with `<Leader>f`.
 - **Tab navigation** and visual enhancements.
 
 ### 🔹 **Language and Linting Support**
@@ -34,7 +35,7 @@ This `.vimrc` is designed for **modern, efficient, and intuitive Vim usage**, pa
 
 - **True color** and `termguicolors`.
 - **`vim-airline`** for an informative and aesthetic statusline.
-- **Customizable theme** with support for light/dark switching via `ToggleTheme()`.
+- **Customizable theme** with support for light/dark switching via `:ToggleTheme`.
 - **Consistent cursor styles** per mode.
 
 ### 🔹 **System Integration**
@@ -92,4 +93,3 @@ autocmd BufWritePost * silent! call CocAction('runCommand', 'editor.action.organ
 - ✅ **Great UX**: wrapped lines, color support, buffer switching, etc.
 
 🚀 Try it and enjoy a cleaner, more powerful Vim! 🚀
-
