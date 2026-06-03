@@ -42,8 +42,7 @@ Plug 'qpkorr/vim-bufkill'
 " Interface {{{2
 
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
 
@@ -258,17 +257,38 @@ augroup END
 
 " UI {{{3
 
-" Airline-Tabline aktiv
-let g:airline#extensions#tabline#enabled   = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#fnamemod  = ':t'
+set laststatus=2
+set showtabline=2
+set noshowmode
 
-" optional
-let g:airline#extensions#tabline#left_padding  = 2
-let g:airline#extensions#tabline#right_padding = 2
-let g:airline#extensions#tabline#show_tabs    = 1
-let g:airline#extensions#tabline#show_tab_nr  = 1
-let g:airline#extensions#tabline#show_splits  = 0
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'active': {
+      \   'left': [
+      \     [ 'mode', 'paste' ],
+      \     [ 'readonly', 'filename', 'modified' ]
+      \   ],
+      \   'right': [
+      \     [ 'lineinfo' ],
+      \     [ 'percent' ],
+      \     [ 'fileformat', 'fileencoding', 'filetype' ],
+      \     [ 'coc' ]
+      \   ]
+      \ },
+      \ 'inactive': {
+      \   'left': [ [ 'filename' ] ],
+      \   'right': [ [ 'lineinfo' ], [ 'percent' ] ]
+      \ },
+      \ 'component': {
+      \   'coc': '%{coc#status()}%{get(b:,"coc_current_function","")}'
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '|', 'right': '|' }
+      \ }
+
+if exists('+fillchars')
+  set fillchars=vert:│,fold:·,diff:╱
+endif
 
 
 " Cursor {{{3
@@ -475,13 +495,6 @@ augroup my_coc_highlight
   autocmd!
   autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup END
-
-" Add (Neo)Vim's native statusline support
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline
-let g:airline#extensions#coc#enabled = 1
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
 
 " Miscellaneous {{{4
 
