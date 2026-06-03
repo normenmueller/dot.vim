@@ -67,6 +67,12 @@ Open Vim and install plugins
 vim +PlugInstall +qall
 ```
 
+Keep the local plugin checkout in sync with the current branch
+
+```sh
+./bin/sync-plugins
+```
+
 Ensure `vim-plug` is available. If not:
 
 ```sh
