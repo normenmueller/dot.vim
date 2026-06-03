@@ -1,11 +1,12 @@
 " Theme presets for :ToggleTheme; each profile tells us which colorscheme,
-" airline theme and manual overrides to apply. The `folded` and `terminal`
+" lightline theme and manual overrides to apply. The `folded` and `terminal`
 " entries override onehalf's defaults so Folded sections and terminal buffers
 " look the same across environments.
 let s:theme_profiles = {
       \ 'dark': {
-      \   'colorscheme': 'onehalfdark',
-      \   'airline': 'onehalfdark',
+      \   'background': 'dark',
+      \   'colorscheme': 'everforest',
+      \   'lightline': 'everforest',
       \   'folded': {
       \     'term': 'NONE',
       \     'ctermbg': 'lightgray',
@@ -21,8 +22,9 @@ let s:theme_profiles = {
       \   ]
       \ },
       \ 'light': {
-      \   'colorscheme': 'onehalflight',
-      \   'airline': 'onehalflight',
+      \   'background': 'light',
+      \   'colorscheme': 'everforest',
+      \   'lightline': 'everforest',
       \   'folded': {
       \     'term': 'NONE',
       \     'ctermbg': 'white',
@@ -45,8 +47,9 @@ function! tglthm#apply(mode) abort
     return
   endif
 
+  let &background = l:profile.background
   execute 'colorscheme ' . l:profile.colorscheme
-  let g:airline_theme = l:profile.airline
+  let g:lightline.colorscheme = l:profile.lightline
   call s:apply_folded_highlight(l:profile.folded)
 
   if has('terminal')
@@ -55,8 +58,10 @@ function! tglthm#apply(mode) abort
 
   let g:tglthm_current = a:mode
 
-  if exists(':AirlineTheme')
-    execute 'AirlineTheme ' . g:airline_theme
+  if exists('*lightline#init')
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
   endif
 endfunction
 
@@ -71,9 +76,9 @@ function! tglthm#resolve_mode() abort
   endif
 
   if exists('g:colors_name')
-    if g:colors_name ==# 'onehalfdark'
+    if g:colors_name ==# 'everforest' && &background ==# 'dark'
       return 'dark'
-    elseif g:colors_name ==# 'onehalflight'
+    elseif g:colors_name ==# 'everforest' && &background ==# 'light'
       return 'light'
     endif
   endif

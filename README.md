@@ -18,8 +18,8 @@ This `.vimrc` is designed for **modern, efficient, and intuitive Vim usage**, pa
 - **Wrapped line navigation** via `<C-j>` / `<C-k>`.
 - **Quick file opening** with `<C-P>` via `fzf`.
 - **Buffer switching** with `:ls`, aliased to `:Buffers`.
-- **File tree navigation** with `NERDTree`, toggleable via `<Leader>d`; locate the current file with `<Leader>f`.
-- **Tab navigation** and visual enhancements.
+- **File and buffer navigation** via `fzf` (`<C-P>`, `:Buffers`) instead of a file-tree sidebar.
+- **Always-visible tabline** with clear active tab highlighting.
 
 ### 🔹 **Language and Linting Support**
 
@@ -34,7 +34,8 @@ This `.vimrc` is designed for **modern, efficient, and intuitive Vim usage**, pa
 ### 🔹 **UI & Visual Improvements**
 
 - **True color** and `termguicolors`.
-- **`vim-airline`** for an informative and aesthetic statusline.
+- **`lightline.vim`** for a lean configurable statusline/tabline.
+- **Everforest** for a calm readable Vim colorscheme.
 - **Customizable theme** with support for light/dark switching via `:ToggleTheme`.
 - **Consistent cursor styles** per mode.
 
