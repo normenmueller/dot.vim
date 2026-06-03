@@ -5,10 +5,12 @@
   // Inline notes *in* the code (e.g. types).
   "inlayHint.enable": false,
 
-  "outline.autoWidth": true,
-  //"outline.splitCommand": "aboveleft 30vs",
-  "outline.splitCommand": "botright 55vs",
+  "outline.autoWidth": false,
+  "outline.keepWindow": true,
   "outline.showLineNumber": false,
+  "outline.sortBy": "position",
+  "outline.splitCommand": "aboveleft 30vs",
+  //"outline.splitCommand": "botright 55vs",
 
   "suggest.noselect": true,
   "suggest.autoTrigger": "none",
