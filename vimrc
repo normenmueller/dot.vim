@@ -42,8 +42,6 @@ Plug 'qpkorr/vim-bufkill'
 " Interface {{{2
 
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
 
@@ -258,17 +256,15 @@ augroup END
 
 " UI {{{3
 
-" Airline-Tabline aktiv
-let g:airline#extensions#tabline#enabled   = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#fnamemod  = ':t'
+set laststatus=2
+set showtabline=2
+set noshowmode
+set statusline=%!nemui#statusline()
+set tabline=%!nemui#tabline()
 
-" optional
-let g:airline#extensions#tabline#left_padding  = 2
-let g:airline#extensions#tabline#right_padding = 2
-let g:airline#extensions#tabline#show_tabs    = 1
-let g:airline#extensions#tabline#show_tab_nr  = 1
-let g:airline#extensions#tabline#show_splits  = 0
+if exists('+fillchars')
+  set fillchars=vert:│,fold:·,diff:╱
+endif
 
 
 " Cursor {{{3
@@ -311,6 +307,9 @@ endif
 if has("gui_running")
   "set guifont=Monoid-Regular:h11
   set guifont=Monoid\ Nerd\ Font\ Mono:h12
+  set guioptions-=T
+  set guioptions-=r
+  set guioptions-=L
 endif
 
 if has('macunix')
@@ -475,13 +474,6 @@ augroup my_coc_highlight
   autocmd!
   autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup END
-
-" Add (Neo)Vim's native statusline support
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline
-let g:airline#extensions#coc#enabled = 1
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
 
 " Miscellaneous {{{4
 
