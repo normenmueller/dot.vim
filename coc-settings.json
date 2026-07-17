@@ -27,7 +27,7 @@
       "command": "marksman",
       "args": ["server"],
       "filetypes": ["markdown", "pandoc"],
-      "rootPatterns": [".git/"],
+      "rootPatterns": [".marksman.toml", ".git/"],
       "initializationOptions": {}
     },
 
