@@ -67,7 +67,6 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 
 
 Plug 'qpkorr/vim-bufkill'
-"Plug 'jlanzarotta/bufexplorer'
 
 
 " Interface {{{2
@@ -285,12 +284,6 @@ augroup END
 " Buffers {{{2
 
 
-" Buffer explorer {{{3
-
-
-":call CmdAlias('ls', 'BufExplorer') " - or 'BufExplorerHorizontalSplit'
-
-
 " Buffer kill {{{3
 
 
@@ -486,7 +479,7 @@ augroup END
 
 " Symbol renaming
 " Use command `:CocCommand document.renameCurrentWord`
-nmap <leader>rn <Plug>(coc-rename)
+nmap <space>rn <Plug>(coc-rename)
 
 " Applying code actions to the selected code block
 " Example: `<leader>aap` for current paragraph
