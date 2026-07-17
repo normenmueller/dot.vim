@@ -75,6 +75,8 @@ Profiles:
 - `bin/sync-plugins`: install-before-clean synchronization and health gates.
 - `coc-settings.json`: CoC language server configuration, including Marksman.
 - `README.md`: concise human quick start, profile overview, and essential use.
+- `LICENSE`: canonical Apache License 2.0 text sourced from GitHub's license
+  template.
 - `docs/`: detailed human profile/plugin/theme and CoC/Marksman guides.
 - `plugin/`, `syntax/`, `spell/`, `doc/`: classic Vim runtime content.
 - `.ai4X/`: canonical agent behavior, context, and volatile state memory.
@@ -150,3 +152,7 @@ Evidence: `vimrc`, Git remote observed in the active session.
 
 No external web research was used for this bootstrap update. Plugin API/version
 claims beyond repository behavior are therefore UNVERIFIED.
+
+The repository is distributed under Apache License 2.0. The canonical license
+text was obtained from GitHub's `licenses/apache-2.0` API template. Evidence:
+`LICENSE`, explicit user decision on 2026-07-17.

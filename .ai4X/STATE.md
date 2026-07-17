@@ -9,38 +9,34 @@ complexity explicitly requires more.
 # Snapshot
 
 - Observed: 2026-07-17 CEST.
-- Phase: profile migration, bootstrap consolidation, and documentation cleanup
-  complete; no implementation task remains active.
+- Phase: Apache License 2.0 addition complete and committed locally; no
+  implementation task remains active.
 - Bootstrap files were merged from prior `AGENTS.md` and `STATE.md` material,
   then versioned under `.ai4X/`; host adapters link to canonical behavior.
-- Observation boundary: status was inspected before edits; this state file is
-  updated by the documentation commit. Final status and remote synchronization
-  were verified after publication.
+- Observation boundary: status was inspected before licensing edits; this file
+  is part of the licensing commit. Post-commit status was verified at handoff.
 
 # Evidence Freshness
 
-- Inspected: all canonical `.ai4X/` files, Git status/history, README, `docs/`,
-  `vimrc`, `coc-settings.json`, profiles, theme code, and profile/sync scripts.
+- Inspected: all canonical `.ai4X/` files, Git status/history, README, LICENSE,
+  and the official GitHub Apache-2.0 license template.
 - Runtime evidence: direct rename mapping lookup, theme toggle smoke test, all
   documentation links, shell syntax, plugin status, and repository searches.
-- Active-session evidence includes explicit user decisions on README scope,
-  documentation structure, obsolete content, commit boundaries, and direct
-  publication to `origin/trunk`.
+- Active-session evidence includes the explicit user decision to adopt GitHub's
+  Apache License 2.0 template and the exact README notice.
 - Not re-inspected in detail: unrelated syntax and spell files.
 
 # Active Objective
 
-No active implementation objective remains. Success for this handoff means a
-clean `trunk` synchronized with `origin/trunk`, with the profile workflow and
-lean documentation ready for normal use.
+No active implementation objective remains. The licensing change is complete
+when `LICENSE`, the README notice, and canonical `.ai4X/` memory form one clean
+local commit.
 
 # Current Worktree
 
-- Branch: `trunk`, tracking `origin/trunk`, clean and synchronized at handoff.
-- The completed work is split into three focused commits: canonical AI
-  bootstrap memory, obsolete Vim cleanup, and streamlined user documentation.
-- The user-created Copilot CLI adapter was intentionally included; no unrelated
-  uncommitted changes remain.
+- Branch: `trunk`, clean and one licensing commit ahead of `origin/trunk` at
+  handoff; publication was not requested in this task.
+- No unrelated or user-owned uncommitted changes were observed.
 
 # Current Focus
 
@@ -50,6 +46,8 @@ lean documentation ready for normal use.
   and its orphaned vendored help file are removed.
 - README is a concise landing page with the working `lightline` quick start,
   profile table, essential commands, and links to detailed guides.
+- `LICENSE` contains GitHub's standard Apache License 2.0 template. README ends
+  with the requested 2026 `nemron` copyright notice and license link.
 - `docs/profiles.md` owns selection precedence, synchronization, themes, and
   vim-plug troubleshooting. `docs/coc-marksman.md` owns the LSP workflow.
 - Canonical agent memory lives only in `.ai4X/`; `AGENTS.md` and
@@ -57,12 +55,10 @@ lean documentation ready for normal use.
 
 # Next Actions
 
-1. On re-entry, confirm current Git status and read the three canonical
-   `.ai4X/` files before acting.
-2. For normal use, run `./bin/use-profile PROFILE`; use `:VimProfile` to confirm
-   the selection and `:ToggleTheme` to switch theme mode.
-3. Update documentation only when observable behavior changes; keep README
-   lean and put operational depth in `docs/`.
+1. Push the local licensing commit only when the user requests publication.
+2. On re-entry, confirm Git status and read all three canonical `.ai4X/` files.
+3. For normal use, run `./bin/use-profile PROFILE`; use `:VimProfile` and
+   `:ToggleTheme` to inspect the profile and switch theme mode.
 
 # Accepted Decisions Relevant Now
 
@@ -70,7 +66,7 @@ lean documentation ready for normal use.
   long-lived branches.
 - Human Markdown guides use `docs/`; Vim help uses `doc/` only when maintained.
 - README stays English, factual, and within roughly 70-90 lines.
-- Direct publication to `origin/trunk` was explicitly authorized for this work.
+- The project uses Apache License 2.0 with the unmodified GitHub template.
 
 # Risks
 
@@ -85,6 +81,6 @@ lean documentation ready for normal use.
   `<Plug>(coc-rename)`; dark/light toggling succeeded headlessly.
 - Documentation claims were checked against Vimscript, CoC settings, profile
   scripts, and plugin declarations; stale Fugitive and backup claims removed.
-- README length, local links, shell syntax, whitespace, and staged scope passed.
-- The three focused commits were published to `origin/trunk`; local and remote
-  `trunk` commit identities matched at handoff.
+- README remains at 90 lines and its relative LICENSE link resolves locally.
+- LICENSE matched GitHub's `licenses/apache-2.0` API body byte-for-byte; diff
+  whitespace and committed scope passed.

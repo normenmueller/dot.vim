@@ -84,3 +84,7 @@ Synchronize and verify plugins for the selected profile with:
 
 Run it after pulling changes to plugin declarations or before switching with
 `./bin/use-profile --no-sync PROFILE`.
+
+## License
+
+See [LICENSE](LICENSE). © 2026 [nemron](https://github.com/normenmueller)

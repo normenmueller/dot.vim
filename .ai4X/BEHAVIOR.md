@@ -134,6 +134,8 @@ Before modifying files:
 - Preserve macOS system theme integration and Linux/other `&background`
   fallback unless the user accepts a behavior change.
 - Keep agent-facing canonical memory in `.ai4X/`; keep human usage in README.
+- Preserve the Apache License 2.0 text in `LICENSE` and its concise README
+  notice unless the user explicitly requests a licensing change.
 
 # Commands And Tooling
 
