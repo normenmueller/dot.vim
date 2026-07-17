@@ -362,11 +362,6 @@ augroup END
 " Coc {{{3
 
 
-augroup my_coc_filetypes
-  autocmd!
-  autocmd FileType haskell let b:coc_enabled = 1
-augroup END
-
 " Some servers have issues with backup files, see #649
 set nobackup
 set nowritebackup
@@ -444,13 +439,12 @@ endfunction
 
 " Note: Use `:call coc#float#close_all()` or `:call popup_clear()` to close all popups
 
-" Use K to show documentation in preview window
+" Use K to show hover information
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
-function! ShowDocumentation()
+function! ShowDocumentation() abort
   if CocAction('hasProvider', 'hover')
-    "call CocActionAsync('doHover')
-    call CocActionAsync('definitionHover')
+    call CocActionAsync('doHover')
   else
     call feedkeys('K', 'in')
   endif
