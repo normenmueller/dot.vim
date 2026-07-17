@@ -8,4 +8,5 @@ view/
 
 tags
 passwords.vim
+profile.local.vim*
 autoload/plug.vim

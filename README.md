@@ -18,7 +18,7 @@ This `.vimrc` is designed for **modern, efficient, and intuitive Vim usage**, pa
 - **Wrapped line navigation** via `<C-j>` / `<C-k>`.
 - **Quick file opening** with `<C-P>` via `fzf`.
 - **Buffer switching** with `:ls`, aliased to `:Buffers`.
-- **File tree navigation** with `NERDTree`, toggleable via `<Leader>d`; locate the current file with `<Leader>f`.
+- **Optional file tree navigation** in the Legacy, Lightline, and Crafted profiles.
 - **Tab navigation** and visual enhancements.
 
 ### 🔹 **Language and Linting Support**
@@ -34,7 +34,7 @@ This `.vimrc` is designed for **modern, efficient, and intuitive Vim usage**, pa
 ### 🔹 **UI & Visual Improvements**
 
 - **True color** and `termguicolors`.
-- **`vim-airline`** for an informative and aesthetic statusline.
+- **Five selectable UI profiles** without Git branch switches.
 - **Customizable theme** with support for light/dark switching via `:ToggleTheme`.
 - **Consistent cursor styles** per mode.
 
@@ -60,19 +60,57 @@ git clone https://github.com/normenmueller/dot.vim.git ~/.vim
 ln -s ~/.vim/vimrc ~/.vimrc
 ```
 
-Open Vim and install plugins
-
-```
-vim +PlugInstall +qall
-```
-
-Keep the local plugin checkout in sync with the current branch
+Select a profile and synchronize its plugins
 
 ```sh
+./bin/use-profile lightline
+```
+
+The profile defaults to `legacy` when no local selection exists.
+Run `./bin/use-profile --list` to list all available profiles.
+
+## 🎨 UI Profiles
+
+All configurations live together on `trunk`. The ignored
+`profile.local.vim` file stores the local selection, so changing the UI never
+changes the Git branch or dirties the working tree.
+
+| Profile | UI stack | NERDTree |
+| --- | --- | --- |
+| `legacy` | vim-airline + Onehalf | yes |
+| `lightline` | lightline + Onehalf | yes |
+| `crafted` | native handcrafted statusline/tabline + Onehalf | yes |
+| `everforest` | lightline + Everforest | no |
+| `zenbones` | lightline + Zenbones | no |
+
+Switch profiles and synchronize plugins in one step:
+
+```sh
+./bin/use-profile everforest
+```
+
+The saved selection is changed only after the new profile passes `PlugStatus`.
+
+Use `--no-sync` only when synchronization will be run separately:
+
+```sh
+./bin/use-profile --no-sync crafted
 ./bin/sync-plugins
 ```
 
-Ensure `vim-plug` is available. If not:
+For a temporary selection that does not change `profile.local.vim`, set
+`VIM_PROFILE` for the process. It takes precedence over the saved profile:
+
+```sh
+VIM_PROFILE=zenbones vim
+./bin/sync-plugins zenbones
+```
+
+Inside Vim, `:VimProfile` prints the active profile and `:ToggleTheme` switches
+between its dark and light variants.
+
+Ensure `vim-plug` is available. The configuration installs it automatically;
+it can also be installed manually:
 
 ```sh
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \

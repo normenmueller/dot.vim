@@ -1,10 +1,41 @@
+let s:config_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+let s:profile_file = s:config_dir . '/profile.local.vim'
+
+if !exists('g:vim_profile')
+  let g:vim_profile = 'legacy'
+endif
+
+if filereadable(s:profile_file)
+  execute 'source ' . fnameescape(s:profile_file)
+endif
+
+if !empty($VIM_PROFILE)
+  let g:vim_profile = $VIM_PROFILE
+endif
+
+let s:profile_files = globpath(s:config_dir . '/profiles', '*.vim', 0, 1)
+let s:valid_profiles = map(s:profile_files, 'fnamemodify(v:val, ":t:r")')
+if index(s:valid_profiles, g:vim_profile) < 0
+  throw 'Unknown Vim profile: ' . string(g:vim_profile)
+endif
+
+let s:profile_config = s:config_dir . '/profiles/' . g:vim_profile . '.vim'
+command! VimProfile echo g:vim_profile
+
 let data_dir = has('nvim') ? stdpath('data') . '/site' : expand('~/.vim')
 let plug_file = data_dir . '/autoload/plug.vim'
 
 if empty(glob(plug_file))
   echo "Installing vim-plug..."
-  silent execute '!curl -fLo ' . plug_file . ' --create-dirs ' .
-        \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  if !executable('curl')
+    throw 'Cannot install vim-plug: curl is not available'
+  endif
+  let s:plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  silent execute '!curl -fLo ' . shellescape(plug_file) . ' --create-dirs ' .
+        \ shellescape(s:plug_url)
+  if v:shell_error != 0
+    throw 'Failed to install vim-plug from ' . s:plug_url
+  endif
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
@@ -42,15 +73,25 @@ Plug 'qpkorr/vim-bufkill'
 " Interface {{{2
 
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-
-
-" File System {{{2
-
-
-Plug 'scrooloose/nerdtree'
+if g:vim_profile ==# 'legacy'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  Plug 'sonph/onehalf', { 'rtp': 'vim' }
+  Plug 'scrooloose/nerdtree'
+elseif g:vim_profile ==# 'lightline'
+  Plug 'itchyny/lightline.vim'
+  Plug 'sonph/onehalf', { 'rtp': 'vim' }
+  Plug 'scrooloose/nerdtree'
+elseif g:vim_profile ==# 'crafted'
+  Plug 'sonph/onehalf', { 'rtp': 'vim' }
+  Plug 'scrooloose/nerdtree'
+elseif g:vim_profile ==# 'everforest'
+  Plug 'itchyny/lightline.vim'
+  Plug 'sainnhe/everforest'
+elseif g:vim_profile ==# 'zenbones'
+  Plug 'itchyny/lightline.vim'
+  Plug 'zenbones-theme/zenbones.nvim'
+endif
 
 
 " Development {{{2
@@ -68,6 +109,8 @@ call plug#end()
 
 " CmdAlias is used below before Vim's normal plugin pass runs.
 runtime plugin/cmdalias.vim
+
+execute 'source ' . fnameescape(s:profile_config)
 
 
 " Sets the $PATH in Vim from a saved file, which contains the correct PATH
@@ -258,18 +301,6 @@ augroup END
 
 " UI {{{3
 
-" Airline-Tabline aktiv
-let g:airline#extensions#tabline#enabled   = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#fnamemod  = ':t'
-
-" optional
-let g:airline#extensions#tabline#left_padding  = 2
-let g:airline#extensions#tabline#right_padding = 2
-let g:airline#extensions#tabline#show_tabs    = 1
-let g:airline#extensions#tabline#show_tab_nr  = 1
-let g:airline#extensions#tabline#show_splits  = 0
-
 
 " Cursor {{{3
 
@@ -313,34 +344,14 @@ if has("gui_running")
   set guifont=Monoid\ Nerd\ Font\ Mono:h12
 endif
 
+let s:initial_theme = &background ==# 'light' ? 'light' : 'dark'
 if has('macunix')
-  let mode = system('defaults read -g AppleInterfaceStyle 2>/dev/null')
-  if match(mode, 'Dark') >= 0
-    call tglthm#apply('dark')
-  else
-    call tglthm#apply('light')
-  endif
+  let s:interface_style = system('defaults read -g AppleInterfaceStyle 2>/dev/null')
+  let s:initial_theme = match(s:interface_style, 'Dark') >= 0 ? 'dark' : 'light'
+  unlet s:interface_style
 endif
+call tglthm#apply(s:initial_theme)
 
-
-" File System {{{2
-
-
-" NERDTree {{{3
-
-
-" http://bit.ly/30J9vIq
-let g:NERDTreeIgnore = ['\~$']
-
-let g:NERDSpaceDelims = 1
-
-let g:NERDTreeWinSize = 30
-let g:NERDTreeChDirMode = 2
-let g:NERDTreeQuitOnOpen = 0
-let g:NERDTreeAutoDeleteBuffer=1
-
-nmap <leader>d :NERDTreeToggle<CR>
-nmap <leader>f :NERDTreeFind<CR>
 
 " Differencing {{{3
 
@@ -469,13 +480,6 @@ augroup my_coc_highlight
   autocmd!
   autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup END
-
-" Add (Neo)Vim's native statusline support
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline
-let g:airline#extensions#coc#enabled = 1
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
 
 " Miscellaneous {{{4
 
