@@ -1,9 +1,65 @@
 #!/bin/sh
-set -eu
+set -u
 
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/.." || exit 1
 
+if [ "$#" -gt 1 ]; then
+  echo "Usage: $0 [PROFILE]" >&2
+  exit 2
+fi
+
+if [ "$#" -eq 1 ]; then
+  case "$1" in
+    ''|*[!a-z0-9_-]*)
+      echo "Invalid Vim profile name: $1" >&2
+      exit 2
+      ;;
+  esac
+  if [ ! -f "$PWD/profiles/$1.vim" ]; then
+    echo "Unknown Vim profile: $1" >&2
+    exit 2
+  fi
+  VIM_PROFILE=$1
+  export VIM_PROFILE
+fi
+
+sync_result=0
 vim -Nu "$PWD/vimrc" -n -es \
-  +'PlugClean!' \
   +'PlugInstall --sync' \
-  +'qa!'
+  +'PlugClean!' \
+  +'qa!' || sync_result=$?
+
+status_file=$(mktemp /tmp/dot-vim-plugstatus.XXXXXX) || exit 1
+trap 'rm -f "$status_file"' EXIT HUP INT TERM
+
+status_result=0
+vim -Nu "$PWD/vimrc" -n -es \
+  +'PlugStatus' \
+  +"redir! > $status_file" \
+  +'silent %print' \
+  +'redir END' \
+  +'qa!' || status_result=$?
+
+sed -n '1,160p' "$status_file"
+
+artifacts_result=0
+if [ ! -s plugged/coc.nvim/build/index.js ]; then
+  echo "Missing CoC build artifact: plugged/coc.nvim/build/index.js" >&2
+  artifacts_result=1
+fi
+if [ ! -x plugged/fzf/bin/fzf ]; then
+  echo "Missing fzf executable: plugged/fzf/bin/fzf" >&2
+  artifacts_result=1
+fi
+
+if [ "$status_result" -eq 0 ] \
+    && [ "$artifacts_result" -eq 0 ] \
+    && grep -Fq 'Finished. 0 error(s).' "$status_file"; then
+  exit 0
+fi
+
+if [ "$sync_result" -ne 0 ]; then
+  echo "vim-plug synchronization exited with status $sync_result." >&2
+fi
+echo "Plugin verification failed for profile: ${VIM_PROFILE:-local selection}" >&2
+exit 1

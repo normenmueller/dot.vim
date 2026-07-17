@@ -1,0 +1,60 @@
+#!/bin/sh
+set -eu
+
+repo_dir=$(CDPATH= cd -- "$(dirname "$0")/.." && pwd)
+
+list_profiles() {
+  for profile_path in "$repo_dir"/profiles/*.vim; do
+    profile_name=${profile_path##*/}
+    printf '%s\n' "${profile_name%.vim}"
+  done
+}
+
+usage() {
+  echo "Usage: $0 [--no-sync] PROFILE" >&2
+  echo "       $0 --list" >&2
+  exit 2
+}
+
+if [ "${1:-}" = "--list" ] && [ "$#" -eq 1 ]; then
+  list_profiles
+  exit 0
+fi
+
+sync=1
+if [ "${1:-}" = "--no-sync" ]; then
+  sync=0
+  shift
+fi
+
+[ "$#" -eq 1 ] || usage
+profile=$1
+
+case "$profile" in
+  ''|*[!a-z0-9_-]*) usage ;;
+esac
+
+if [ ! -f "$repo_dir/profiles/$profile.vim" ]; then
+  echo "Unknown Vim profile: $profile" >&2
+  echo "Available profiles:" >&2
+  list_profiles >&2
+  exit 2
+fi
+
+profile_file="$repo_dir/profile.local.vim"
+
+if [ "$sync" -eq 1 ]; then
+  "$repo_dir/bin/sync-plugins" "$profile"
+fi
+
+temporary_file=$(mktemp "$repo_dir/profile.local.vim.tmp.XXXXXX") || exit 1
+trap 'rm -f "$temporary_file"' EXIT HUP INT TERM
+printf "let g:vim_profile = '%s'\n" "$profile" > "$temporary_file"
+mv "$temporary_file" "$profile_file"
+trap - EXIT HUP INT TERM
+
+echo "Selected Vim profile: $profile"
+
+if [ "$sync" -eq 0 ]; then
+  echo "Run ./bin/sync-plugins before starting Vim."
+fi

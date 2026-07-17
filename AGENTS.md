@@ -7,27 +7,28 @@ unless the user explicitly requests a Neovim migration or experiment.
 ## Operating principles
 
 - Preserve Vim/MacVim compatibility by default.
-- Prefer small, reversible changes on feature branches for UI experiments.
+- Prefer small, reversible changes to the profile modules for UI experiments.
 - Keep branch state clean: commit intentional tracked changes and avoid leaving
   unrelated edits in the working tree.
 - Do not commit `plugged/`; it is ignored local machine state.
 - Do not use destructive Git commands unless the user explicitly asks for them.
-- Read `STATE.md` before making branch, plugin, or UI changes. It records the
-  current branch map, plugin sets, and verification caveats.
+- Read `STATE.md` before making profile, plugin, or UI changes. It records the
+  current profile map, plugin sets, and verification caveats.
 
 ## Plugin management
 
 - Plugins are managed with `vim-plug` from `vimrc`.
-- `plugged/` must match the active branch when validating behavior.
-- After switching branches, run:
+- `plugged/` must match the active profile when validating behavior.
+- After switching profiles, run:
 
 ```sh
 ./bin/sync-plugins
 ```
 
-- If `./bin/sync-plugins` exits with status `1` after printing vim-plug progress,
-  do not treat that alone as failure. Verify with `PlugStatus`.
-- Use this as the authoritative post-sync check:
+- `./bin/sync-plugins` installs missing plugins before cleaning obsolete ones
+  and normalizes vim-plug's occasional cosmetic status `1` through `PlugStatus`
+  plus CoC/fzf artifact checks.
+- Use this as the authoritative manual post-sync check when needed:
 
 ```sh
 vim -Nu "$PWD/vimrc" -n -es +'PlugStatus' +'redir! > /tmp/plugstatus.txt' +'silent %print' +'redir END' +'qa!'
@@ -50,13 +51,13 @@ Finished. 0 error(s).
   - CoC Outline and CoC symbol lists for code navigation.
   - Native Vim splits, tabs, and buffers for layout.
 - File-tree sidebars and bufferlines are intentionally absent in the
-  `feature/pimp-all-*` branches. The navigation model is query-driven:
+  `everforest` and `zenbones` profiles. Their navigation model is query-driven:
   `<C-P>` / `:Files`, `:Buffers`, `<space>o`, `<space>s`, `gd`, `gr`, and native
   window commands.
 
 ## Verification checklist
 
-Before reporting a UI/plugin branch as ready:
+Before reporting a UI/plugin profile as ready:
 
 ```sh
 git status --short
@@ -67,10 +68,10 @@ vim -i NONE -Nu "$PWD/vimrc" -n -V1 -es +'call tglthm#toggle()' +'call tglthm#to
 ```
 
 For script-loading checks, capture `:scriptnames` and confirm only the intended
-UI plugin stack for the active branch is loaded.
+UI plugin stack for the active profile is loaded.
 
 ## Documentation split
 
 - `AGENTS.md`: durable behavior rules and repository working conventions.
-- `STATE.md`: current branch map, plugin state expectations, and operational
+- `STATE.md`: current profile map, plugin state expectations, and operational
   facts that future agents should inspect before work.
