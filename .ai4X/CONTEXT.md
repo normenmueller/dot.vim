@@ -49,7 +49,7 @@ documentation. Evidence: `vimrc`, `coc-settings.json`, `README.md`.
 - **Profile layer:** UI plugins, statusline/tabline choices, NERDTree policy,
   colorscheme adapters, and profile-specific theme data.
 - **Canonical agent memory:** `.ai4X/BEHAVIOR.md`, `.ai4X/CONTEXT.md`, and
-  `.ai4X/STATE.md`; root `AGENTS.md` is only an adapter to BEHAVIOR.
+  `.ai4X/STATE.md`; host-specific files only link to canonical behavior.
 
 Profiles:
 
@@ -74,9 +74,13 @@ Profiles:
 - `bin/use-profile`: validated persistent profile switch.
 - `bin/sync-plugins`: install-before-clean synchronization and health gates.
 - `coc-settings.json`: CoC language server configuration, including Marksman.
-- `README.md`: human installation, profile, theme, and CoC usage.
+- `README.md`: concise human quick start, profile overview, and essential use.
+- `docs/`: detailed human profile/plugin/theme and CoC/Marksman guides.
 - `plugin/`, `syntax/`, `spell/`, `doc/`: classic Vim runtime content.
 - `.ai4X/`: canonical agent behavior, context, and volatile state memory.
+- `AGENTS.md`: workspace-agent adapter to `.ai4X/BEHAVIOR.md`.
+- `.github/agents/vim.agent.md`: Copilot CLI adapter to
+  `.ai4X/BEHAVIOR.md`.
 - `plugged/`, `profile.local.vim*`, `tmp/`: ignored local runtime state.
 
 # Architecture And Design
