@@ -79,6 +79,31 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
+## 📝 CoC and Marksman Workflow
+
+The CoC mappings are shared across configured language servers. In Markdown and
+Pandoc buffers, Marksman provides link navigation, heading symbols, references,
+diagnostics, completion, rename support, and hover information.
+
+| Mapping | Action |
+| --- | --- |
+| `<C-Space>` | Request completion for links and headings |
+| `gd` | Open the link target |
+| `gr` | Find references to the current heading or link |
+| `<Space>rn` | Rename a heading and update its references |
+| `<Space>o` | Toggle the document outline |
+| `<Space>s` | Search workspace symbols |
+| `[g` / `]g` | Move between diagnostics |
+| `<Space>a` | Open the complete diagnostics list |
+| `K` | Show hover information for the current link |
+
+Completion is intentionally manual because `suggest.autoTrigger` is set to
+`none`. Use `:CocDiagnostics` as an alternative diagnostics view.
+
+Marksman uses the nearest `.marksman.toml` or `.git/` marker as the workspace
+root. Add `.marksman.toml` to a Markdown knowledge base when it should form an
+independent workspace.
+
 ---
 
 ## 🔧 Optional Configurations
