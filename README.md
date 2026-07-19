@@ -6,7 +6,7 @@ behavior stays on `trunk`; the UI is selected locally through a profile.
 ## Highlights
 
 - Five UI profiles without branch switching or worktree changes.
-- CoC language support, including Marksman for Markdown and Pandoc.
+- CoC language support and Pandoc-friendly editing.
 - FZF navigation and Fugitive Git integration.
 - Persistent undo, isolated swap files, and profile-aware dark/light themes.
 
@@ -14,7 +14,6 @@ behavior stays on `trunk`; the UI is selected locally through a profile.
 
 - Vim or MacVim, Git, and `curl`.
 - Node.js and npm for CoC.
-- `marksman` on `PATH` for Markdown language-server support.
 
 ## Quick start
 
@@ -71,8 +70,8 @@ verification, troubleshooting, and `--no-sync` usage.
 | `<Space>o` | Toggle the CoC outline |
 
 Completion is intentionally manual. Press `<C-Space>` to request it. See the
-[CoC and Marksman guide](docs/coc-marksman.md) for navigation, diagnostics,
-workspace roots, and the complete shared mapping set.
+[CoC and language-server guide](docs/coc-lsp.md) for navigation, diagnostics,
+and the complete shared mapping set.
 
 ## Maintenance
 

@@ -22,15 +22,16 @@ the immediate task belongs in `.ai4X/STATE.md`.
 # Background
 
 The UI configurations previously lived on long-running feature branches,
-making shared CoC/Marksman fixes repetitive and making `trunk` appear to be an
-extra Legacy variant. The accepted redesign moved all variants into profile
+making shared CoC and language-server fixes repetitive and making `trunk`
+appear to be an extra Legacy variant. The accepted redesign moved all variants
+into profile
 modules on one maintained branch. The old branch tips were preserved as
 annotated `archive/*` tags before branch deletion. Evidence: active-session user
 decision, Git history, tag names.
 
-The shared CoC/Marksman workflow uses standard hover, explicit
-`.marksman.toml` workspace roots before `.git/`, manual completion, and README
-documentation. Evidence: `vimrc`, `coc-settings.json`, `README.md`.
+The shared CoC workflow uses standard hover, manual completion, and README
+documentation. Haskell Language Server remains the only explicitly configured
+external language server. Evidence: `vimrc`, `coc-settings.json`, `README.md`.
 
 # Domain Model
 
@@ -73,11 +74,11 @@ Profiles:
 - `plugin/tglthm.vim`: user command integration for theme toggling.
 - `bin/use-profile`: validated persistent profile switch.
 - `bin/sync-plugins`: install-before-clean synchronization and health gates.
-- `coc-settings.json`: CoC language server configuration, including Marksman.
+- `coc-settings.json`: CoC language server configuration.
 - `README.md`: concise human quick start, profile overview, and essential use.
 - `LICENSE`: canonical Apache License 2.0 text sourced from GitHub's license
   template.
-- `docs/`: detailed human profile/plugin/theme and CoC/Marksman guides.
+- `docs/`: detailed human profile/plugin/theme and CoC/language-server guides.
 - `plugin/`, `syntax/`, `spell/`, `doc/`: classic Vim runtime content.
 - `.ai4X/`: canonical agent behavior, context, and volatile state memory.
 - `AGENTS.md`: workspace-agent adapter to `.ai4X/BEHAVIOR.md`.

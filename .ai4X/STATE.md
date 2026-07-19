@@ -8,54 +8,65 @@ complexity explicitly requires more.
 
 # Snapshot
 
-- Observed: 2026-07-17 CEST.
-- Phase: Apache License 2.0 addition complete and committed locally; no
-  implementation task remains active.
-- Bootstrap files were merged from prior `AGENTS.md` and `STATE.md` material,
-  then versioned under `.ai4X/`; host adapters link to canonical behavior.
-- Observation boundary: status was inspected before licensing edits; this file
-  is part of the licensing commit. Post-commit status was verified at handoff.
+- Observed: 2026-07-19 CEST.
+- Phase: Markdown language-server removal complete; no implementation task
+  remains active.
+- Bootstrap files remain canonical under `.ai4X/`; host adapters link to
+  behavior only.
+- Prior state claimed one local licensing commit ahead of `origin/trunk`; that
+  claim is now stale. Current Git status is clean on `trunk` with no
+  ahead/behind marker.
 
 # Evidence Freshness
 
-- Inspected: all canonical `.ai4X/` files, Git status/history, README, LICENSE,
-  and the official GitHub Apache-2.0 license template.
-- Runtime evidence: direct rename mapping lookup, theme toggle smoke test, all
-  documentation links, shell syntax, plugin status, and repository searches.
-- Active-session evidence includes the explicit user decision to adopt GitHub's
-  Apache License 2.0 template and the exact README notice.
-- Not re-inspected in detail: unrelated syntax and spell files.
+- Inspected: all canonical `.ai4X/` files, Git status/history, README, main
+  runtime files (`vimrc`, `profiles/*.vim`, `autoload/*.vim`, `plugin/`),
+  operational scripts (`bin/use-profile`, `bin/sync-plugins`), CoC settings,
+  local profile selection, and installed plugin directory names.
+- Runtime evidence in this session: selection precedence, conditional
+  vim-plug declarations, theme toggle architecture, profile helper structure,
+  shell sync flow, and current local plugin/profile alignment.
+- Not re-inspected in detail: unrelated syntax, spell, and older auxiliary
+  runtime files outside the current profile/theme/sync path.
 
 # Active Objective
 
-No active implementation objective remains. The licensing change is complete
-when `LICENSE`, the README notice, and canonical `.ai4X/` memory form one clean
-local commit.
+No implementation task is active. The latest completed change removed the
+Markdown language server from local Homebrew state, CoC configuration, and
+human/agent documentation.
 
 # Current Worktree
 
-- Branch: `trunk`, clean and one licensing commit ahead of `origin/trunk` at
-  handoff; publication was not requested in this task.
-- No unrelated or user-owned uncommitted changes were observed.
+- Branch: `trunk`; publication state should be re-checked on re-entry because
+  local commits may exist even when the worktree is clean.
+- No unrelated or user-owned uncommitted changes were observed during the
+  cleanup task.
 
 # Current Focus
 
 - All UI variants are profiles on `trunk`; local selection no longer uses Git
   branches. The fallback remains `legacy`.
+- Current local selection in `profile.local.vim`: `lightline`.
+- Current `plugged/` contents match the `lightline` profile expectation:
+  Lightline, Onehalf, and NERDTree are present; Airline, Everforest, and
+  Zenbones-specific plugins are absent.
 - `<Space>rn` is the direct CoC rename mapping. Obsolete BufExplorer comments
   and its orphaned vendored help file are removed.
 - README is a concise landing page with the working `lightline` quick start,
   profile table, essential commands, and links to detailed guides.
+- No Markdown language server is configured. `coc-settings.json` now defines
+  only the Haskell language server, and Markdown/Pandoc buffers no longer have
+  a configured CoC language server.
 - `LICENSE` contains GitHub's standard Apache License 2.0 template. README ends
   with the requested 2026 `nemron` copyright notice and license link.
 - `docs/profiles.md` owns selection precedence, synchronization, themes, and
-  vim-plug troubleshooting. `docs/coc-marksman.md` owns the LSP workflow.
+  vim-plug troubleshooting. `docs/coc-lsp.md` owns the LSP workflow.
 - Canonical agent memory lives only in `.ai4X/`; `AGENTS.md` and
   `.github/agents/vim.agent.md` are behavior adapters without duplicated content.
 
 # Next Actions
 
-1. Push the local licensing commit only when the user requests publication.
+1. Await the user's next concrete task or an explicit publication request.
 2. On re-entry, confirm Git status and read all three canonical `.ai4X/` files.
 3. For normal use, run `./bin/use-profile PROFILE`; use `:VimProfile` and
    `:ToggleTheme` to inspect the profile and switch theme mode.
@@ -72,15 +83,16 @@ local commit.
 
 - Profile-specific plugins differ. A temporary profile must be synchronized
   before Vim starts, or commands/colorschemes may be missing.
-- Marksman and Haskell Language Server are external executables and are not
-  installed by vim-plug.
+- Haskell Language Server is an external executable and is not installed by
+  vim-plug.
 
 # Verification Summary
 
-- Vim loaded the `lightline` profile and resolved `<Space>rn` to
-  `<Plug>(coc-rename)`; dark/light toggling succeeded headlessly.
-- Documentation claims were checked against Vimscript, CoC settings, profile
-  scripts, and plugin declarations; stale Fugitive and backup claims removed.
-- README remains at 90 lines and its relative LICENSE link resolves locally.
-- LICENSE matched GitHub's `licenses/apache-2.0` API body byte-for-byte; diff
-  whitespace and committed scope passed.
+- This session confirmed the repository root, current branch, recent history,
+  available profiles, selected local profile, current plugin directory
+  contents, and the main profile/theme/sync code paths.
+- The previous ahead-of-origin claim in this file was disproved by current Git
+  status and replaced.
+- The latest language-server cleanup removed the Homebrew formula, deleted all
+  repository references to it, renamed the CoC guide to `docs/coc-lsp.md`, and
+  confirmed headless Vim startup.

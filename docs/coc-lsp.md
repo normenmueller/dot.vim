@@ -1,17 +1,18 @@
-# CoC and Marksman
+# CoC and language servers
 
 ## Runtime requirements
 
 CoC is installed as a Vim plugin and built through npm. Language servers are
-separate executables. Markdown and Pandoc buffers require `marksman` on `PATH`;
-Haskell buffers require `haskell-language-server-wrapper`.
+separate executables. Haskell buffers require
+`haskell-language-server-wrapper`.
 
 Completion is intentionally manual because `suggest.autoTrigger` is `none` in
 `coc-settings.json`. Press `<C-Space>` in Insert mode to request completion.
 
 ## Shared mappings
 
-These mappings apply to every configured CoC language server:
+These mappings apply when the active CoC language server supports the
+underlying capability:
 
 | Mapping | Action |
 | --- | --- |
@@ -35,12 +36,11 @@ These mappings apply to every configured CoC language server:
 `:Format` requests formatting from the active language server; availability and
 results depend on that server.
 
-## Marksman workspaces
+## Configured language servers
 
-Marksman provides Markdown link navigation, symbols, references, diagnostics,
-completion, rename, and hover information. It determines the workspace root
-from the nearest `.marksman.toml` or `.git/` marker.
+The current configuration defines one external language server directly in
+`coc-settings.json`:
 
-Add `.marksman.toml` at the root of a Markdown knowledge base when it should be
-treated as an independent workspace. No additional CoC extension is required;
-the server definition is maintained directly in `coc-settings.json`.
+| Filetypes | Command |
+| --- | --- |
+| `haskell`, `lhaskell` | `haskell-language-server-wrapper --lsp` |

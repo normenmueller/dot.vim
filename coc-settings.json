@@ -22,15 +22,6 @@
   //"explorer.width": 40,
 
   "languageserver": {
-
-    "markdown": {
-      "command": "marksman",
-      "args": ["server"],
-      "filetypes": ["markdown", "pandoc"],
-      "rootPatterns": [".marksman.toml", ".git/"],
-      "initializationOptions": {}
-    },
-
     "haskell": {
       "command": "haskell-language-server-wrapper",
        "args": ["--lsp"],
@@ -55,4 +46,3 @@
     }
   }
 }
-
