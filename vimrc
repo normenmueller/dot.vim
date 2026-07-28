@@ -156,12 +156,6 @@ set whichwrap+=<,>,h,l
 nmap <silent> <C-k> gk
 nmap <silent> <C-j> gj
 
-" Key mappings
-nnoremap j gj
-nnoremap k gk
-vnoremap j gj
-vnoremap k gk
-
 set expandtab
 set tabstop=2
 set shiftwidth=2
@@ -225,7 +219,7 @@ augroup END
 let g:fzf_preview_window = []
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:false, 'yoffset': -2.0 } }
 
-"nnoremap <C-O> :Files<CR>
+"nnoremap <C-O> :Buffers<CR>
 nnoremap <C-P> :Files<CR>
 :call CmdAlias('ls', 'Buffers')
 
