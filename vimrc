@@ -255,6 +255,9 @@ let g:pandoc#spell#enabled = 0
 let g:pandoc#syntax#conceal#use=0
 let g:pandoc#formatting#preserve_indentation = 1
 let g:pandoc#toc#position = 'right'
+" Do not let vim-pandoc remap j/k to gj/gk in pandoc/markdown buffers;
+" use <C-j>/<C-k> for visual-line movement instead.
+let g:pandoc#keyboard#display_motions = 0
 
   autocmd FileType markdown setlocal foldcolumn=0
   autocmd FileType pandoc setlocal foldcolumn=0
