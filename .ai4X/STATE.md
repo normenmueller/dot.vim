@@ -8,91 +8,37 @@ complexity explicitly requires more.
 
 # Snapshot
 
-- Observed: 2026-07-19 CEST.
-- Phase: Markdown language-server removal complete; no implementation task
-  remains active.
-- Bootstrap files remain canonical under `.ai4X/`; host adapters link to
-  behavior only.
-- Prior state claimed one local licensing commit ahead of `origin/trunk`; that
-  claim is now stale. Current Git status is clean on `trunk` with no
-  ahead/behind marker.
+- Observed: 2026-07-29 CEST.
+- Branch: `trunk`; worktree clean; no ahead/behind marker (verify on re-entry).
+- Active profile: `lightline`. `plugged/` matches lightline expectation.
 
-# Evidence Freshness
+# Last Change
 
-- Inspected: all canonical `.ai4X/` files, Git status/history, README, main
-  runtime files (`vimrc`, `profiles/*.vim`, `autoload/*.vim`, `plugin/`),
-  operational scripts (`bin/use-profile`, `bin/sync-plugins`), CoC settings,
-  local profile selection, and installed plugin directory names.
-- Runtime evidence in this session: selection precedence, conditional
-  vim-plug declarations, theme toggle architecture, profile helper structure,
-  shell sync flow, and current local plugin/profile alignment.
-- Not re-inspected in detail: unrelated syntax, spell, and older auxiliary
-  runtime files outside the current profile/theme/sync path.
+- Commit `333d311`: `let g:pandoc#keyboard#display_motions = 0` added to
+  vimrc (pandoc config block, ~line 260).
+- Root cause: vim-pandoc defaults `formatting#mode='s'` + `display_motions=1`,
+  which silently sets buffer-local `j→gj`/`k→gk` in all pandoc/markdown
+  buffers, overriding the global fix from `39d9efe`.
+- `j`/`k` now move by real file lines everywhere. `<C-j>`/`<C-k>` retain
+  visual-line movement.
 
-# Active Objective
+# Stable Facts
 
-No implementation task is active. The latest completed change removed the
-Markdown language server from local Homebrew state, CoC configuration, and
-human/agent documentation.
-
-# Current Worktree
-
-- Branch: `trunk`; publication state should be re-checked on re-entry because
-  local commits may exist even when the worktree is clean.
-- No unrelated or user-owned uncommitted changes were observed during the
-  cleanup task.
-
-# Current Focus
-
-- All UI variants are profiles on `trunk`; local selection no longer uses Git
-  branches. The fallback remains `legacy`.
-- Current local selection in `profile.local.vim`: `lightline`.
-- Current `plugged/` contents match the `lightline` profile expectation:
-  Lightline, Onehalf, and NERDTree are present; Airline, Everforest, and
-  Zenbones-specific plugins are absent.
-- `<Space>rn` is the direct CoC rename mapping. Obsolete BufExplorer comments
-  and its orphaned vendored help file are removed.
-- README is a concise landing page with the working `lightline` quick start,
-  profile table, essential commands, and links to detailed guides.
-- No Markdown language server is configured. `coc-settings.json` now defines
-  only the Haskell language server, and Markdown/Pandoc buffers no longer have
-  a configured CoC language server.
-- `LICENSE` contains GitHub's standard Apache License 2.0 template. README ends
-  with the requested 2026 `nemron` copyright notice and license link.
-- `docs/profiles.md` owns selection precedence, synchronization, themes, and
-  vim-plug troubleshooting. `docs/coc-lsp.md` owns the LSP workflow.
-- Canonical agent memory lives only in `.ai4X/`; `AGENTS.md` and
-  `.github/agents/vim.agent.md` are behavior adapters without duplicated content.
-
-# Next Actions
-
-1. Await the user's next concrete task or an explicit publication request.
-2. On re-entry, confirm Git status and read all three canonical `.ai4X/` files.
-3. For normal use, run `./bin/use-profile PROFILE`; use `:VimProfile` and
-   `:ToggleTheme` to inspect the profile and switch theme mode.
-
-# Accepted Decisions Relevant Now
-
-- `trunk` is the single maintained branch; UI choices are profiles, not
-  long-lived branches.
-- Human Markdown guides use `docs/`; Vim help uses `doc/` only when maintained.
-- README stays English, factual, and within roughly 70-90 lines.
-- The project uses Apache License 2.0 with the unmodified GitHub template.
+- All UI variants are profiles on `trunk`; fallback is `legacy`.
+- No Markdown language server configured; `coc-settings.json` has Haskell only.
+- `docs/profiles.md`: profile/sync/theme. `docs/coc-lsp.md`: LSP workflow.
+- Canonical agent memory: `.ai4X/` only. `AGENTS.md` and
+  `.github/agents/vim.agent.md` are behavior adapters.
+- Apache License 2.0; README ends with 2026 `nemron` copyright notice.
 
 # Risks
 
-- Profile-specific plugins differ. A temporary profile must be synchronized
-  before Vim starts, or commands/colorschemes may be missing.
-- Haskell Language Server is an external executable and is not installed by
-  vim-plug.
+- Plugin-specific keyboard modules (e.g. vim-pandoc) may set buffer-local
+  mappings that silently override global vimrc settings. Check with
+  `:verbose nmap <key>` in the affected filetype buffer.
+- Profile-specific plugins differ; sync before starting Vim after switching.
+- Haskell Language Server is an external executable, not installed by vim-plug.
 
-# Verification Summary
+# Next Actions
 
-- This session confirmed the repository root, current branch, recent history,
-  available profiles, selected local profile, current plugin directory
-  contents, and the main profile/theme/sync code paths.
-- The previous ahead-of-origin claim in this file was disproved by current Git
-  status and replaced.
-- The latest language-server cleanup removed the Homebrew formula, deleted all
-  repository references to it, renamed the CoC guide to `docs/coc-lsp.md`, and
-  confirmed headless Vim startup.
+1. Await next task. On re-entry: confirm Git status, re-read all `.ai4X/` files.
