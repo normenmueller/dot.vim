@@ -6,7 +6,7 @@ behavior stays on `trunk`; the UI is selected locally through a profile.
 ## Highlights
 
 - Five UI profiles without branch switching or worktree changes.
-- CoC language support and Pandoc-friendly editing.
+- CoC language support and Markdown navigation, folding, and syntax.
 - FZF navigation and Fugitive Git integration.
 - Persistent undo, isolated swap files, and profile-aware dark/light themes.
 

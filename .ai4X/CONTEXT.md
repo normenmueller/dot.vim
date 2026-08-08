@@ -7,7 +7,7 @@ only in `.ai4X/STATE.md`.
 # Project Summary
 
 This repository is a classic Vim/MacVim configuration for macOS and Linux. It
-combines shared editing, navigation, CoC/LSP, FZF, Markdown/Pandoc, Git, and
+combines shared editing, navigation, CoC/LSP, FZF, Markdown, Git, and
 Haskell behavior with five selectable UI profiles. Evidence: `README.md`,
 `vimrc`, `profiles/`.
 
@@ -147,8 +147,9 @@ and CoC/fzf artifacts prove health, and then returns a meaningful result.
 # External Context
 
 Observed external dependencies include vim-plug-managed GitHub plugins such as
-CoC, FZF, Lightline, Airline, Onehalf, Everforest, Zenbones, NERDTree, Pandoc,
-Fugitive, and Hindent. The remote repository is `normenmueller/dot.vim`.
+CoC, FZF, Lightline, Airline, Onehalf, Everforest, Zenbones, NERDTree,
+vim-markdown, Fugitive, and Hindent. The remote repository is
+`normenmueller/dot.vim`.
 Evidence: `vimrc`, Git remote observed in the active session.
 
 No external web research was used for this bootstrap update. Plugin API/version

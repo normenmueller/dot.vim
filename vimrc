@@ -59,8 +59,7 @@ Plug 'junegunn/fzf.vim'
 " Markup {{{2
 
 
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'plasticboy/vim-markdown'
 
 
 " Buffers {{{2
@@ -246,36 +245,17 @@ augroup my_filetypes
 
 " https://www.arthurkoziel.com/setting-up-vim-for-yaml/
   autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab fdm=indent
-
-
-" Pandoc {{{3
-
-
-let g:pandoc#spell#enabled = 0
-let g:pandoc#syntax#conceal#use=0
-let g:pandoc#formatting#preserve_indentation = 1
-let g:pandoc#toc#position = 'right'
-" Do not let vim-pandoc remap j/k to gj/gk in pandoc/markdown buffers;
-" use <C-j>/<C-k> for visual-line movement instead.
-let g:pandoc#keyboard#display_motions = 0
-
-  autocmd FileType markdown setlocal foldcolumn=0
-  autocmd FileType pandoc setlocal foldcolumn=0
 augroup END
 
 
 " Markdown {{{3
 
 
-" vim-pandoc should also be active for filetype=markdown
-let g:pandoc#filetypes#handled = ['pandoc', 'markdown']
-let g:pandoc#filetypes#pandoc_markdown = 1
-
-" safety-net: .md explicitly set as markdown
-augroup my_markdown_ft
-  autocmd!
-  autocmd BufRead,BufNewFile *.md setfiletype markdown
-augroup END
+let g:vim_markdown_folding_style_pythonic = 1
+let g:vim_markdown_folding_level = 2
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
 
 
 " Buffers {{{2
