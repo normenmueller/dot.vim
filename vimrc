@@ -251,6 +251,9 @@ augroup END
 " Markdown {{{3
 
 
+" Keep Markdown emphasis markers visible without typographic HTML rendering.
+" This also disables bold, italic, underline, and strike rendering in HTML.
+let g:html_my_rendering = 1
 let g:vim_markdown_folding_style_pythonic = 1
 let g:vim_markdown_folding_level = 2
 let g:vim_markdown_toc_autofit = 1

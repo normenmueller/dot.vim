@@ -8,9 +8,9 @@ complexity explicitly requires more.
 
 # Snapshot
 
-- Observed: 2026-08-08 CEST.
-- Branch: `trunk`, two commits ahead of `origin/trunk` after the current
-  Markdown migration commit.
+- Observed: 2026-08-09 CEST.
+- Branch: `trunk`, one commit ahead of `origin/trunk` after the current
+  Markdown rendering commit.
 - Active profile: `lightline`. `plugged/` matches its declared plugin set;
   vim-pandoc directories are absent and `vim-markdown` is installed.
 
@@ -20,6 +20,9 @@ complexity explicitly requires more.
   `plasticboy/vim-markdown`.
 - Markdown folding uses pythonic style with level 2, TOC auto-fit is enabled,
   and inline/code-block concealment is explicitly disabled.
+- Markdown emphasis markers and syntax highlighting remain visible, while
+  Vim's HTML-derived typographic rendering is disabled through
+  `g:html_my_rendering`.
 - The unsupported `g:vim_markdown_folding_enabled` and redundant explicit
   `*.md` filetype autocmd were removed.
 - README and durable CONTEXT now describe Markdown rather than a Pandoc plugin.
@@ -29,6 +32,9 @@ complexity explicitly requires more.
 - Markdown startup: filetype `markdown`, expected vim-markdown scripts loaded,
   `foldmethod=expr`, `foldlevel=2`, `:Toc`/`:InsertToc` present, no `j`/`k`
   override, and no Vim error.
+- Markdown emphasis resolves to cleared `htmlBold`/`htmlItalic` highlight
+  groups; embedded HTML tags remain syntax-highlighted. Two theme toggles did
+  not restore typographic emphasis.
 - `.pandoc` boundary: built-in filetype `pandoc`, manual folding, no vim-markdown
   TOC command, and no Vim error.
 - `PlugStatus`: `Finished. 0 error(s).`; CoC build and fzf executable healthy.
@@ -49,6 +55,8 @@ complexity explicitly requires more.
 
 - Only the active `lightline` plugin set was runtime-validated; declarations
   are shared, but other profiles require synchronization before validation.
+- `g:html_my_rendering` also disables bold, italic, underline, and strike
+  rendering in HTML and other syntaxes that reuse Vim's HTML groups.
 - vim-markdown retains its default buffer-local Markdown navigation mappings.
 - Haskell Language Server is an external executable, not installed by vim-plug.
 
