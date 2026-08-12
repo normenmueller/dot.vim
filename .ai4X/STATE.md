@@ -8,44 +8,49 @@ complexity explicitly requires more.
 
 # Snapshot
 
-- Observed: 2026-08-09 CEST.
-- Branch: `trunk`, one commit ahead of `origin/trunk` after the current
-  Markdown rendering commit.
-- Active profile: `lightline`. `plugged/` matches its declared plugin set;
-  vim-pandoc directories are absent and `vim-markdown` is installed.
+- Observed: 2026-08-12 CEST.
+- Branch: `trunk`; current Markdown folding change is targeted for direct push
+  to `origin/trunk`.
+- Active profile: `lightline`; its exact plugin set is restored after
+  per-profile validation.
 
 # Current Change
 
-- `vimrc` replaces vim-pandoc and its settings with
-  `plasticboy/vim-markdown`.
-- Markdown folding uses pythonic style with level 2, TOC auto-fit is enabled,
-  and inline/code-block concealment is explicitly disabled.
-- Markdown emphasis markers and syntax highlighting remain visible, while
-  Vim's HTML-derived typographic rendering is disabled through
-  `g:html_my_rendering`.
-- The unsupported `g:vim_markdown_folding_enabled` and redundant explicit
-  `*.md` filetype autocmd were removed.
-- README and durable CONTEXT now describe Markdown rather than a Pandoc plugin.
+- Remove `plasticboy/vim-markdown` and all of its configuration from the common
+  Vim setup; retain Vim's built-in Markdown filetype and syntax support.
+- Enable Vim's built-in heading-based Markdown folding with fold level 0 so
+  documents initially open with all heading folds closed.
+- Wrap the built-in fold expression narrowly so a closing YAML frontmatter
+  delimiter is not mistaken for a Setext level-2 heading.
+- README and durable CONTEXT no longer advertise a dedicated Markdown plugin.
 
 # Verification
 
-- Markdown startup: filetype `markdown`, expected vim-markdown scripts loaded,
-  `foldmethod=expr`, `foldlevel=2`, `:Toc`/`:InsertToc` present, no `j`/`k`
-  override, and no Vim error.
-- Markdown emphasis resolves to cleared `htmlBold`/`htmlItalic` highlight
-  groups; embedded HTML tags remain syntax-highlighted. Two theme toggles did
-  not restore typographic emphasis.
-- `.pandoc` boundary: built-in filetype `pandoc`, manual folding, no vim-markdown
-  TOC command, and no Vim error.
-- `PlugStatus`: `Finished. 0 error(s).`; CoC build and fzf executable healthy.
-- Repeated theme toggle exited zero. `git diff --check` passed.
+- Active-profile synchronization removed `plugged/vim-markdown`; `PlugStatus`
+  reports `Finished. 0 error(s).`, with healthy CoC and fzf artifacts.
+- All five profiles were synchronized and passed Markdown startup plus two theme
+  toggles; filetype remained `markdown`, no vim-markdown runtime script loaded,
+  and `:Toc`/`:InsertToc` were absent.
+- Built-in folding verification on `README.md` passed: filetype `markdown`,
+  `foldmethod=expr`, custom frontmatter-aware delegation to `MarkdownFold()`,
+  built-in fold text, initial fold level 0, and no external Markdown runtime
+  script.
+- YAML frontmatter regression verification against the user-provided
+  `Scratch.md` passed: lines before and at the closing delimiter remain outside
+  folds, while `# Einleitung` begins the expected closed level-1 fold.
+- A synthetic document confirmed that a genuine later Setext level-2 heading
+  still folds normally; the workaround is limited to the first frontmatter
+  closing delimiter.
+- Runtime configuration and human documentation contain no `plasticboy`,
+  `vim-markdown`, `g:vim_markdown_*`, or `g:html_my_rendering` references; this
+  state file names them only to record their removal.
+- `git diff --check` passed after the final state update.
 
 # Stable Facts
 
 - All UI variants are profiles on `trunk`; fallback is `legacy`.
-- No Markdown language server configured; `coc-settings.json` has Haskell only.
-- `.pandoc` files intentionally retain Vim's built-in Pandoc syntax and do not
-  receive vim-markdown folding, commands, or mappings.
+- No Markdown language server is configured; `coc-settings.json` has Haskell
+  only. Markdown and Pandoc files use Vim's built-in runtime support.
 - `docs/profiles.md`: profile/sync/theme. `docs/coc-lsp.md`: LSP workflow.
 - Canonical agent memory: `.ai4X/` only. `AGENTS.md` and
   `.github/agents/vim.agent.md` are behavior adapters.
@@ -53,13 +58,8 @@ complexity explicitly requires more.
 
 # Risks
 
-- Only the active `lightline` plugin set was runtime-validated; declarations
-  are shared, but other profiles require synchronization before validation.
-- `g:html_my_rendering` also disables bold, italic, underline, and strike
-  rendering in HTML and other syntaxes that reuse Vim's HTML groups.
-- vim-markdown retains its default buffer-local Markdown navigation mappings.
 - Haskell Language Server is an external executable, not installed by vim-plug.
 
 # Next Actions
 
-1. Await next task. On re-entry: confirm Git status and re-read `.ai4X/`.
+1. Await the next task after publishing the current change.

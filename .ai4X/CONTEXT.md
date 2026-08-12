@@ -7,9 +7,10 @@ only in `.ai4X/STATE.md`.
 # Project Summary
 
 This repository is a classic Vim/MacVim configuration for macOS and Linux. It
-combines shared editing, navigation, CoC/LSP, FZF, Markdown, Git, and
-Haskell behavior with five selectable UI profiles. Evidence: `README.md`,
-`vimrc`, `profiles/`.
+combines shared editing, navigation, CoC/LSP, FZF, built-in Markdown folding,
+Git, and Haskell behavior with five selectable UI profiles. Evidence:
+`README.md`, `vimrc`, `profiles/`. Markdown buffers initially close all heading
+folds (`foldlevel=0`).
 
 # Project Objective
 
@@ -67,6 +68,9 @@ Profiles:
 - `vimrc`: selector precedence, conditional plugin declarations, shared config,
   profile sourcing, platform theme initialization.
 - `profiles/*.vim`: five profile-specific UI and theme modules.
+- `autoload/nemmarkdown.vim`: narrow wrapper around Vim's built-in Markdown
+  fold expression that excludes a closing YAML frontmatter delimiter from
+  Setext-heading detection.
 - `autoload/nemprofile.vim`: shared Lightline, NERDTree, native UI, and theme
   construction helpers.
 - `autoload/nemui.vim`: Crafted profile native statusline/tabline functions.
@@ -100,6 +104,10 @@ selected profile's `g:tglthm_profiles`, coordinates colorscheme/background,
 Airline or Lightline refresh, native highlights, folded highlighting, and
 terminal ANSI colors. macOS startup follows `AppleInterfaceStyle`; other
 systems follow `&background`.
+
+Markdown folding delegates to Vim's built-in `MarkdownFold()` implementation.
+A small wrapper suppresses only its false Setext-heading match immediately
+before the closing delimiter of YAML frontmatter at the start of a document.
 
 `bin/use-profile` validates against actual profile files. With default sync it
 runs `bin/sync-plugins` before atomically persisting selection, so a failed new
@@ -148,7 +156,7 @@ and CoC/fzf artifacts prove health, and then returns a meaningful result.
 
 Observed external dependencies include vim-plug-managed GitHub plugins such as
 CoC, FZF, Lightline, Airline, Onehalf, Everforest, Zenbones, NERDTree,
-vim-markdown, Fugitive, and Hindent. The remote repository is
+Fugitive, and Hindent. The remote repository is
 `normenmueller/dot.vim`.
 Evidence: `vimrc`, Git remote observed in the active session.
 

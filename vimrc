@@ -56,12 +56,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
-" Markup {{{2
-
-
-Plug 'plasticboy/vim-markdown'
-
-
 " Buffers {{{2
 
 
@@ -245,20 +239,16 @@ augroup my_filetypes
 
 " https://www.arthurkoziel.com/setting-up-vim-for-yaml/
   autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab fdm=indent
-augroup END
 
 
 " Markdown {{{3
 
 
-" Keep Markdown emphasis markers visible without typographic HTML rendering.
-" This also disables bold, italic, underline, and strike rendering in HTML.
-let g:html_my_rendering = 1
-let g:vim_markdown_folding_style_pythonic = 1
-let g:vim_markdown_folding_level = 2
-let g:vim_markdown_toc_autofit = 1
-let g:vim_markdown_conceal = 0
-let g:vim_markdown_conceal_code_blocks = 0
+  autocmd FileType markdown setlocal foldlevel=0 foldexpr=nemmarkdown#fold()
+augroup END
+
+" Enable the folding provided by Vim's built-in Markdown ftplugin.
+let g:markdown_folding = 1
 
 
 " Buffers {{{2
