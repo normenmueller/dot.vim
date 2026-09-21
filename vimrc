@@ -146,8 +146,10 @@ let &showbreak = '↳ '
 set whichwrap+=<,>,h,l
 
 " Move within visual lines
-nmap <silent> <C-k> gk
-nmap <silent> <C-j> gj
+"nmap <silent> <C-k> gk
+"nmap <silent> <C-j> gj
+nnoremap j gj
+nnoremap k gk
 
 set expandtab
 set tabstop=2
