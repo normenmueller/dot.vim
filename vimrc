@@ -89,7 +89,7 @@ endif
 " Development {{{2
 
 
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'npm ci'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'alx741/vim-hindent'
 
 
