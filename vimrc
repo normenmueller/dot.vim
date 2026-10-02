@@ -128,8 +128,8 @@ set updatetime=300
 set encoding=utf-8
 
 set showcmd
+set notitle
 set cmdheight=2
-
 set belloff=all
 
 set modeline
