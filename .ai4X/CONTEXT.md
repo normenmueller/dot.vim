@@ -105,6 +105,12 @@ Airline or Lightline refresh, native highlights, folded highlighting, and
 terminal ANSI colors. macOS startup follows `AppleInterfaceStyle`; other
 systems follow `&background`.
 
+`nemprofile#configure_nerdtree()` centrally defines ignore patterns for backup
+files ending in `~` and macOS metadata (`.DS_Store`, `.localized`, `__MACOSX`)
+for the three NERDTree profiles. Its plugin options use explicit `g:` scope
+because the helper is a function. Evidence: `autoload/nemprofile.vim` and
+`profiles/{legacy,lightline,crafted}.vim`.
+
 Markdown folding delegates to Vim's built-in `MarkdownFold()` implementation.
 A small wrapper suppresses only its false Setext-heading match immediately
 before the closing delimiter of YAML frontmatter at the start of a document.

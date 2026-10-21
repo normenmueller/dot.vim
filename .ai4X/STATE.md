@@ -8,53 +8,58 @@ complexity explicitly requires more.
 
 # Snapshot
 
-- Observed: 2026-10-21 CEST.
-- Branch: `trunk`; user authorized committing and pushing the NERDTree change
-  directly to `origin/trunk`.
-- Starting HEAD: `a5ccf3f` (`Add notitle`); worktree was clean.
-- Active profile: `lightline`; its exact installed plugin set was verified.
-- Previous snapshot was stale: the Markdown change is already committed as
-  `3be53a1`, followed by movement, CoC hook, and title changes.
+- Observed: 2026-10-21 CEST; prepared for a new session without chat history.
+- Active objective: none; the requested NERDTree change is complete.
+- Latest functional commit: `7582566` (`Hide macOS metadata in NERDTree`),
+  successfully pushed to `origin/trunk`.
+- Before this handoff documentation update, `trunk` and `origin/trunk` matched
+  with a clean worktree. Recheck Git on entry; this is a dated snapshot.
+- Active local profile: `lightline`; exact installed plugin set was verified.
 
-# Current Change
+# Completed Work
 
-- Extend `g:NERDTreeIgnore` in `nemprofile#configure_nerdtree()` with the
-  requested macOS metadata patterns: `\.DS_Store$`, `\.localized$`, `__MACOSX`.
-- Preserve the existing `\~$` backup-file filter and explicit global scope.
-- Shared helper applies this policy to `legacy`, `lightline`, and `crafted`.
+- Extended `g:NERDTreeIgnore` in `nemprofile#configure_nerdtree()` with
+  `\.DS_Store$`, `\.localized$`, and `__MACOSX`.
+- Preserved the existing `\~$` backup-file filter and explicit global scope.
+- Policy applies centrally to `legacy`, `lightline`, and `crafted`.
 - `everforest` and `zenbones` remain without NERDTree configuration.
-- No plugin declarations, local profile selection, or installed plugins changed.
+- No plugin declarations, local selection, or installed plugins changed.
+- Durable policy is documented in CONTEXT; behavior and adapter symlinks did
+  not need changes. Old pending Markdown and NERDTree publication steps are
+  obsolete: both functional changes are already committed and published.
 
 # Verification
 
+- All checks below passed on 2026-10-21 in the closing session.
 - All five profile files were sourced in isolated Vim processes.
-- For each NERDTree profile, the installed NERDTree plugin was loaded explicitly
-  and a temporary fixture was opened with hidden files enabled.
-- `.DS_Store`, `.localized`, `__MACOSX`, and `notes.md~` were absent from the
-  rendered tree; `.keep` and `notes.md` remained visible.
-- Disabling the ignore filter made all four ignored fixture entries visible,
-  confirming that the ignore policy caused their exclusion.
+- Each NERDTree profile loaded the installed NERDTree plugin explicitly and
+  opened a temporary fixture with hidden files enabled.
+- `.DS_Store`, `.localized`, `__MACOSX`, and `notes.md~` were hidden;
+  `.keep` and `notes.md` remained visible.
+- Disabling the ignore filter revealed all four ignored entries, confirming
+  that the ignore policy caused their exclusion.
 - Both profiles without NERDTree left the ignore global and tree mapping unset.
-- Full startup with repository `vimrc` passed for active `lightline`.
-- Active-profile installed directories exactly matched `g:plugs` declarations.
-- `PlugStatus` reported `Finished. 0 error(s).`; CoC build artifact was nonempty
-  and fzf artifact executable. `:scriptnames` confirmed NERDTree loaded.
-- Temporary validation files lived outside the repository and were removed.
-- Other profiles received configuration/filter checks; full startup of their
-  complete UI stacks was not repeated for this filter-only change.
+- Full startup using repository `vimrc` passed for active `lightline`.
+- Active installed directories exactly matched `g:plugs` declarations.
+- `PlugStatus`: `Finished. 0 error(s).`; CoC build artifact nonempty; fzf
+  executable; `:scriptnames` confirmed NERDTree loaded.
+- Temporary validation fixtures were removed. No test suite was added.
+- Other profiles received configuration/filter checks; their full UI startup
+  and theme toggles were not repeated for this filter-only change.
+- Handoff checks passed: canonical file roles, adapter targets, path/link
+  references, profile policy, line budget, and whitespace diff checks.
 
-# Stable Facts
+# Open Decisions And Risks
 
-- All UI variants are profiles on `trunk`; fallback is `legacy`.
-- Markdown uses built-in folding with the narrow frontmatter-aware wrapper.
-- No Markdown language server is configured; `coc-settings.json` has Haskell
-  only. Markdown and Pandoc files use Vim's built-in runtime support.
-- `docs/profiles.md`: profile/sync/theme. `docs/coc-lsp.md`: LSP workflow.
-- Canonical agent memory: `.ai4X/` only; adapters remain unchanged.
-- Apache License 2.0; README ends with 2026 `nemron` copyright notice.
+- No open decisions, blockers, or unfinished implementation tasks.
+- Haskell Language Server remains an external executable, not installed by
+  vim-plug. No new risk was identified for the NERDTree change.
 
-# Risks And Next Actions
+# Cold Start
 
-- Haskell Language Server is an external executable, not installed by vim-plug.
-- No configuration decisions remain; finish the authorized commit/push and
-  verify branch synchronization with `origin/trunk`.
+1. Read BEHAVIOR, CONTEXT, and this STATE under `.ai4X/`, then compare Git,
+   relevant files, and local profile selection with this snapshot.
+2. Report objective, current state, open decisions, immediate next action, and
+   known risks when asked to resume.
+3. Await the user's next task; do not repeat completed commits, push the
+   functional change again, or synchronize plugins just to resume.
