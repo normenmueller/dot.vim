@@ -10,6 +10,8 @@ complexity explicitly requires more.
 
 - Observed: 2026-10-21 CEST; prepared for a new session without chat history.
 - Active objective: none; the requested NERDTree change is complete.
+- Cold-start entry clarified: both requested natural greetings are now covered
+  by the canonical BEHAVIOR protocol, including fresh CLI sessions.
 - Latest functional commit: `7582566` (`Hide macOS metadata in NERDTree`),
   successfully pushed to `origin/trunk`.
 - Before this handoff documentation update, `trunk` and `origin/trunk` matched
@@ -24,9 +26,9 @@ complexity explicitly requires more.
 - Policy applies centrally to `legacy`, `lightline`, and `crafted`.
 - `everforest` and `zenbones` remain without NERDTree configuration.
 - No plugin declarations, local selection, or installed plugins changed.
-- Durable policy is documented in CONTEXT; behavior and adapter symlinks did
-  not need changes. Old pending Markdown and NERDTree publication steps are
-  obsolete: both functional changes are already committed and published.
+- Durable NERDTree policy is documented in CONTEXT; natural session entry is
+  defined in BEHAVIOR. Adapter symlinks remain unchanged. Old pending Markdown
+  and NERDTree publication steps are obsolete; both changes are published.
 
 # Verification
 
@@ -57,9 +59,8 @@ complexity explicitly requires more.
 
 # Cold Start
 
-1. Read BEHAVIOR, CONTEXT, and this STATE under `.ai4X/`, then compare Git,
-   relevant files, and local profile selection with this snapshot.
-2. Report objective, current state, open decisions, immediate next action, and
-   known risks when asked to resume.
-3. Await the user's next task; do not repeat completed commits, push the
-   functional change again, or synchronize plugins just to resume.
+- Follow BEHAVIOR's Cold Start And Re-entry section through the existing
+  `AGENTS.md` adapter. No special opening prompt or previous chat is required.
+- Both greetings should currently report completed work and no open tasks.
+- Actual behavior in a separately launched fresh Codex CLI session is
+  UNVERIFIED; instruction consistency is checked locally.

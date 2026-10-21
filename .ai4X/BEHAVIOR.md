@@ -87,7 +87,7 @@ higher-precedence evidence.
 
 # Startup Protocol
 
-Before modifying files:
+At session entry (including status-only greetings), and before modifying files:
 
 1. Resolve the project root with `git rev-parse --show-toplevel` when available.
 2. Read `.ai4X/BEHAVIOR.md`, `.ai4X/CONTEXT.md`, and `.ai4X/STATE.md` fully.
@@ -99,6 +99,23 @@ Before modifying files:
 6. Inspect the files relevant to the request and their call/load relationships.
 7. Read `README.md` for human-facing behavior before changing user workflows.
 8. Confirm the selected profile and plugin state before UI/plugin validation.
+
+# Cold Start And Re-entry
+
+- The user addresses the agent as Gertrud. Treat natural greetings such as
+  "Hi Gertrud, wo stehen wir?" and "Hi Gertrud, weiter geht's!" as project
+  re-entry requests, including in a fresh Codex CLI session without `resume`.
+- Run the startup protocol and reconstruct the working context from `.ai4X/`
+  and current repository evidence. Do not require a special cold-start phrase,
+  an explicit instruction to read memory files, or the previous chat history.
+- Brief the user in German in five concise points: active objective, current
+  state, open decisions, immediate next action, and known risks. Distinguish
+  prior recorded verification from checks actually rerun on entry.
+- "Wo stehen wir?" requests a status report. "Weiter geht's!" additionally
+  requests continuation of a clearly documented, still applicable authorized
+  next step after the briefing. If no work remains, say so and await the next
+  task; do not invent work, repeat publication, or synchronize plugins merely
+  because a new session has started.
 
 # Workflow
 
@@ -114,8 +131,6 @@ Before modifying files:
 - For independent review requests, give the reviewer a read-only, concrete
   remit and incorporate substantiated findings before publication.
 - Report what changed, what was verified, remaining risks, and exact usage.
-- On re-entry requests, brief the user in five points: active objective, current
-  state, open decisions, immediate next action, and known risks.
 
 # Project Standards
 
