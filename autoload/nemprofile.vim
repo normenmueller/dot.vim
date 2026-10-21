@@ -32,7 +32,12 @@ function! nemprofile#configure_lightline(colorscheme) abort
 endfunction
 
 function! nemprofile#configure_nerdtree() abort
-  let g:NERDTreeIgnore = ['\~$']
+  let g:NERDTreeIgnore = [
+        \ '\~$',
+        \ '\.DS_Store$',
+        \ '\.localized$',
+        \ '__MACOSX'
+        \ ]
   let g:NERDSpaceDelims = 1
   let g:NERDTreeWinSize = 30
   let g:NERDTreeChDirMode = 2

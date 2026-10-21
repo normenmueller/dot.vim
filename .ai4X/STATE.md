@@ -8,58 +8,53 @@ complexity explicitly requires more.
 
 # Snapshot
 
-- Observed: 2026-08-12 CEST.
-- Branch: `trunk`; current Markdown folding change is targeted for direct push
-  to `origin/trunk`.
-- Active profile: `lightline`; its exact plugin set is restored after
-  per-profile validation.
+- Observed: 2026-10-21 CEST.
+- Branch: `trunk`; user authorized committing and pushing the NERDTree change
+  directly to `origin/trunk`.
+- Starting HEAD: `a5ccf3f` (`Add notitle`); worktree was clean.
+- Active profile: `lightline`; its exact installed plugin set was verified.
+- Previous snapshot was stale: the Markdown change is already committed as
+  `3be53a1`, followed by movement, CoC hook, and title changes.
 
 # Current Change
 
-- Remove `plasticboy/vim-markdown` and all of its configuration from the common
-  Vim setup; retain Vim's built-in Markdown filetype and syntax support.
-- Enable Vim's built-in heading-based Markdown folding with fold level 0 so
-  documents initially open with all heading folds closed.
-- Wrap the built-in fold expression narrowly so a closing YAML frontmatter
-  delimiter is not mistaken for a Setext level-2 heading.
-- README and durable CONTEXT no longer advertise a dedicated Markdown plugin.
+- Extend `g:NERDTreeIgnore` in `nemprofile#configure_nerdtree()` with the
+  requested macOS metadata patterns: `\.DS_Store$`, `\.localized$`, `__MACOSX`.
+- Preserve the existing `\~$` backup-file filter and explicit global scope.
+- Shared helper applies this policy to `legacy`, `lightline`, and `crafted`.
+- `everforest` and `zenbones` remain without NERDTree configuration.
+- No plugin declarations, local profile selection, or installed plugins changed.
 
 # Verification
 
-- Active-profile synchronization removed `plugged/vim-markdown`; `PlugStatus`
-  reports `Finished. 0 error(s).`, with healthy CoC and fzf artifacts.
-- All five profiles were synchronized and passed Markdown startup plus two theme
-  toggles; filetype remained `markdown`, no vim-markdown runtime script loaded,
-  and `:Toc`/`:InsertToc` were absent.
-- Built-in folding verification on `README.md` passed: filetype `markdown`,
-  `foldmethod=expr`, custom frontmatter-aware delegation to `MarkdownFold()`,
-  built-in fold text, initial fold level 0, and no external Markdown runtime
-  script.
-- YAML frontmatter regression verification against the user-provided
-  `Scratch.md` passed: lines before and at the closing delimiter remain outside
-  folds, while `# Einleitung` begins the expected closed level-1 fold.
-- A synthetic document confirmed that a genuine later Setext level-2 heading
-  still folds normally; the workaround is limited to the first frontmatter
-  closing delimiter.
-- Runtime configuration and human documentation contain no `plasticboy`,
-  `vim-markdown`, `g:vim_markdown_*`, or `g:html_my_rendering` references; this
-  state file names them only to record their removal.
-- `git diff --check` passed after the final state update.
+- All five profile files were sourced in isolated Vim processes.
+- For each NERDTree profile, the installed NERDTree plugin was loaded explicitly
+  and a temporary fixture was opened with hidden files enabled.
+- `.DS_Store`, `.localized`, `__MACOSX`, and `notes.md~` were absent from the
+  rendered tree; `.keep` and `notes.md` remained visible.
+- Disabling the ignore filter made all four ignored fixture entries visible,
+  confirming that the ignore policy caused their exclusion.
+- Both profiles without NERDTree left the ignore global and tree mapping unset.
+- Full startup with repository `vimrc` passed for active `lightline`.
+- Active-profile installed directories exactly matched `g:plugs` declarations.
+- `PlugStatus` reported `Finished. 0 error(s).`; CoC build artifact was nonempty
+  and fzf artifact executable. `:scriptnames` confirmed NERDTree loaded.
+- Temporary validation files lived outside the repository and were removed.
+- Other profiles received configuration/filter checks; full startup of their
+  complete UI stacks was not repeated for this filter-only change.
 
 # Stable Facts
 
 - All UI variants are profiles on `trunk`; fallback is `legacy`.
+- Markdown uses built-in folding with the narrow frontmatter-aware wrapper.
 - No Markdown language server is configured; `coc-settings.json` has Haskell
   only. Markdown and Pandoc files use Vim's built-in runtime support.
 - `docs/profiles.md`: profile/sync/theme. `docs/coc-lsp.md`: LSP workflow.
-- Canonical agent memory: `.ai4X/` only. `AGENTS.md` and
-  `.github/agents/vim.agent.md` are behavior adapters.
+- Canonical agent memory: `.ai4X/` only; adapters remain unchanged.
 - Apache License 2.0; README ends with 2026 `nemron` copyright notice.
 
-# Risks
+# Risks And Next Actions
 
 - Haskell Language Server is an external executable, not installed by vim-plug.
-
-# Next Actions
-
-1. Await the next task after publishing the current change.
+- No configuration decisions remain; finish the authorized commit/push and
+  verify branch synchronization with `origin/trunk`.
