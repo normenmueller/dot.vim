@@ -42,8 +42,9 @@ Inside Vim, `:VimProfile` prints the active profile.
 ## Plugin synchronization
 
 `bin/sync-plugins` accepts an optional profile name. It runs `PlugInstall`,
-removes plugins unused by that profile with `PlugClean`, checks `PlugStatus`,
-and verifies the CoC build artifact and FZF executable.
+rejects installation and hook errors, then checks `PlugStatus` and the CoC/FZF
+artifacts before removing unused plugins with `PlugClean`. Failed installation
+or verification skips cleanup. It repeats the health checks after cleanup.
 
 ```sh
 ./bin/sync-plugins
@@ -52,6 +53,11 @@ and verifies the CoC build artifact and FZF executable.
 
 Because profiles have different plugin sets, synchronize before launching a
 profile that has not been used locally.
+
+Synchronization does not update existing plugins. Before a deliberate update,
+save their current revisions with `:PlugSnapshot /path/to/plugin-snapshot.vim`.
+For example, update CoC and FZF in Vim with `:PlugUpdate coc.nvim fzf`, inspect
+`:PlugDiff`, then run `./bin/sync-plugins` to verify the installed set.
 
 ## Theme switching
 

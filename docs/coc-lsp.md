@@ -2,8 +2,9 @@
 
 ## Runtime requirements
 
-CoC is installed as a Vim plugin and built through npm. Language servers are
-separate executables. Haskell buffers require
+CoC is installed from its `release` branch with a prebuilt JavaScript bundle;
+no local npm build is needed. Node.js runs CoC, and npm is used for CoC
+extensions. Language servers are separate executables. Haskell buffers require
 `haskell-language-server-wrapper`.
 
 Completion is intentionally manual because `suggest.autoTrigger` is `none` in

@@ -23,43 +23,75 @@ if [ "$#" -eq 1 ]; then
   export VIM_PROFILE
 fi
 
-sync_result=0
-vim -Nu "$PWD/vimrc" -n -es \
-  +'PlugInstall --sync' \
-  +'PlugClean!' \
-  +'qa!' || sync_result=$?
-
 status_file=$(mktemp /tmp/dot-vim-plugstatus.XXXXXX) || exit 1
 trap 'rm -f "$status_file"' EXIT HUP INT TERM
+DOT_VIM_SYNC_STATUS_FILE=$status_file
+export DOT_VIM_SYNC_STATUS_FILE
 
-status_result=0
-vim -Nu "$PWD/vimrc" -n -es \
-  +'PlugStatus' \
-  +"redir! > $status_file" \
-  +'silent %print' \
-  +'redir END' \
-  +'qa!' || status_result=$?
+run_plug_command() {
+  : > "$status_file" || return 1
+  command_result=0
+  # A :try wrapper turns vim-plug's cosmetic Ex errors into exceptions and
+  # aborts its command before the completion output can be produced.
+  vim -i NONE -Nu "$PWD/vimrc" -n -es \
+    +"$1" \
+    +'call writefile(getline(1, "$"), $DOT_VIM_SYNC_STATUS_FILE)' \
+    +'qa!' || command_result=$?
 
-sed -n '1,160p' "$status_file"
+  sed -n '1,160p' "$status_file"
 
-artifacts_result=0
-if [ ! -s plugged/coc.nvim/build/index.js ]; then
-  echo "Missing CoC build artifact: plugged/coc.nvim/build/index.js" >&2
-  artifacts_result=1
-fi
-if [ ! -x plugged/fzf/bin/fzf ]; then
-  echo "Missing fzf executable: plugged/fzf/bin/fzf" >&2
-  artifacts_result=1
-fi
+  # vim-plug may return a cosmetic nonzero status. Require its completion
+  # marker and reject plugin/hook errors before trusting the result.
+  if grep -Eq "$2" "$status_file" \
+      && ! grep -q '^x ' "$status_file"; then
+    return 0
+  fi
 
-if [ "$status_result" -eq 0 ] \
+  echo "$1 did not complete successfully (Vim exit status: $command_result)." >&2
+  return 1
+}
+
+verify_plugins() {
+  : > "$status_file" || return 1
+  status_result=0
+  vim -i NONE -Nu "$PWD/vimrc" -n -es \
+    +'PlugStatus' \
+    +'call writefile(getline(1, "$"), $DOT_VIM_SYNC_STATUS_FILE)' \
+    +'qa!' || status_result=$?
+
+  sed -n '1,160p' "$status_file"
+
+  artifacts_result=0
+  if [ ! -s plugged/coc.nvim/build/index.js ]; then
+    echo "Missing CoC build artifact: plugged/coc.nvim/build/index.js" >&2
+    artifacts_result=1
+  fi
+  if [ ! -x plugged/fzf/bin/fzf ]; then
+    echo "Missing fzf executable: plugged/fzf/bin/fzf" >&2
+    artifacts_result=1
+  fi
+
+  [ "$status_result" -eq 0 ] \
     && [ "$artifacts_result" -eq 0 ] \
-    && grep -Fq 'Finished. 0 error(s).' "$status_file"; then
-  exit 0
+    && grep -Fxq 'Finished. 0 error(s).' "$status_file"
+}
+
+if ! run_plug_command 'PlugInstall --sync' '^Updated\.'; then
+  echo "Installation failed; plugin cleanup skipped." >&2
+  exit 1
 fi
 
-if [ "$sync_result" -ne 0 ]; then
-  echo "vim-plug synchronization exited with status $sync_result." >&2
+if ! verify_plugins; then
+  echo "Plugin verification failed; plugin cleanup skipped." >&2
+  exit 1
 fi
-echo "Plugin verification failed for profile: ${VIM_PROFILE:-local selection}" >&2
-exit 1
+
+if ! run_plug_command 'PlugClean!' '^(Already clean\.|Removed [0-9]+ directories\.)$'; then
+  echo "Plugin cleanup failed for profile: ${VIM_PROFILE:-local selection}" >&2
+  exit 1
+fi
+
+if ! verify_plugins; then
+  echo "Plugin verification failed after cleanup for profile: ${VIM_PROFILE:-local selection}" >&2
+  exit 1
+fi

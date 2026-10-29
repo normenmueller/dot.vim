@@ -117,9 +117,13 @@ before the closing delimiter of YAML frontmatter at the start of a document.
 
 `bin/use-profile` validates against actual profile files. With default sync it
 runs `bin/sync-plugins` before atomically persisting selection, so a failed new
-profile does not replace the chosen profile. `bin/sync-plugins` installs before
-cleaning, tolerates vim-plug's cosmetic non-zero status only when `PlugStatus`
-and CoC/fzf artifacts prove health, and then returns a meaningful result.
+profile does not replace the chosen profile. `bin/sync-plugins` requires a
+completed installation without plugin/hook error markers, then verifies
+`PlugStatus` and CoC/fzf artifacts before cleanup. Failed installation or
+verification skips cleanup; health checks repeat afterward. Cosmetic non-zero
+install/cleanup status is accepted only with successful vim-plug completion
+output; verification itself must succeed. Synchronization installs missing
+plugins but does not update existing ones; deliberate updates use `PlugUpdate`.
 
 # User Preferences
 
